@@ -6,9 +6,47 @@
     <style>
       :host {
         display: block;
+        position: relative;
+        white-space: nowrap;
+        box-sizing: border-box;
+        background-color: white;
+        margin-bottom: 10px;
+      }
+
+      :host([platform="ios"]) {
+        padding-left: 15px;
+        padding-right: 15px;
+        line-height: 44px;
+        height: 44px;
+      }
+
+      :host([platform="ios"])::before,
+      :host([platform="ios"])::after {
+        content: '';
+        position: absolute;
+        background-color: #c8c7cc;
+        display: block;
+        left: 0;
+        height: 1px;
+        width: 100%;
+        transform: scaleY(.5);
+      }
+
+      :host([platform="ios"])::before {
+        transform-origin: 50% 0;
+        top: 0;
+      }
+
+      :host([platform="ios"])::after {
+        transform-origin: 50% 100%;
+        bottom: 0;
       }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+    <slot name="icon"></slot>
+    <slot name="header"></slot>
+    <slot></slot>
+    <slot name="footer"></slot>
+    <slot name="secondary-text"></slot>
   </template>
 
   <script>
@@ -23,12 +61,7 @@
     class MorphListViewItem extends MorphElement(Polymer.Element) {
       static get is() { return 'morph-list-view-item'; }
       static get properties() {
-        return {
-          prop1: {
-            type: String,
-            value: 'morph-list-view-item'
-          }
-        };
+        return {};
       }
     }
 
