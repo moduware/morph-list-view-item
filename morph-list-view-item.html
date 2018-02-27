@@ -5,7 +5,9 @@
   <template>
     <style>
       :host {
-        display: block;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         position: relative;
         white-space: nowrap;
         box-sizing: border-box;
@@ -16,8 +18,7 @@
       :host([platform="ios"]) {
         padding-left: 15px;
         padding-right: 15px;
-        line-height: 44px;
-        height: 44px;
+        min-height: 44px;
       }
 
       :host([platform="ios"])::before,
@@ -41,11 +42,48 @@
         transform-origin: 50% 100%;
         bottom: 0;
       }
+
+      .main-text {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        line-height: normal;
+        width: 100%;
+        padding-top: 8px;
+        padding-bottom: 8px;
+      }
+
+      :host([platform="ios"]) .main-text ::slotted([slot="header"]),
+      :host([platform="ios"]) .main-text ::slotted([slot="footer"]) {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 1.2;
+        white-space: normal;
+      }
+
+      .main-text ::slotted([slot="footer"]) {
+        color: #8e8e93;
+      }
+
+      :host([platform="ios"]) ::slotted([slot="secondary-text"]) {
+        color: #8e8e93;
+        padding-left: 5px;
+      }
+
+      :host ::slotted([slot="icon"]) {
+        flex-grow: 0;
+        flex-shrink: 0;
+        margin-right: 15px;
+      }
     </style>
     <slot name="icon"></slot>
-    <slot name="header"></slot>
-    <slot></slot>
-    <slot name="footer"></slot>
+    
+    <div class="main-text">
+      <slot name="header"></slot>
+      <slot></slot>
+      <slot name="footer"></slot>
+    </div>
+
     <slot name="secondary-text"></slot>
   </template>
 
