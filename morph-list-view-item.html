@@ -120,6 +120,10 @@
         flex-shrink: 0;
         margin-right: 15px;
       }
+
+      :host([platform="android"]) ::slotted([slot="icon"]) {
+        min-width: 40px;
+      }
     </style>
     <slot name="icon"></slot>
     
