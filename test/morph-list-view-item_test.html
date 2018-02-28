@@ -8,6 +8,9 @@
 
     <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../chai-dom/chai-dom.js"></script>
+
+    <link rel="import" href="/bower_components/polymer/lib/utils/flattened-nodes-observer.html">
 
     <link rel="import" href="../morph-list-view-item.html">
   </head>
@@ -15,36 +18,60 @@
 
     <test-fixture id="BasicTestFixture">
       <template>
-        <morph-list-view-item></morph-list-view-item>
-      </template>
-    </test-fixture>
-
-    <test-fixture id="ChangedPropertyTestFixture">
-      <template>
-        <morph-list-view-item prop1="new-prop1"></morph-list-view-item>
+        <morph-list-view-item>
+          <span id="title" slot="header">Header</span>
+          Item 3
+          <span slot="footer">Footer</span>
+        </morph-list-view-item>
       </template>
     </test-fixture>
 
     <script>
-      suite('morph-list-view-item', () => {
+      describe('morph-list-view-item', () => {
+        let element, items, observer1;
 
-        test('instantiating the element with default properties works', () => {
-          const element = fixture('BasicTestFixture');
-          assert.equal(element.prop1, 'morph-list-view-item');
-          const elementShadowRoot = element.shadowRoot;
-          const elementHeader = elementShadowRoot.querySelector('h2');
-          assert.equal(elementHeader.innerHTML, 'Hello morph-list-view-item!');
+        beforeEach(function() {
+          element = fixture('BasicTestFixture');
+          // var el = document.querySelector('test-slot');
+          observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
+            items = info;
+          });
+          observer1.flush();
         });
 
-        test('setting a property on the element works', () => {
-          // Create a test fixture
-          const element = fixture('ChangedPropertyTestFixture');
-          assert.equal(element.prop1, 'new-prop1');
-          const elementShadowRoot = element.shadowRoot;
-          const elementHeader = elementShadowRoot.querySelector('h2');
-          assert.equal(elementHeader.innerHTML, 'Hello new-prop1!');
+        afterEach(function() {
+          observer1.disconnect();
         });
 
+        it('shows slot="header" with text "Header"', () => {
+          let nodes = items.addedNodes;
+          for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].nodeName != "#text") {
+              var tabbarItem = nodes[i];
+              // check which item matches header slot name
+              if (tabbarItem.getAttribute('slot') == 'header') {
+                console.log('tabbarItem', tabbarItem.innerHTML);
+                let elementHeader = tabbarItem;
+                expect(elementHeader.innerHTML).to.equal('Header');
+              }
+            }
+          }
+        });
+
+        it('shows slot="footer" with text "Footer"', () => {
+          let nodes = items.addedNodes;
+          for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].nodeName != "#text") {
+              var tabbarItem = nodes[i];
+              // check which item matches footer slot name
+              if (tabbarItem.getAttribute('slot') == 'footer') {
+                console.log('tabbarItem', tabbarItem.innerHTML);
+                let elementFooter = tabbarItem;
+                expect(elementFooter.innerHTML).to.equal('Footer');
+              }
+            }
+          }
+        });
       });
     </script>
 
