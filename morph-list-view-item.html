@@ -43,6 +43,34 @@
         bottom: 0;
       }
 
+      :host([platform="android"]) {
+        padding-left: 16px;
+        padding-right: 16px;
+        min-height: 48px;
+      }
+
+      :host([platform="android"])::before,
+      :host([platform="android"])::after {
+        content: '';
+        position: absolute;
+        background-color: rgba(0,0,0,.12);
+        display: block;
+        left: 0;
+        height: 1px;
+        width: 100%;
+        /* transform: scaleY(.5); */
+      }
+
+      :host([platform="android"])::before {
+        transform-origin: 50% 0;
+        top: 0;
+      }
+
+      :host([platform="android"])::after {
+        transform-origin: 50% 100%;
+        bottom: 0;
+      }
+
       .main-text {
         display: flex;
         justify-content: center;
@@ -53,6 +81,16 @@
         padding-bottom: 8px;
       }
 
+      :host([platform="ios"]) .main-text {
+        font-size: 17px;
+      }
+
+      :host([platform="android"]) .main-text {
+        font-size: 16px;
+      }
+
+      :host([platform="ios"]) .main-text ::slotted([slot="header"]),
+      :host([platform="ios"]) .main-text ::slotted([slot="footer"]), 
       :host([platform="ios"]) .main-text ::slotted([slot="header"]),
       :host([platform="ios"]) .main-text ::slotted([slot="footer"]) {
         font-weight: 400;
@@ -67,7 +105,14 @@
 
       :host([platform="ios"]) ::slotted([slot="secondary-content"]) {
         color: #8e8e93;
+        font-size: 17px;
         padding-left: 5px;
+      }
+
+      :host([platform="android"]) ::slotted([slot="secondary-content"]) {
+        color: #757575;
+        font-size: 14px;
+        padding-left: 8px;
       }
 
       :host ::slotted([slot="icon"]) {
