@@ -5,7 +5,7 @@
 <dom-module id="morph-list-view-item">
   <template>
     <style>
-      :host {
+      :host .container {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -16,14 +16,14 @@
         margin-bottom: 10px;
       }
 
-      :host([platform="ios"]) {
+      :host([platform="ios"]) .container {
         padding-left: 15px;
         padding-right: 15px;
         min-height: 44px;
       }
 
-      :host([platform="ios"])::before,
-      :host([platform="ios"])::after {
+      :host([platform="ios"]) .container::before,
+      :host([platform="ios"]) .container::after {
         content: '';
         position: absolute;
         background-color: #c8c7cc;
@@ -34,24 +34,24 @@
         transform: scaleY(.5);
       }
 
-      :host([platform="ios"])::before {
+      :host([platform="ios"]) .container::before {
         transform-origin: 50% 0;
         top: 0;
       }
 
-      :host([platform="ios"])::after {
+      :host([platform="ios"]) .container::after {
         transform-origin: 50% 100%;
         bottom: 0;
       }
 
-      :host([platform="android"]) {
+      :host([platform="android"]) .container {
         padding-left: 16px;
         padding-right: 16px;
         min-height: 48px;
       }
 
-      :host([platform="android"])::before,
-      :host([platform="android"])::after {
+      :host([platform="android"]) .container::before,
+      :host([platform="android"]) .container::after {
         content: '';
         position: absolute;
         background-color: rgba(0,0,0,.12);
@@ -62,12 +62,12 @@
         /* transform: scaleY(.5); */
       }
 
-      :host([platform="android"])::before {
+      :host([platform="android"]) .container::before {
         transform-origin: 50% 0;
         top: 0;
       }
 
-      :host([platform="android"])::after {
+      :host([platform="android"]) .container::after {
         transform-origin: 50% 100%;
         bottom: 0;
       }
@@ -134,31 +134,29 @@
         min-width: 40px;
       }
 
-      a.item-link {
-        color: currentColor;
-        pointer-events: none;
+      a {
+        color: inherit;
         cursor: default;
         text-decoration: none;
-        display: block;
-        position: absolute;
-        top: 0; right: 0; bottom: 0; left: 0;
-        display: flex;
-        justify-content: flex-end; /* align horizontal */
-        align-items: center; /* align vertical */
       }
     </style>
 
-    <slot name="icon"></slot>
+    <a href="[[href]]">
+      <div class="container">
+        <slot name="icon"></slot>
 
-    <div class="main-text">
-      <slot name="header"></slot>
-      <slot></slot>
-      <slot name="footer"></slot>
-    </div>
+        <div class="main-text">
+          <slot name="header"></slot>
+          <slot></slot>
+          <slot name="footer"></slot>
+        </div>
 
-    <slot name="secondary-content"></slot>
-    <a href="#" class="item-link"><span class="link-icon"><iron-icon icon="icons:chevron-right"></iron-icon></span></a>
-
+        <slot name="secondary-content"></slot>
+        <template is="dom-if" if="[[href]]">
+          <svg width='8px' height='13px' viewBox='0 0 8 13' xmlns='http://www.w3.org/2000/svg'><polygon fill='#c7c7cc' transform='translate(1.500000, 6.500000) rotate(-45.000000) translate(-1.500000, -6.500000) ' points='6 11 6 2 4 2 4 9 -3 9 -3 11 5 11'></polygon></svg>
+        </template>
+      </div>
+    </a>
   </template>
 
   <script>
@@ -173,7 +171,19 @@
     class MorphListViewItem extends MorphElement(Polymer.Element) {
       static get is() { return 'morph-list-view-item'; }
       static get properties() {
-        return {};
+        return {
+          href: {
+            type: String,
+            reflectToAttribute: true
+          }
+        };
+      }
+
+      Equal(item1, item2) {
+        return item1 == item2;
+      }
+      NoEqual(item1, item2) {
+        return !this.Equal(item1, item2);
       }
     }
 
