@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../morph-element/morph-element.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
 
 <dom-module id="morph-list-view-item">
   <template>
@@ -109,10 +110,18 @@
         padding-left: 5px;
       }
 
+      :host([platform="ios"]) ::slotted([slot="secondary-content"]) {
+        padding-right: 11px;
+      }
+
       :host([platform="android"]) ::slotted([slot="secondary-content"]) {
         color: #757575;
         font-size: 14px;
         padding-left: 8px;
+      }
+
+      :host([platform="android"]) ::slotted([slot="secondary-content"]) {
+        padding-right: 18px;
       }
 
       :host ::slotted([slot="icon"]) {
@@ -124,9 +133,23 @@
       :host([platform="android"]) ::slotted([slot="icon"]) {
         min-width: 40px;
       }
+
+      a.item-link {
+        color: currentColor;
+        pointer-events: none;
+        cursor: default;
+        text-decoration: none;
+        display: block;
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        display: flex;
+        justify-content: flex-end; /* align horizontal */
+        align-items: center; /* align vertical */
+      }
     </style>
+
     <slot name="icon"></slot>
-    
+
     <div class="main-text">
       <slot name="header"></slot>
       <slot></slot>
@@ -134,6 +157,8 @@
     </div>
 
     <slot name="secondary-content"></slot>
+    <a href="#" class="item-link"><span class="link-icon"><iron-icon icon="icons:chevron-right"></iron-icon></span></a>
+
   </template>
 
   <script>
