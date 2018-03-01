@@ -20,19 +20,32 @@
         background-color: white;
       }
 
+      :host .sub-container {
+        width: 100%;
+        display: flex;
+        align-self: stretch;
+        align-items: center;
+        position: relative;
+      }
+
       :host([platform="ios"]) .container {
         padding-left: 15px;
-        padding-right: 15px;
         min-height: 44px;
       }
 
-      :host([platform="ios"][contains-media]) .container {
+      :host([platform="ios"]) .sub-container {
+        padding-right: 15px;
+      }
+      
+
+      :host([platform="ios"][contains-media]) ::slotted([slot="icon"]) {
         padding-top: 14px;
         padding-bottom: 14px;
       }
 
       :host([platform="ios"]) .container::before,
-      :host([platform="ios"]) .container::after {
+      :host([platform="ios"]) .container::after,
+      :host([platform="ios"]) .sub-container::after {
         content: '';
         position: absolute;
         background-color: #c8c7cc;
@@ -50,6 +63,12 @@
 
       :host([platform="ios"]) .container::after {
         display: var(--display-bottom-line, block);
+        transform-origin: 50% 100%;
+        bottom: 0;
+      }
+
+      :host([platform="ios"]) .sub-container::after {
+        display: var(--display-inner-item-bottom-line, none);
         transform-origin: 50% 100%;
         bottom: 0;
       }
@@ -160,16 +179,18 @@
       <div class="container">
         <slot name="icon"></slot>
 
-        <div class="main-text">
-          <slot name="header"></slot>
-          <slot></slot>
-          <slot name="footer"></slot>
-        </div>
+        <div class="sub-container">
+          <div class="main-text">
+            <slot name="header"></slot>
+            <slot></slot>
+            <slot name="footer"></slot>
+          </div>
 
-        <slot name="secondary-content"></slot>
-        <template is="dom-if" if="[[href]]">
-          <svg width='8px' height='13px' viewBox='0 0 8 13' xmlns='http://www.w3.org/2000/svg'><polygon fill='#c7c7cc' transform='translate(1.500000, 6.500000) rotate(-45.000000) translate(-1.500000, -6.500000) ' points='6 11 6 2 4 2 4 9 -3 9 -3 11 5 11'></polygon></svg>
-        </template>
+          <slot name="secondary-content"></slot>
+          <template is="dom-if" if="[[href]]">
+            <svg width='8px' height='13px' viewBox='0 0 8 13' xmlns='http://www.w3.org/2000/svg'><polygon fill='#c7c7cc' transform='translate(1.500000, 6.500000) rotate(-45.000000) translate(-1.500000, -6.500000) ' points='6 11 6 2 4 2 4 9 -3 9 -3 11 5 11'></polygon></svg>
+          </template>
+        </div>
       </div>
     </a>
   </template>
