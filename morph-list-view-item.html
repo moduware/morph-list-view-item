@@ -36,7 +36,6 @@
         content: '';
         position: absolute;
         background-color: #c8c7cc;
-        display: block;
         left: 0;
         height: 1px;
         width: 100%;
@@ -44,11 +43,13 @@
       }
 
       :host([platform="ios"]) .container::before {
+        display: var(--display-top-line, block);
         transform-origin: 50% 0;
         top: 0;
       }
 
       :host([platform="ios"]) .container::after {
+        display: var(--display-bottom-line, block);
         transform-origin: 50% 100%;
         bottom: 0;
       }
