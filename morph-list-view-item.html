@@ -5,6 +5,10 @@
 <dom-module id="morph-list-view-item">
   <template>
     <style>
+      :host {
+        margin-bottom: 10px;
+      }
+
       :host .container {
         display: flex;
         justify-content: space-between;
@@ -13,7 +17,6 @@
         white-space: nowrap;
         box-sizing: border-box;
         background-color: white;
-        margin-bottom: 10px;
       }
 
       :host([platform="ios"]) .container {
