@@ -22,6 +22,11 @@
         min-height: 44px;
       }
 
+      :host([platform="ios"][contains-media]) .container {
+        padding-top: 14px;
+        padding-bottom: 14px;
+      }
+
       :host([platform="ios"]) .container::before,
       :host([platform="ios"]) .container::after {
         content: '';
@@ -139,6 +144,11 @@
         cursor: default;
         text-decoration: none;
       }
+
+      svg {
+        flex-grow: 0;
+        flex-shrink: 0;
+      }
     </style>
 
     <a href="[[href]]">
@@ -174,6 +184,11 @@
         return {
           href: {
             type: String,
+            reflectToAttribute: true
+          },
+          containsMedia: {
+            type: Boolean,
+            value: false,
             reflectToAttribute: true
           }
         };
