@@ -175,12 +175,13 @@
         flex-shrink: 0;
       }
 
-      /* ripple related styles */
+      /* ripple related stylesbackground: rgba(0,0,0,0.1); background: rgba(255,255,255,0.3); */
+      :host([remove-ripple]) morph-ripple,
       :host(:not([platform="android"])) morph-ripple {
         display: none;
       }
       :host([platform="android"]) morph-ripple {
-        --ripple-color:  rgba(117, 117, 117, 0.7);
+        --ripple-color:  var(--ripple-color-android-light, rgba(0,0,0,0.1));
       }
       
     </style>
@@ -229,6 +230,12 @@
             type: Boolean,
             value: false,
             reflectToAttribute: true
+          },
+
+          /** remove ripple effect */
+          removeRipple: {
+            type: Boolean,
+            value: false
           }
         };
       }
