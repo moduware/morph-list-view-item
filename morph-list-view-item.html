@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../morph-element/morph-element.html">
+<link rel="import" href="../morph-ripple/morph-ripple.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 
 <dom-module id="morph-list-view-item">
@@ -173,24 +174,36 @@
         flex-grow: 0;
         flex-shrink: 0;
       }
+
+      /* ripple related styles */
+      :host(:not([platform="android"])) morph-ripple {
+        display: none;
+      }
+      :host([platform="android"]) morph-ripple {
+        --ripple-color:  rgba(117, 117, 117, 0.7);
+      }
+      
     </style>
 
     <a href="[[href]]">
       <div class="container">
         <slot name="icon"></slot>
-
+        
         <div class="sub-container">
           <div class="main-text">
             <slot name="header"></slot>
             <slot></slot>
             <slot name="footer"></slot>
           </div>
-
+          
           <slot name="secondary-content"></slot>
           <template is="dom-if" if="[[href]]">
             <svg width='8px' height='13px' viewBox='0 0 8 13' xmlns='http://www.w3.org/2000/svg'><polygon fill='#c7c7cc' transform='translate(1.500000, 6.500000) rotate(-45.000000) translate(-1.500000, -6.500000) ' points='6 11 6 2 4 2 4 9 -3 9 -3 11 5 11'></polygon></svg>
           </template>
         </div>
+        <template is="dom-if" if="[[href]]">
+          <morph-ripple></morph-ripple> 
+        </template>
       </div>
     </a>
   </template>
