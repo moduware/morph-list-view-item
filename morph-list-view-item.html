@@ -76,8 +76,11 @@
 
       :host([platform="android"]) .container {
         padding-left: 16px;
-        padding-right: 16px;
         min-height: 48px;
+      }
+
+      :host([platform="android"][href]:not([remove-chevron])) .sub-container {
+        padding-right: 16px;
       }
 
       :host([platform="android"]) .container::before,
