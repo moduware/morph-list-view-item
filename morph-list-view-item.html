@@ -34,7 +34,7 @@
         min-height: 44px;
       }
 
-      :host([platform="ios"]) .sub-container {
+      :host([platform="ios"][href]:not([remove-chevron])) .sub-container {
         padding-right: 15px;
       }
       
@@ -138,20 +138,20 @@
         color: #8e8e93;
         font-size: 17px;
         padding-left: 5px;
+        padding-right: 11px;
       }
 
       :host([platform="ios"]) ::slotted([slot="secondary-content"]) {
-        padding-right: 11px;
       }
 
       :host([platform="android"]) ::slotted([slot="secondary-content"]) {
         color: #757575;
         font-size: 14px;
         padding-left: 8px;
+        padding-right: 18px;
       }
 
       :host([platform="android"]) ::slotted([slot="secondary-content"]) {
-        padding-right: 18px;
       }
 
       :host ::slotted([slot="icon"]) {
@@ -175,7 +175,8 @@
         flex-shrink: 0;
       }
 
-      /* ripple related stylesbackground: rgba(0,0,0,0.1); background: rgba(255,255,255,0.3); */
+      /* ripple and chevron related styles to make them optional */
+      :host([remove-chevron]) svg#chevron-svg,
       :host([remove-ripple]) morph-ripple,
       :host(:not([platform="android"])) morph-ripple {
         display: none;
@@ -199,7 +200,7 @@
           
           <slot name="secondary-content"></slot>
           <template is="dom-if" if="[[href]]">
-            <svg width='8px' height='13px' viewBox='0 0 8 13' xmlns='http://www.w3.org/2000/svg'><polygon fill='#c7c7cc' transform='translate(1.500000, 6.500000) rotate(-45.000000) translate(-1.500000, -6.500000) ' points='6 11 6 2 4 2 4 9 -3 9 -3 11 5 11'></polygon></svg>
+            <svg id="chevron-svg" width='8px' height='13px' viewBox='0 0 8 13' xmlns='http://www.w3.org/2000/svg'><polygon fill='#c7c7cc' transform='translate(1.500000, 6.500000) rotate(-45.000000) translate(-1.500000, -6.500000) ' points='6 11 6 2 4 2 4 9 -3 9 -3 11 5 11'></polygon></svg>
           </template>
         </div>
         <template is="dom-if" if="[[href]]">
@@ -236,7 +237,14 @@
           removeRipple: {
             type: Boolean,
             value: false
-          }
+          },
+          
+          /** remove chevron svg on links */
+          removeChevron: {
+            type: Boolean,
+            value: false
+          },
+
         };
       }
 
