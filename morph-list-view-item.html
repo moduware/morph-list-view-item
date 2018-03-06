@@ -82,6 +82,12 @@
         bottom: 0;
       }
 
+      :host([platform="android"]) .sub-container::after {
+        display: var(--display-inner-item-bottom-line, none);
+        transform-origin: 50% 100%;
+        bottom: 0;
+      }
+
       :host([platform="ios"]) .container::before {
         display: var(--display-top-line, block);
         transform-origin: 50% 0;
