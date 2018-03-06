@@ -34,7 +34,7 @@
         min-height: 44px;
       }
 
-      :host([platform="ios"][href]:not([remove-chevron])) .sub-container {
+      :host([platform="ios"][href]:not([no-chevron])) .sub-container {
         padding-right: 15px;
       }
       
@@ -79,7 +79,7 @@
         min-height: 48px;
       }
 
-      :host([platform="android"][href]:not([remove-chevron])) .sub-container {
+      :host([platform="android"][href]:not([no-chevron])) .sub-container {
         padding-right: 16px;
       }
 
@@ -179,8 +179,8 @@
       }
 
       /* ripple and chevron related styles to make them optional */
-      :host([remove-chevron]) svg#chevron-svg,
-      :host([remove-ripple]) morph-ripple,
+      :host([no-chevron]) svg#chevron-svg,
+      :host([no-ripple]) morph-ripple,
       :host(:not([platform="android"])) morph-ripple {
         display: none;
       }
