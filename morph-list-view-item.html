@@ -34,10 +34,18 @@
         min-height: 44px;
       }
 
+      :host([platform="android"]) .container {
+        padding-left: 16px;
+        min-height: 48px;
+      }
+
       :host([platform="ios"][href]:not([no-chevron])) .sub-container {
         padding-right: 15px;
       }
       
+      :host([platform="android"][href]:not([no-chevron])) .sub-container {
+        padding-right: 16px;
+      }
 
       :host([platform="ios"][contains-media]) ::slotted([slot="icon"]) {
         padding-top: 14px;
@@ -56,33 +64,6 @@
         transform: scaleY(.5);
       }
 
-      :host([platform="ios"]) .container::before {
-        display: var(--display-top-line, block);
-        transform-origin: 50% 0;
-        top: 0;
-      }
-
-      :host([platform="ios"]) .container::after {
-        display: var(--display-bottom-line, block);
-        transform-origin: 50% 100%;
-        bottom: 0;
-      }
-
-      :host([platform="ios"]) .sub-container::after {
-        display: var(--display-inner-item-bottom-line, none);
-        transform-origin: 50% 100%;
-        bottom: 0;
-      }
-
-      :host([platform="android"]) .container {
-        padding-left: 16px;
-        min-height: 48px;
-      }
-
-      :host([platform="android"][href]:not([no-chevron])) .sub-container {
-        padding-right: 16px;
-      }
-
       :host([platform="android"]) .container::before,
       :host([platform="android"]) .container::after {
         content: '';
@@ -95,12 +76,32 @@
         /* transform: scaleY(.5); */
       }
 
-      :host([platform="android"]) .container::before {
+      :host([platform="ios"]) .sub-container::after {
+        display: var(--display-inner-item-bottom-line, none);
+        transform-origin: 50% 100%;
+        bottom: 0;
+      }
+
+      :host([platform="ios"]) .container::before {
+        display: var(--display-top-line, block);
         transform-origin: 50% 0;
         top: 0;
       }
 
+      :host([platform="android"]) .container::before {
+        display: var(--display-top-line, block);
+        transform-origin: 50% 0;
+        top: 0;
+      }
+
+      :host([platform="ios"]) .container::after {
+        display: var(--display-bottom-line, block);
+        transform-origin: 50% 100%;
+        bottom: 0;
+      }
+
       :host([platform="android"]) .container::after {
+        display: var(--display-bottom-line, block);
         transform-origin: 50% 100%;
         bottom: 0;
       }
@@ -144,17 +145,11 @@
         padding-right: 11px;
       }
 
-      :host([platform="ios"]) ::slotted([slot="secondary-content"]) {
-      }
-
       :host([platform="android"]) ::slotted([slot="secondary-content"]) {
         color: #757575;
         font-size: 14px;
         padding-left: 8px;
         padding-right: 18px;
-      }
-
-      :host([platform="android"]) ::slotted([slot="secondary-content"]) {
       }
 
       :host ::slotted([slot="icon"]) {
