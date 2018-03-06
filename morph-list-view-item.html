@@ -65,7 +65,8 @@
       }
 
       :host([platform="android"]) .container::before,
-      :host([platform="android"]) .container::after {
+      :host([platform="android"]) .container::after,
+      :host([platform="android"]) .sub-container::after {
         content: '';
         position: absolute;
         background-color: rgba(0,0,0,.12);
