@@ -16,7 +16,7 @@
   </head>
   <body>
 
-    <test-fixture id="BasicTestFixture">
+    <test-fixture id="IosBasicTestFixture">
       <template>
         <morph-list-view-item>
           <span id="title" slot="header">Header</span>
@@ -30,47 +30,50 @@
       describe('morph-list-view-item', () => {
         let element, items, observer1;
 
-        beforeEach(function() {
-          element = fixture('BasicTestFixture');
-          observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
-            items = info;
+        context('Basic test for iOS', () => {
+          beforeEach(function () {
+            element = fixture('IosBasicTestFixture');
+            observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
+              items = info;
+            });
+            observer1.flush();
           });
-          observer1.flush();
-        });
 
-        afterEach(function() {
-          observer1.disconnect();
-        });
+          afterEach(function () {
+            observer1.disconnect();
+          });
 
-        it('shows slot="header" with text "Header"', () => {
-          let nodes = items.addedNodes;
-          for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].nodeName != "#text") {
-              var tabbarItem = nodes[i];
-              // check which item matches header slot name
-              if (tabbarItem.getAttribute('slot') == 'header') {
-                console.log('tabbarItem', tabbarItem.innerHTML);
-                let elementHeader = tabbarItem;
-                expect(elementHeader.innerHTML).to.equal('Header');
+          it('shows slot="header" with text "Header"', () => {
+            let nodes = items.addedNodes;
+            for (var i = 0; i < nodes.length; i++) {
+              if (nodes[i].nodeName != "#text") {
+                var tabbarItem = nodes[i];
+                // check which item matches header slot name
+                if (tabbarItem.getAttribute('slot') == 'header') {
+                  console.log('tabbarItem', tabbarItem.innerHTML);
+                  let elementHeader = tabbarItem;
+                  expect(elementHeader.innerHTML).to.equal('Header');
+                }
               }
             }
-          }
-        });
+          });
 
-        it('shows slot="footer" with text "Footer"', () => {
-          let nodes = items.addedNodes;
-          for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].nodeName != "#text") {
-              var tabbarItem = nodes[i];
-              // check which item matches footer slot name
-              if (tabbarItem.getAttribute('slot') == 'footer') {
-                console.log('tabbarItem', tabbarItem.innerHTML);
-                let elementFooter = tabbarItem;
-                expect(elementFooter.innerHTML).to.equal('Footer');
+          it('shows slot="footer" with text "Footer"', () => {
+            let nodes = items.addedNodes;
+            for (var i = 0; i < nodes.length; i++) {
+              if (nodes[i].nodeName != "#text") {
+                var tabbarItem = nodes[i];
+                // check which item matches footer slot name
+                if (tabbarItem.getAttribute('slot') == 'footer') {
+                  console.log('tabbarItem', tabbarItem.innerHTML);
+                  let elementFooter = tabbarItem;
+                  expect(elementFooter.innerHTML).to.equal('Footer');
+                }
               }
             }
-          }
+          });
         });
+
       });
     </script>
 
