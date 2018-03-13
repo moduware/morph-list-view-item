@@ -20,8 +20,19 @@
       <template>
         <morph-list-view-item platform="ios">
           <span id="title" slot="header">Header</span>
-          Item 3
+          Item 1
           <span slot="footer">Footer</span>
+        </morph-list-view-item>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="AndroidBasicTestFixture">
+      <template>
+        <morph-list-view-item platform="android">
+          <span id="title" slot="header">Header</span>
+          Item 1
+          <span slot="footer">Footer</span>
+          <span slot="secondary-content">Secondary Content</span>
         </morph-list-view-item>
       </template>
     </test-fixture>
@@ -93,6 +104,45 @@
             const mainTextStyles = window.getComputedStyle(itemMainText);
             
             expect(mainTextStyles.fontSize).to.equal('17px');
+          });
+
+          it('IOS secondary-content font-size should be 17px', () => {
+            const secondaryContent = element.shadowRoot.querySelector('div.sub-container slot[name="secondary-content"');
+            const mainTextStyles = window.getComputedStyle(secondaryContent);
+
+            expect(mainTextStyles.fontSize).to.equal('16px');
+          });
+
+        });
+
+        context('Test for Android styles', () => {
+
+          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
+          let element, items, observer1;
+
+          beforeEach(function () {
+            element = fixture('AndroidBasicTestFixture');
+            
+            observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
+              items = info;
+            });
+            observer1.flush();
+          });
+
+          it('Android secondary-content font-size should be 16px', () => {
+            let nodes = items.addedNodes;
+            for (var i = 0; i < nodes.length; i++) {
+              if (nodes[i].nodeName != "#text") {
+                var tabbarItem = nodes[i];
+                // check which item matches header slot name
+                if (tabbarItem.getAttribute('slot') == 'secondary-content') {
+                  let elementSecondaryContent = tabbarItem;
+                  console.log('elementSecondaryContent', window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size'));
+                  let AndroidSecondaryContentFontSize = window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size');
+                  expect(AndroidSecondaryContentFontSize).to.equal('14px');
+                }
+              }
+            }
           });
         });
 
