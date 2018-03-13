@@ -209,7 +209,9 @@
           </template>
         </div>
         <template is="dom-if" if="[[href]]">
-          <morph-ripple></morph-ripple> 
+          <template is="dom-if" if="[[noRipple]]">
+            <morph-ripple></morph-ripple> 
+          </template>
         </template>
       </div>
     </a>
