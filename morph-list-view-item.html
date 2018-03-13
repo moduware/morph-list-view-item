@@ -182,7 +182,7 @@
 
       /* ripple and chevron related styles to make them optional */
       :host([no-chevron]) svg#chevron-svg,
-      :host([no-ripple]) morph-ripple,
+      /* :host([no-ripple]) morph-ripple, */
       :host(:not([platform="android"])) morph-ripple {
         display: none;
       }
@@ -209,7 +209,7 @@
           </template>
         </div>
         <template is="dom-if" if="[[href]]">
-          <template is="dom-if" if="[[noRipple]]">
+          <template is="dom-if" if="[[!noRipple]]">
             <morph-ripple></morph-ripple> 
           </template>
         </template>
