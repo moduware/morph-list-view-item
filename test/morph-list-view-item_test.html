@@ -18,7 +18,7 @@
 
     <test-fixture id="IosBasicTestFixture">
       <template>
-        <morph-list-view-item>
+        <morph-list-view-item platform="ios">
           <span id="title" slot="header">Header</span>
           Item 3
           <span slot="footer">Footer</span>
@@ -28,9 +28,12 @@
 
     <script>
       describe('morph-list-view-item', () => {
-        let element, items, observer1;
 
         context('Basic test for iOS', () => {
+
+          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
+          let element, items, observer1;
+
           beforeEach(function () {
             element = fixture('IosBasicTestFixture');
             observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
@@ -71,6 +74,25 @@
                 }
               }
             }
+          });
+        });
+
+
+        context('Test for IOS styles', () => {
+
+          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
+          let element, items, observer1;
+
+          beforeEach(function() {
+            element = fixture('IosBasicTestFixture');
+            styles = window.getComputedStyle(element);
+          });
+
+          it('IOS main-text font-size should be 17px', () => {
+            const itemMainText = element.shadowRoot.querySelector('div.main-text');
+            const mainTextStyles = window.getComputedStyle(itemMainText);
+            
+            expect(mainTextStyles.fontSize).to.equal('17px');
           });
         });
 
