@@ -22,6 +22,7 @@
           <span id="title" slot="header">Header</span>
           Item 1
           <span slot="footer">Footer</span>
+          <span slot="secondary-content">Secondary Content</span>
         </morph-list-view-item>
       </template>
     </test-fixture>
@@ -96,7 +97,11 @@
 
           beforeEach(function() {
             element = fixture('IosBasicTestFixture');
-            styles = window.getComputedStyle(element);
+            
+            observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
+              items = info;
+            });
+            observer1.flush();
           });
 
           it('IOS main-text font-size should be 17px', () => {
@@ -106,11 +111,21 @@
             expect(mainTextStyles.fontSize).to.equal('17px');
           });
 
-          it('IOS secondary-content font-size should be 17px', () => {
-            const secondaryContent = element.shadowRoot.querySelector('div.sub-container slot[name="secondary-content"');
-            const mainTextStyles = window.getComputedStyle(secondaryContent);
-
-            expect(mainTextStyles.fontSize).to.equal('16px');
+          it('IOS secondary-content color should be #8e8e93', () => {
+            let nodes = items.addedNodes;
+            console.log('items', items.addedNodes[5]);
+            
+            for (var i = 0; i < nodes.length; i++) {
+              if (nodes[i].nodeName != "#text") {
+                var tabbarItem = nodes[i];
+                if (tabbarItem.getAttribute('slot') == 'secondary-content') {
+                  let elementSecondaryContent = tabbarItem;
+                  let IosSecondaryContentColor = window.getComputedStyle(elementSecondaryContent).getPropertyValue('color');
+                  console.log('IosSecondaryContentFontSize', window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size'));
+                  expect(IosSecondaryContentColor).to.equal('rgb(142, 142, 147)');
+                }
+              }
+            }
           });
 
         });
