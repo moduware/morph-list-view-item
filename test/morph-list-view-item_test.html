@@ -113,15 +113,15 @@
 
           it('IOS secondary-content color should be #8e8e93', () => {
             let nodes = items.addedNodes;
-            console.log('items', items.addedNodes[5]);
             
             for (var i = 0; i < nodes.length; i++) {
+              // check which item matches header slot name 'secondary-content'
               if (nodes[i].nodeName != "#text") {
                 var tabbarItem = nodes[i];
                 if (tabbarItem.getAttribute('slot') == 'secondary-content') {
                   let elementSecondaryContent = tabbarItem;
                   let IosSecondaryContentColor = window.getComputedStyle(elementSecondaryContent).getPropertyValue('color');
-                  console.log('IosSecondaryContentFontSize', window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size'));
+
                   expect(IosSecondaryContentColor).to.equal('rgb(142, 142, 147)');
                 }
               }
@@ -149,11 +149,11 @@
             for (var i = 0; i < nodes.length; i++) {
               if (nodes[i].nodeName != "#text") {
                 var tabbarItem = nodes[i];
-                // check which item matches header slot name
+                // check which item matches header slot name 'secondary-content'
                 if (tabbarItem.getAttribute('slot') == 'secondary-content') {
                   let elementSecondaryContent = tabbarItem;
-                  console.log('elementSecondaryContent', window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size'));
                   let AndroidSecondaryContentFontSize = window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size');
+
                   expect(AndroidSecondaryContentFontSize).to.equal('14px');
                 }
               }
