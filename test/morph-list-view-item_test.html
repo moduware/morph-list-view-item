@@ -131,6 +131,7 @@
 
           it('Should have correct font-size and color for IOS footer', () => {
             let nodes = items.addedNodes;
+
             for (var i = 0; i < nodes.length; i++) {
               if (nodes[i].nodeName != "#text") {
                 var listViewItemChild = nodes[i];
@@ -192,8 +193,45 @@
             expect(mainTextStyles.fontSize).to.equal('16px');
           });
 
-          it('Should have correct font-size and font-weight for Android header', () => { });
-          it('Should have correct font-size and color for Android footer', () => { });
+          it('Should have correct font-size and font-weight for Android header', () => {
+            let nodes = items.addedNodes;
+
+            for (var i = 0; i < nodes.length; i++) {
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
+                // check which item matches header slot name 'header'
+                if (listViewItemChild.getAttribute('slot') == 'header') {
+                  let elementHeader = listViewItemChild;
+                  let AndroidHeaderFontSize = window.getComputedStyle(elementHeader).getPropertyValue('font-size');
+                  let AndroidHeaderFontWeight = window.getComputedStyle(elementHeader).getPropertyValue('font-weight');
+
+                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
+                  expect(AndroidHeaderFontSize).to.equal('12px');
+                  expect(AndroidHeaderFontWeight).to.equal('400');
+                }
+              }
+            }
+          });
+
+          it('Should have correct font-size and color for Android footer', () => {
+            let nodes = items.addedNodes;
+
+            for (var i = 0; i < nodes.length; i++) {
+              // check which item matches header slot name 'secondary-content'
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
+                if (listViewItemChild.getAttribute('slot') == 'footer') {
+                  let elementFooter = listViewItemChild;
+                  let AndroidSecondaryContentColor = window.getComputedStyle(elementFooter).getPropertyValue('color');
+                  let AndroidSecondaryContentFontSize = window.getComputedStyle(elementFooter).getPropertyValue('font-size');
+
+                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
+                  expect(AndroidSecondaryContentColor).to.equal('rgb(142, 142, 147)');
+                  expect(AndroidSecondaryContentFontSize).to.equal('12px');
+                }
+              }
+            }
+          });
 
           it('Should have correct secondary-content font-size and color Android platform', () => {
             let nodes = items.addedNodes;
