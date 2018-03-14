@@ -104,14 +104,17 @@
             observer1.flush();
           });
 
-          it('IOS main-text font-size should be 17px', () => {
+          it('Should have correct main-text font-size for IOS platform', () => {
             const itemMainText = element.shadowRoot.querySelector('div.main-text');
             const mainTextStyles = window.getComputedStyle(itemMainText);
             
             expect(mainTextStyles.fontSize).to.equal('17px');
           });
 
-          it('IOS secondary-content color should be #8e8e93', () => {
+          it('Should have correct font-size and font-weight for IOS header', () => {});
+          it('Should have correct font-size and color for IOS footer', () => {});
+
+          it('Should have correct secondary-content color and font-size for IOS platform', () => {
             let nodes = items.addedNodes;
             
             for (var i = 0; i < nodes.length; i++) {
@@ -121,12 +124,16 @@
                 if (tabbarItem.getAttribute('slot') == 'secondary-content') {
                   let elementSecondaryContent = tabbarItem;
                   let IosSecondaryContentColor = window.getComputedStyle(elementSecondaryContent).getPropertyValue('color');
+                  let IosSecondaryContentFontSize = window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size');
 
+                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
                   expect(IosSecondaryContentColor).to.equal('rgb(142, 142, 147)');
+                  expect(IosSecondaryContentFontSize).to.equal('17px');
                 }
               }
             }
           });
+
 
         });
 
@@ -144,7 +151,17 @@
             observer1.flush();
           });
 
-          it('Android secondary-content font-size should be 16px', () => {
+          it('Should have correct main-text font-size for Android platform', () => {
+            const itemMainText = element.shadowRoot.querySelector('div.main-text');
+            const mainTextStyles = window.getComputedStyle(itemMainText);
+
+            expect(mainTextStyles.fontSize).to.equal('16px');
+          });
+
+          it('Should have correct font-size and font-weight for Android header', () => { });
+          it('Should have correct font-size and color for Android footer', () => { });
+
+          it('Should have correct secondary-content font-size and color Android platform', () => {
             let nodes = items.addedNodes;
             for (var i = 0; i < nodes.length; i++) {
               if (nodes[i].nodeName != "#text") {
@@ -153,8 +170,10 @@
                 if (tabbarItem.getAttribute('slot') == 'secondary-content') {
                   let elementSecondaryContent = tabbarItem;
                   let AndroidSecondaryContentFontSize = window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size');
+                  let AndroidSecondaryContentColor = window.getComputedStyle(elementSecondaryContent).getPropertyValue('color');
 
                   expect(AndroidSecondaryContentFontSize).to.equal('14px');
+                  expect(AndroidSecondaryContentColor).to.equal('rgb(117, 117, 117)');
                 }
               }
             }
