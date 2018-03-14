@@ -62,11 +62,10 @@
             let nodes = items.addedNodes;
             for (var i = 0; i < nodes.length; i++) {
               if (nodes[i].nodeName != "#text") {
-                var tabbarItem = nodes[i];
+                var listViewItemChild = nodes[i];
                 // check which item matches header slot name
-                if (tabbarItem.getAttribute('slot') == 'header') {
-                  console.log('tabbarItem', tabbarItem.innerHTML);
-                  let elementHeader = tabbarItem;
+                if (listViewItemChild.getAttribute('slot') == 'header') {
+                  let elementHeader = listViewItemChild;
                   expect(elementHeader.innerHTML).to.equal('Header');
                 }
               }
@@ -77,11 +76,11 @@
             let nodes = items.addedNodes;
             for (var i = 0; i < nodes.length; i++) {
               if (nodes[i].nodeName != "#text") {
-                var tabbarItem = nodes[i];
+                var listViewItemChild = nodes[i];
                 // check which item matches footer slot name
-                if (tabbarItem.getAttribute('slot') == 'footer') {
-                  console.log('tabbarItem', tabbarItem.innerHTML);
-                  let elementFooter = tabbarItem;
+                if (listViewItemChild.getAttribute('slot') == 'footer') {
+                  console.log('listViewItemChild', listViewItemChild.innerHTML);
+                  let elementFooter = listViewItemChild;
                   expect(elementFooter.innerHTML).to.equal('Footer');
                 }
               }
@@ -111,8 +110,43 @@
             expect(mainTextStyles.fontSize).to.equal('17px');
           });
 
-          it('Should have correct font-size and font-weight for IOS header', () => {});
-          it('Should have correct font-size and color for IOS footer', () => {});
+          it('Should have correct font-size and font-weight for IOS header', () => {
+            let nodes = items.addedNodes;
+            for (var i = 0; i < nodes.length; i++) {
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
+                // check which item matches header slot name 'header'
+                if (listViewItemChild.getAttribute('slot') == 'header') {
+                  let elementHeader = listViewItemChild;
+                  let IosHeaderFontSize = window.getComputedStyle(elementHeader).getPropertyValue('font-size');
+                  let IosHeaderFontWeight = window.getComputedStyle(elementHeader).getPropertyValue('font-weight');
+                  
+                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
+                  expect(IosHeaderFontSize).to.equal('12px');
+                  expect(IosHeaderFontWeight).to.equal('400');
+                }
+              }
+            }
+          });
+
+          it('Should have correct font-size and color for IOS footer', () => {
+            let nodes = items.addedNodes;
+            for (var i = 0; i < nodes.length; i++) {
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
+                // check which item matches header slot name 'footer'
+                if (listViewItemChild.getAttribute('slot') == 'footer') {
+                  let elementFooter = listViewItemChild;
+                  let IosFooterFontSize = window.getComputedStyle(elementFooter).getPropertyValue('font-size');
+                  let IosFootererColor = window.getComputedStyle(elementFooter).getPropertyValue('color');
+                  
+                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
+                  expect(IosFooterFontSize).to.equal('12px');
+                  expect(IosFootererColor).to.equal('rgb(142, 142, 147)');
+                }
+              }
+            }
+          });
 
           it('Should have correct secondary-content color and font-size for IOS platform', () => {
             let nodes = items.addedNodes;
@@ -120,9 +154,9 @@
             for (var i = 0; i < nodes.length; i++) {
               // check which item matches header slot name 'secondary-content'
               if (nodes[i].nodeName != "#text") {
-                var tabbarItem = nodes[i];
-                if (tabbarItem.getAttribute('slot') == 'secondary-content') {
-                  let elementSecondaryContent = tabbarItem;
+                var listViewItemChild = nodes[i];
+                if (listViewItemChild.getAttribute('slot') == 'secondary-content') {
+                  let elementSecondaryContent = listViewItemChild;
                   let IosSecondaryContentColor = window.getComputedStyle(elementSecondaryContent).getPropertyValue('color');
                   let IosSecondaryContentFontSize = window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size');
 
@@ -165,13 +199,14 @@
             let nodes = items.addedNodes;
             for (var i = 0; i < nodes.length; i++) {
               if (nodes[i].nodeName != "#text") {
-                var tabbarItem = nodes[i];
+                var listViewItemChild = nodes[i];
                 // check which item matches header slot name 'secondary-content'
-                if (tabbarItem.getAttribute('slot') == 'secondary-content') {
-                  let elementSecondaryContent = tabbarItem;
+                if (listViewItemChild.getAttribute('slot') == 'secondary-content') {
+                  let elementSecondaryContent = listViewItemChild;
                   let AndroidSecondaryContentFontSize = window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size');
                   let AndroidSecondaryContentColor = window.getComputedStyle(elementSecondaryContent).getPropertyValue('color');
 
+                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
                   expect(AndroidSecondaryContentFontSize).to.equal('14px');
                   expect(AndroidSecondaryContentColor).to.equal('rgb(117, 117, 117)');
                 }
