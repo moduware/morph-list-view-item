@@ -38,6 +38,25 @@
       </template>
     </test-fixture>
 
+    <test-fixture id="ChevronTestFixture">
+      <template>
+        <morph-list-view-item platform="ios" href="#moduware">
+          <span id="title" slot="header">Header</span>
+          Link Item
+          <span slot="footer">Footer</span>
+          <span slot="secondary-content">Secondary Content</span>
+        </morph-list-view-item>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="NoChevronTestFixture">
+      <template>
+        <morph-list-view-item platform="ios" href="#moduware" no-chevron>
+          No Chevron Link Item
+        </morph-list-view-item>
+      </template>
+    </test-fixture>
+
     <script>
       describe('morph-list-view-item', () => {
 
@@ -79,7 +98,6 @@
                 var listViewItemChild = nodes[i];
                 // check which item matches footer slot name
                 if (listViewItemChild.getAttribute('slot') == 'footer') {
-                  console.log('listViewItemChild', listViewItemChild.innerHTML);
                   let elementFooter = listViewItemChild;
                   expect(elementFooter.innerHTML).to.equal('Footer');
                 }
@@ -254,6 +272,42 @@
         });
 
       });
+      
+      describe('Test for Chevron child element', () => {
+
+        context('Chevron when it is a link item (href present)', () => {
+          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
+          let element;
+
+          beforeEach(function () {
+            element = fixture('ChevronTestFixture');
+          });
+
+          it('Should have noChevron property equal to false', () => {
+            expect(element.noChevron).to.be.false;
+          });
+
+          it('Should have chevron svg css display property equal to block', (done) => {
+            const shadowRoot = element.shadowRoot;
+            const subContainer = shadowRoot.querySelector('.sub-container');
+            const chevronSvg = subContainer.getElementsByTagName('svg');
+
+            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
+            flush(function () {
+              const chevronDisplay = window.getComputedStyle(chevronSvg[0]).getPropertyValue('display');
+              expect(chevronDisplay).to.equal('block');
+              done();
+            });
+
+          });
+
+        });
+
+        
+
+
+      });
+     
     </script>
 
   </body>
