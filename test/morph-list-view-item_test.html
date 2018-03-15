@@ -57,6 +57,30 @@
       </template>
     </test-fixture>
 
+    <test-fixture id="AndroidRippleTestFixture">
+      <template>
+        <morph-list-view-item platform="android" href="#moduware">
+          Android Link Item
+        </morph-list-view-item>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="IosRippleTestFixture">
+      <template>
+        <morph-list-view-item platform="ios" href="#moduware">
+          IOS Link Item
+        </morph-list-view-item>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="AndroidWithNoRippleTestFixture">
+      <template>
+        <morph-list-view-item platform="android" href="#moduware" no-ripple>
+          Android Link Item with No Ripple
+        </morph-list-view-item>
+      </template>
+    </test-fixture>
+
     <script>
       describe('morph-list-view-item', () => {
 
@@ -187,7 +211,6 @@
             }
           });
 
-
         });
 
         context('Test for Android styles', () => {
@@ -269,9 +292,15 @@
               }
             }
           });
+
+          //  TODO:
+          xit('Should have no ripple', () => {
+
+          });
+
         });
 
-      });
+      }); // end of describe 'morph-list-view-item'
       
       describe('Test for Chevron child element', () => {
 
@@ -295,7 +324,6 @@
             // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
             flush(function () {
               const chevronDisplay = window.getComputedStyle(chevronSvg[0]).getPropertyValue('display');
-              console.log('chevronSvg.length', chevronSvg.length);
 
               expect(chevronSvg.length).to.equal(1);
               expect(chevronDisplay).to.equal('block');
@@ -335,8 +363,79 @@
         });
 
 
-      });
+      }); // end of describe 'Test for Chevron child element'
      
+     describe('morph-ripple child element', () => {
+
+      context('when on android', () => {
+        let element, shadowRoot, container, morphRipple;
+
+        before(function() {
+          element = fixture('AndroidRippleTestFixture');
+          shadowRoot = element.shadowRoot;
+          container = shadowRoot.querySelector('.container');
+          morphRipple = container.getElementsByTagName('morph-ripple');
+        });
+
+        it('Should have display block', (done) => {
+          
+          // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
+          flush(function () {
+            const morphRippleDisplay = window.getComputedStyle(morphRipple[0]).getPropertyValue('display');
+
+            expect(morphRippleDisplay).to.equal('block');
+            done();
+          });
+        });
+
+      });
+
+      context('when on ios', () => {
+        let element, shadowRoot, container, morphRipple;
+
+        beforeEach(function () {
+          element = fixture('IosRippleTestFixture');
+          shadowRoot = element.shadowRoot;
+          container = shadowRoot.querySelector('.container');
+          morphRipple = container.getElementsByTagName('morph-ripple');
+        });
+
+        it('Should have display none', (done) => {
+
+          // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
+          flush(function () {
+            const morphRippleDisplay = window.getComputedStyle(morphRipple[0]).getPropertyValue('display');
+
+            expect(morphRippleDisplay).to.equal('none');
+            done();
+          });
+        });
+
+      });
+
+      context('when no-ripple attribute is present', () => {
+        let element, shadowRoot, container, morphRipple;
+
+        beforeEach(function () {
+          element = fixture('AndroidWithNoRippleTestFixture');
+          shadowRoot = element.shadowRoot;
+          container = shadowRoot.querySelector('.container');
+          morphRipple = container.getElementsByTagName('morph-ripple');
+        });
+
+        it('Should not exist in DOM', (done) => {
+
+          // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
+          flush(function () {
+            expect(morphRipple.length).to.equal(0);
+            done();
+          });
+        });
+
+      });
+
+     }); // end of describe 'morph-ripple child element'
+
     </script>
 
   </body>
