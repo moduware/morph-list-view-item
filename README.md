@@ -65,12 +65,6 @@ For the information about how to clone the desired repository, running the local
     <img src="demo-images/android-with-morph-list-view-demo.png" alt="IOS morph-list-view-item demo"/>
   </p>
 
-- Demo showing ripple effect when morph-list-view-item is a link on Android platform
-
-  <p align="center">
-    <img src="demo-images/android-list-view-item-with-demo.gif" alt="IOS morph-list-view-item demo"/>
-  </p>
-
 - Here's the HTML markup when morph-list-view-item is inside morph-list-view for both IOS and Android platform
 
 ```html
@@ -102,6 +96,12 @@ For the information about how to clone the desired repository, running the local
 
 ```
 
+- Demo showing ripple effect when morph-list-view-item is a link on Android platform
+
+  <p align="center">
+    <img src="demo-images/android-list-view-item-with-demo.gif" alt="IOS morph-list-view-item demo"/>
+  </p>
+  
 ### Attributes
 
 |     Custom Attribute    |   Type  | Description                                                                                   | Default        |
