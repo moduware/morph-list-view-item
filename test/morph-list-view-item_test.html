@@ -152,7 +152,7 @@
             expect(mainTextStyles.fontSize).to.equal('17px');
           });
 
-          it('Should have correct font-size and font-weight for IOS header', () => {
+          it('Should have correct font-size for IOS header', () => {
             let nodes = items.addedNodes;
             for (var i = 0; i < nodes.length; i++) {
               if (nodes[i].nodeName != "#text") {
@@ -161,11 +161,8 @@
                 if (listViewItemChild.getAttribute('slot') == 'header') {
                   let elementHeader = listViewItemChild;
                   let IosHeaderFontSize = window.getComputedStyle(elementHeader).getPropertyValue('font-size');
-                  let IosHeaderFontWeight = window.getComputedStyle(elementHeader).getPropertyValue('font-weight');
                   
-                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
                   expect(IosHeaderFontSize).to.equal('12px');
-                  expect(IosHeaderFontWeight).to.equal('400');
                 }
               }
             }
@@ -244,11 +241,8 @@
                 if (listViewItemChild.getAttribute('slot') == 'header') {
                   let elementHeader = listViewItemChild;
                   let AndroidHeaderFontSize = window.getComputedStyle(elementHeader).getPropertyValue('font-size');
-                  let AndroidHeaderFontWeight = window.getComputedStyle(elementHeader).getPropertyValue('font-weight');
 
-                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
                   expect(AndroidHeaderFontSize).to.equal('12px');
-                  expect(AndroidHeaderFontWeight).to.equal('400');
                 }
               }
             }
