@@ -216,10 +216,6 @@
         max-height: 1px !important;
       }
 
-      :host([platform="ios"][expanded]) .expandable-content-container {
-        /* max-height: 1000px; */
-      }
-
       a {
         color: inherit;
         cursor: default;
@@ -323,13 +319,23 @@
 
         };
       }
+      
+      ready() {
+        super.ready();
 
+        this.setHeightForExpandableContentContainer();
+      }
+      
       clickHandler(event) {
         if(this.expandable) {
-          const height = this.$.expandableContentContainer.children[0].offsetHeight;
-          this.$.expandableContentContainer.style.maxHeight = height + 'px';
+          this.setHeightForExpandableContentContainer();
           this.set('expanded', !this.expanded);
         }
+      }
+
+      setHeightForExpandableContentContainer() {
+        const height = this.$.expandableContentContainer.children[0].offsetHeight;
+        this.$.expandableContentContainer.style.maxHeight = height + 'px';
       }
 
       Equal(item1, item2) {
