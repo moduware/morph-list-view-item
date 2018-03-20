@@ -53,7 +53,7 @@
       }
 
       :host([platform="ios"]) .container::before,
-      :host([platform="ios"]) ::slotted([slot="expandable-content"])::after,
+      :host([platform="ios"]) .expandable-content-container::after,
       :host([platform="ios"]:not([expandable])) .container::after,
       :host([platform="ios"]:not([expandable])) .sub-container::after {
         content: '';
@@ -103,7 +103,7 @@
       }
 
       :host([platform="ios"]) .container::after,
-      :host([platform="ios"][expandable]) ::slotted([slot="expandable-content"])::after {
+      :host([platform="ios"][expandable]) .expandable-content-container::after {
         display: var(--display-bottom-line, block);
         transform-origin: 50% 100%;
         bottom: 0;
@@ -171,14 +171,32 @@
         min-width: 40px;
       }
 
-      :host([platform="ios"]) ::slotted([slot="expandable-content"]) {
+      :host([platform="ios"]) .expandable-content-container {
         position: relative;
         background-color: white;
         display: block;
         box-sizing: border-box;
         width: 100%;
-        padding: 10px 15px;
         color: #6d6d72;
+        overflow: hidden;
+        transition: max-height 300ms;
+      }
+
+      :host([platform="ios"]:not([expandable])) .expandable-content-container {
+        display: none;
+      }
+
+      :host([platform="ios"]) ::slotted([slot="expandable-content"]) {
+        display: block;
+        padding: 10px 15px;
+      }
+
+      :host([platform="ios"]:not([expanded])) .expandable-content-container {
+        max-height: 1px !important;
+      }
+
+      :host([platform="ios"][expanded]) .expandable-content-container {
+        /* max-height: 1000px; */
       }
 
       a {
@@ -204,7 +222,7 @@
       
     </style>
 
-    <a href="[[href]]">
+    <a href="[[href]]" on-click="clickHandler">
       <div class="container">
         <slot name="icon"></slot>
         
@@ -231,9 +249,9 @@
         </template>
       </div>
     </a>
-    <template is="dom-if" if="[[expandable]]">
-      <slot name="expandable-content"></slot>
-    </template>
+    <div class="expandable-content-container" id="expandableContentContainer">
+      <div><slot name="expandable-content"></slot></div>
+    </div>
   </template>
 
   <script>
@@ -274,9 +292,23 @@
           expandable: {
             type: Boolean,
             value: false
+          },
+
+          expanded: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true
           }
 
         };
+      }
+
+      clickHandler(event) {
+        if(this.expandable) {
+          const height = this.$.expandableContentContainer.children[0].offsetHeight;
+          this.$.expandableContentContainer.style.maxHeight = height + 'px';
+          this.set('expanded', !this.expanded);
+        }
       }
 
       Equal(item1, item2) {
