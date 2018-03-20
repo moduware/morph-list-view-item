@@ -53,8 +53,9 @@
       }
 
       :host([platform="ios"]) .container::before,
-      :host([platform="ios"]) .container::after,
-      :host([platform="ios"]) .sub-container::after {
+      :host([platform="ios"]) ::slotted([slot="expandable-content"])::after,
+      :host([platform="ios"]:not([expandable])) .container::after,
+      :host([platform="ios"]:not([expandable])) .sub-container::after {
         content: '';
         position: absolute;
         background-color: #c8c7cc;
@@ -101,7 +102,8 @@
         top: 0;
       }
 
-      :host([platform="ios"]) .container::after {
+      :host([platform="ios"]) .container::after,
+      :host([platform="ios"][expandable]) ::slotted([slot="expandable-content"])::after {
         display: var(--display-bottom-line, block);
         transform-origin: 50% 100%;
         bottom: 0;
@@ -169,6 +171,16 @@
         min-width: 40px;
       }
 
+      :host([platform="ios"]) ::slotted([slot="expandable-content"]) {
+        position: relative;
+        background-color: white;
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10px 15px;
+        color: #6d6d72;
+      }
+
       a {
         color: inherit;
         cursor: default;
@@ -219,6 +231,9 @@
         </template>
       </div>
     </a>
+    <template is="dom-if" if="[[expandable]]">
+      <slot name="expandable-content"></slot>
+    </template>
   </template>
 
   <script>
@@ -255,6 +270,11 @@
             type: Boolean,
             value: false
           },
+
+          expandable: {
+            type: Boolean,
+            value: false
+          }
 
         };
       }
