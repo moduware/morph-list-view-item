@@ -27,6 +27,7 @@
         align-self: stretch;
         align-items: center;
         position: relative;
+        min-width: 0;
       }
 
       :host([platform="ios"]) .container {
@@ -117,7 +118,7 @@
         bottom: 0;
       }
 
-      .main-text {
+      :host .main-text {
         display: flex;
         justify-content: center;
         flex-direction: column;
@@ -125,6 +126,7 @@
         width: 100%;
         padding-top: 8px;
         padding-bottom: 8px;
+        min-width: 0;
       }
 
       :host([platform="ios"]) .main-text {
@@ -135,6 +137,12 @@
         font-size: 16px;
       }
 
+      :host .main-text span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
       :host([platform="android"]) .main-text ::slotted([slot="header"]),
       :host([platform="android"]) .main-text ::slotted([slot="footer"]), 
       :host([platform="ios"]) .main-text ::slotted([slot="header"]),
@@ -142,7 +150,9 @@
         font-weight: 400;
         font-size: 12px;
         line-height: 1.2;
-        white-space: normal;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .main-text ::slotted([slot="footer"]) {
@@ -246,7 +256,9 @@
         <div class="sub-container">
           <div class="main-text">
             <slot name="header"></slot>
-            <slot></slot>
+            <span>
+              <slot></slot>
+            </span>
             <slot name="footer"></slot>
           </div>
           
