@@ -334,17 +334,17 @@
       ready() {
         super.ready();
 
-        this.setMaxHeightForExpandableContentContainer();
+        this._setMaxHeightForExpandableContentContainer();
       }
       
       clickHandler(event) {
         if(this.expandable) {
-          this.setMaxHeightForExpandableContentContainer();
+          this._setMaxHeightForExpandableContentContainer();
           this.set('expanded', !this.expanded);
         }
       }
 
-      setMaxHeightForExpandableContentContainer() {
+      _setMaxHeightForExpandableContentContainer() {
         const height = this.$.expandableContentContainer.children[0].offsetHeight;
         this.$.expandableContentContainer.style.maxHeight = height + 'px';
       }

@@ -252,6 +252,23 @@
             }
           });
 
+          it('should have div.container::after display of block', () => {
+            const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
+            const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
+            const listViewItemContainerDisplay = lineAfterStyle.getPropertyValue('display');
+            
+            expect(listViewItemContainerDisplay).to.equal('block');
+          });
+
+          it('should have div.expandable-content-container display of none', () => {
+            const listViewItemExpandableContentContainer = element.shadowRoot.querySelector('div.expandable-content-container');
+            
+            const lineAfterStyle = window.getComputedStyle(listViewItemExpandableContentContainer);
+            const listViewItemExpandableContentContainerDisplay = lineAfterStyle.getPropertyValue('display');
+
+            expect(listViewItemExpandableContentContainerDisplay).to.equal('none');
+          });
+
         });
 
         context('Test for Android styles', () => {
@@ -523,6 +540,15 @@
           expect(elementExpandableContentPaddingRight).to.equal('15px');
         });
 
+        it('should have div.expandable-content-container display of block', () => {
+          const listViewItemExpandableContentContainer = element.shadowRoot.querySelector('div.expandable-content-container');
+
+          const lineAfterStyle = window.getComputedStyle(listViewItemExpandableContentContainer);
+          const listViewItemExpandableContentContainerDisplay = lineAfterStyle.getPropertyValue('display');
+
+          expect(listViewItemExpandableContentContainerDisplay).to.equal('block');
+        });
+
         context('when not expanded', () => {
           it('should have items container div (expandable-content-container) with max-height of 1px when item is not expanded', () => {
             let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
@@ -611,8 +637,8 @@
           expect(elementExpandableContentLineHeight).to.equal('24px');
         });
 
-        context('when expanded', () => {
-          it('should have items container div (expandable-content-container) with max-height of 1px when item is expanded', () => {
+        context('when not expanded', () => {
+          it('should have items container div (expandable-content-container) with max-height of 1px when item is not expanded', () => {
             let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
             let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
 
