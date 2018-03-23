@@ -621,7 +621,6 @@
 
         });
 
-        // DOING: 
         context('when expanded', () => {
           // this is using a different fixture for expanded android list item
           beforeEach(() => {
@@ -644,7 +643,9 @@
               }
             }
           });
-
+          
+          // max-height is dynamic here depending on the text content. For this test fixture the computed max-height is 44px.
+          // This is different values from ios for they differ in line-height.
           it('should have items container div (expandable-content-container) with max-height of 38px when item is expanded', () => {
             let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
             let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
@@ -654,11 +655,6 @@
 
         });
 
-
-        // TODO:
-        // max-height
-        // padding
-        // display
       });
 
     });
