@@ -81,6 +81,50 @@
       </template>
     </test-fixture>
 
+    <test-fixture id="IosExpandaleItemsCloseTestFixture">
+      <template>
+        <morph-list-view-item platform="ios" expandable>
+          IOS Expandable Item
+          <span slot="expandable-content">
+            Expandable item text content close
+          </span>
+        </morph-list-view-item>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="IosExpandaleItemsExpandedTestFixture">
+      <template>
+        <morph-list-view-item platform="ios" expandable expanded>
+          IOS Expandable Item
+          <span slot="expandable-content">
+            Expandable item text content expanded
+          </span>
+        </morph-list-view-item>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="AndroidExpandaleItemsCloseTestFixture">
+      <template>
+        <morph-list-view-item platform="android" expandable>
+          Android Expandable Item
+          <span slot="expandable-content">
+            Expandable item text content close
+          </span>
+        </morph-list-view-item>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="AndroidExpandaleItemsExpandedTestFixture">
+      <template>
+        <morph-list-view-item platform="android" expandable expanded>
+          Android Expandable Item
+          <span slot="expandable-content">
+            Expandable item text content expanded
+          </span>
+        </morph-list-view-item>
+      </template>
+    </test-fixture>
+
     <script>
       describe('morph-list-view-item', () => {
 
@@ -287,7 +331,6 @@
             }
           });
 
-          //  TODO:
           it('Should have no ripple', (done) => {
             shadowRoot = element.shadowRoot;
             container = shadowRoot.querySelector('.container');
@@ -439,27 +482,186 @@
 
     }); // end of describe 'morph-ripple child element'
 
-      describe('expandable items', () => {
+    describe('expandable items', () => {
 
-        context('when on IOS', () => {
+      context('when on IOS', () => {
 
-          it('should have items with color and font-size for ios');
-          // max-height
-          // padding
-          // display
+        let element, observer1, items, nodes, elementExpandableContent;
+
+        beforeEach(() => {
+          element = fixture('IosExpandaleItemsCloseTestFixture');
+
+          observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
+            items = info;
+          });
+          observer1.flush();
+          nodes = items.addedNodes;
+
+          for (var i = 0; i < nodes.length; i++) {
+            // check which item matches header slot name 'secondary-content'
+            if (nodes[i].nodeName != "#text") {
+              var listViewItemChild = nodes[i];
+
+              if (listViewItemChild.getAttribute('slot') == 'expandable-content') {
+                elementExpandableContent = listViewItemChild;
+              }
+            }
+          }
+        });
+
+        it('should have items with color of rgb(109, 109, 114) for ios', () => {
+          let elementExpandableContentColor = window.getComputedStyle(elementExpandableContent).getPropertyValue('color');
+
+          expect(elementExpandableContentColor).to.equal('rgb(109, 109, 114)');
+        });
+
+        it('should have items with padding-top of 10px and padding-right of 15px for ios', () => {
+          let elementExpandableContentPaddingTop = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-top');
+          let elementExpandableContentPaddingRight = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-right');
+
+          expect(elementExpandableContentPaddingTop).to.equal('10px');
+          expect(elementExpandableContentPaddingRight).to.equal('15px');
+        });
+
+        context('when not expanded', () => {
+          it('should have items container div (expandable-content-container) with max-height of 1px when item is not expanded', () => {
+            let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
+            let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
+            
+            expect(elementExpandableContentContainerDivMaxHeight).to.equal('1px');
+          });
+        });
+
+        context('when expanded', () => {
+          // this is using a different fixture for expanded IOS list item
+          beforeEach(() => {
+            element = fixture('IosExpandaleItemsExpandedTestFixture');
+
+            observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
+              items = info;
+            });
+            observer1.flush();
+            nodes = items.addedNodes;
+
+            for (var i = 0; i < nodes.length; i++) {
+              // check which item matches header slot name 'secondary-content'
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
+
+                if (listViewItemChild.getAttribute('slot') == 'expandable-content') {
+                  elementExpandableContent = listViewItemChild;
+                }
+              }
+            }
+          });
+
+          // max-height is dynamic here depending on the text content. For this test fixture the computed max-height is 38px.
+          it('should have items container div (expandable-content-container) with max-height of 38px when item is expanded', () => {
+            let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
+            let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
+            
+            expect(elementExpandableContentContainerDivMaxHeight).to.equal('38px');
+          });
 
         });
 
-        context('when on Android', () => {
+      });
 
-          it('should have items with color and font-size for android');
+      context('when on Android', () => {
 
-          // max-height
-          // padding
-          // display
+        beforeEach(() => {
+          element = fixture('AndroidExpandaleItemsCloseTestFixture');
+
+          observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
+            items = info;
+          });
+          observer1.flush();
+          nodes = items.addedNodes;
+
+          for (var i = 0; i < nodes.length; i++) {
+            // check which item matches header slot name 'secondary-content'
+            if (nodes[i].nodeName != "#text") {
+              var listViewItemChild = nodes[i];
+
+              if (listViewItemChild.getAttribute('slot') == 'expandable-content') {
+                elementExpandableContent = listViewItemChild;
+              }
+            }
+          }
         });
 
-     });
+        it('should have items with color of rgb(33, 33, 33) for android', () => {
+          let elementExpandableContentColor = window.getComputedStyle(elementExpandableContent).getPropertyValue('color');
+
+          expect(elementExpandableContentColor).to.equal('rgb(33, 33, 33)');
+        });
+
+        it('should have items with padding-top of 10px and padding-right of 15px for android', () => {
+          let elementExpandableContentPaddingTop = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-top');
+          let elementExpandableContentPaddingRight = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-right');
+
+          expect(elementExpandableContentPaddingTop).to.equal('10px');
+          expect(elementExpandableContentPaddingRight).to.equal('16px');
+        });
+
+        // line - height: 1.5;
+        it('should have items with line-height of 1.5 for android', () => {
+          let elementExpandableContentLineHeight = window.getComputedStyle(elementExpandableContent).getPropertyValue('line-height');
+
+          expect(elementExpandableContentLineHeight).to.equal('24px');
+        });
+
+        context('when expanded', () => {
+          it('should have items container div (expandable-content-container) with max-height of 1px when item is expanded', () => {
+            let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
+            let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
+
+            expect(elementExpandableContentContainerDivMaxHeight).to.equal('1px');
+          });
+
+        });
+
+        // DOING: 
+        context('when expanded', () => {
+          // this is using a different fixture for expanded android list item
+          beforeEach(() => {
+            element = fixture('AndroidExpandaleItemsExpandedTestFixture');
+
+            observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
+              items = info;
+            });
+            observer1.flush();
+            nodes = items.addedNodes;
+
+            for (var i = 0; i < nodes.length; i++) {
+              // check which item matches header slot name 'secondary-content'
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
+
+                if (listViewItemChild.getAttribute('slot') == 'expandable-content') {
+                  elementExpandableContent = listViewItemChild;
+                }
+              }
+            }
+          });
+
+          it('should have items container div (expandable-content-container) with max-height of 38px when item is expanded', () => {
+            let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
+            let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
+
+            expect(elementExpandableContentContainerDivMaxHeight).to.equal('44px');
+          });
+
+        });
+
+
+        // TODO:
+        // max-height
+        // padding
+        // display
+      });
+
+    });
 
     </script>
 
