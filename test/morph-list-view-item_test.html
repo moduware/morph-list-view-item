@@ -644,6 +644,23 @@
 
             expect(elementExpandableContentContainerDivMaxHeight).to.equal('1px');
           });
+          
+          it('should have attribute expanded equal to false', () => {
+            const listItemHasAttributeExpanded = element.hasAttribute('expanded');
+
+            expect(listItemHasAttributeExpanded).to.be.false;
+          });
+
+          it('should have attribute expanded equal to true when click from close', () => {
+            const elementShadowRoot = element.shadowRoot;
+            const listViewItem = elementShadowRoot.querySelector('a');
+            // initial setup will have no expanded attribute
+            expect(element.hasAttribute('expanded')).to.be.equal(false);
+
+            listViewItem.click();
+            // after clicking, the expanded attribute should be added
+            expect(element.hasAttribute('expanded')).to.be.equal(true);
+          });
 
         });
 
@@ -677,6 +694,17 @@
             let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
 
             expect(elementExpandableContentContainerDivMaxHeight).to.equal('44px');
+          });
+
+          it('should not have attribute expanded or expanded should be equal to false', () => {
+           const elementShadowRoot = element.shadowRoot;
+            const listViewItem = elementShadowRoot.querySelector('a');
+            // initial setup will have no expanded attribute
+            expect(element.hasAttribute('expanded')).to.be.equal(true);
+
+            listViewItem.click();
+            // after clicking, the expanded attribute should be added
+            expect(element.hasAttribute('expanded')).to.be.equal(false);
           });
 
         });
