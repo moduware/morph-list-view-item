@@ -260,6 +260,14 @@
             expect(listViewItemContainerHeight).to.equal('1px');
           });
 
+          it('should have div.sub-container::after height of 1px', () => {
+            const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
+            const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
+            const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
+
+            expect(listViewItemSubContainerHeight).to.equal('1px');
+          });
+
           it('should have div.expandable-content-container display of none', () => {
             const listViewItemExpandableContentContainer = element.shadowRoot.querySelector('div.expandable-content-container');
             
