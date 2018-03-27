@@ -55,8 +55,8 @@
 
       :host([platform="ios"]) .container::before,
       :host([platform="ios"]) .expandable-content-container::after,
-      :host([platform="ios"]:not([expandable]):not([expanded])) .container::after,
-      :host([platform="ios"]:not([expandable]):not([expanded])) .sub-container::after {
+      :host([platform="ios"]:not([expandable])) .container::after,
+      :host([platform="ios"]:not([expandable])) .sub-container::after {
         content: '';
         position: absolute;
         background-color: #c8c7cc;
@@ -68,8 +68,8 @@
 
       :host([platform="android"]) .container::before,
       :host([platform="android"]) .expandable-content-container::after,
-      :host([platform="android"]:not([expandable]):not([expanded])) .container::after,
-      :host([platform="android"]:not([expandable]):not([expanded])) .sub-container::after {
+      :host([platform="android"]:not([expandable])) .container::after,
+      :host([platform="android"]:not([expandable])) .sub-container::after {
         content: '';
         position: absolute;
         background-color: rgba(0,0,0,.12);
