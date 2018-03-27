@@ -356,6 +356,22 @@
             }
           });
 
+          it('should have div.container::after height of 1px', () => {
+            const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
+            const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
+            const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
+
+            expect(listViewItemContainerHeight).to.equal('1px');
+          });
+
+          it('should have div.sub-container::after height of 1px', () => {
+            const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
+            const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
+            const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
+
+            expect(listViewItemSubContainerHeight).to.equal('1px');
+          });
+
           it('Should have no ripple', (done) => {
             shadowRoot = element.shadowRoot;
             container = shadowRoot.querySelector('.container');
@@ -565,6 +581,14 @@
           expect(listViewItemContainerHeight).not.to.equal('1px');
         });
 
+        it('should have div.sub-container::after height of 1px', () => {
+          const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
+          const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
+          const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
+
+          expect(listViewItemSubContainerHeight).to.equal('1px');
+        });
+
         context('when not expanded', () => {
           it('should have items container div (expandable-content-container) with max-height of 1px when item is not expanded', () => {
             let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
@@ -651,6 +675,22 @@
           let elementExpandableContentLineHeight = window.getComputedStyle(elementExpandableContent).getPropertyValue('line-height');
 
           expect(elementExpandableContentLineHeight).to.equal('24px');
+        });
+
+        it('should have container::after should not be visible', () => {
+          const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
+          const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
+          const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
+
+          expect(listViewItemContainerHeight).not.to.equal('1px');
+        });
+
+        it('should have div.sub-container::after height of 1px', () => {
+          const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
+          const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
+          const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
+
+          expect(listViewItemSubContainerHeight).to.equal('1px');
         });
 
         context('when not expanded', () => {
