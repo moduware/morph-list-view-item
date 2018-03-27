@@ -101,6 +101,27 @@ For the information about how to clone the desired repository, running the local
   <p align="center">
     <img src="demo-images/android-list-view-item-with-demo.gif" alt="IOS morph-list-view-item demo"/>
   </p>
+
+- Sample HTML markup for expandable item
+
+```html
+
+<morph-list-view-item href="#moduware" expandable expanded>
+  <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
+  Link 1
+  <span slot="secondary-content">Version</span>
+  <span slot="expandable-content">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean elementum id neque nec commodo. Sed vel justo at turpis laoreet pellentesque quis sed lorem. Integer semper arcu nibh, non mollis arcu tempor vel. Sed pharetra tortor vitae est rhoncus, vel congue dui sollicitudin. Donec eu arcu dignissim felis viverra blandit suscipit eget ipsum.
+  </span>
+</morph-list-view-item>
+
+```
+
+  - Demo showing expandable item
+
+  <p align="center">
+    <img src="demo-images/expandable-list-view-item-demo.gif" alt="IOS morph-list-view-item demo"/>
+  </p>
   
 ### Attributes
 
@@ -109,7 +130,9 @@ For the information about how to clone the desired repository, running the local
 |       **`href`**        | String  | Takes the value of the url. When **`href`** is present, the item becomes a link               | **no default** |
 |    **`containsMedia`**  | Boolean | This is an option for items to take in media/images instead of just icons                     | **`false`**    |
 |    **`noRipple`**       | Boolean | To have a list item with no ripple assign **`true`** or just set this on the the html markup  | **`false`**    |
-|    **`noChevron`**      | Boolean | To have a list item with no chevron assign **`true`** or jsut set this on the the html markup | **`false`**    |
+|    **`noChevron`**      | Boolean | To have a list item with no chevron assign **`true`** or just set this on the the html markup | **`false`**    |
+|    **`expandable`**     | Boolean | Option to have expandable list item with expandable content just assign **`true`**            | **`false`**    |
+|    **`expanded`**       | Boolean | Option to expand list item just assign **`true`** or just set this on the the html markup     | **`false`**    |
 
 ### Styling
 
