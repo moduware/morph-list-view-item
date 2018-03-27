@@ -252,12 +252,12 @@
             }
           });
 
-          it('should have div.container::after display of block', () => {
+          it('should have div.container::after height of 1px', () => {
             const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
             const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
-            const listViewItemContainerDisplay = lineAfterStyle.getPropertyValue('display');
+            const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
             
-            expect(listViewItemContainerDisplay).to.equal('block');
+            expect(listViewItemContainerHeight).to.equal('1px');
           });
 
           it('should have div.expandable-content-container display of none', () => {
@@ -547,6 +547,14 @@
           const listViewItemExpandableContentContainerDisplay = lineAfterStyle.getPropertyValue('display');
 
           expect(listViewItemExpandableContentContainerDisplay).to.equal('block');
+        });
+
+        it('should have container::after should not be visible', () => {
+          const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
+          const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
+          const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
+          
+          expect(listViewItemContainerHeight).not.to.equal('1px');
         });
 
         context('when not expanded', () => {
