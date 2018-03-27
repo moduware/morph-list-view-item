@@ -61,9 +61,10 @@
         position: absolute;
         background-color: #c8c7cc;
         left: 0;
-        height: 1px;
+        height: var(--sub-container-after, 1px);
         width: 100%;
         transform: scaleY(.5);
+        transition: height 300ms;
       }
 
       :host([platform="android"]) .container::before,
@@ -74,8 +75,9 @@
         position: absolute;
         background-color: rgba(0,0,0,.12);
         left: 0;
-        height: 1px;
+        height: var(--sub-container-after, 1px);
         width: 100%;
+        transition: height 300ms;
         /* transform: scaleY(.5); */
       }
 
