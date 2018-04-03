@@ -65,8 +65,8 @@
         transform: scaleY(.5);
       }
       
-      :host([platform="ios"]) .sub-container::after,
-      :host([platform="android"]) .sub-container::after {
+      :host([platform="ios"]:not([expanded])) .sub-container::after,
+      :host([platform="android"]:not([expanded])) .sub-container::after {
         /* height: var(--sub-container-after-height, 1px); */
         opacity: var(--sub-container-after-opacity, 1);
         visibility: var(--sub-container-after-visibility, visible);
@@ -87,7 +87,7 @@
       }
 
       :host([platform="ios"]) .sub-container::after {
-        display: var(--display-inner-item-bottom-line, none);
+        /* display: var(--display-inner-item-bottom-line, none); */
         transform-origin: 50% 100%;
         bottom: 0;
       }
