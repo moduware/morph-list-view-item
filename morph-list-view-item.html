@@ -69,7 +69,7 @@
       :host([platform="android"]) .sub-container::after {
         /* height: var(--sub-container-after-height, 1px); */
         opacity: var(--sub-container-after-opacity, 1);
-        visibility: visible;
+        visibility: var(--sub-container-after-visibility, visible);
         /* transition: height opacity 400ms; */
         transition: opacity 600ms, visibility 600ms;
       }
