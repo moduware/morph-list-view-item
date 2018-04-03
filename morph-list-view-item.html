@@ -63,13 +63,15 @@
         left: 0;
         width: 100%;
         transform: scaleY(.5);
-        transition: height 300ms;
       }
       
       :host([platform="ios"]) .sub-container::after,
       :host([platform="android"]) .sub-container::after {
-        height: var(--sub-container-after-height, 1px);
+        /* height: var(--sub-container-after-height, 1px); */
         opacity: var(--sub-container-after-opacity, 1);
+        visibility: visible;
+        /* transition: height opacity 400ms; */
+        transition: opacity 600ms, visibility 600ms;
       }
 
       :host([platform="android"]) .container::before,
@@ -80,9 +82,7 @@
         position: absolute;
         background-color: rgba(0,0,0,.12);
         left: 0;
-        height: var(--sub-container-after-height, 1px);
         width: 100%;
-        transition: height 300ms;
         /* transform: scaleY(.5); */
       }
 
