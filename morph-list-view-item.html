@@ -61,10 +61,15 @@
         position: absolute;
         background-color: #c8c7cc;
         left: 0;
-        height: var(--sub-container-after-height, 1px);
         width: 100%;
         transform: scaleY(.5);
         transition: height 300ms;
+      }
+      
+      :host([platform="ios"]) .sub-container::after,
+      :host([platform="android"]) .sub-container::after {
+        height: var(--sub-container-after-height, 1px);
+        opacity: var(--sub-container-after-opacity, 1);
       }
 
       :host([platform="android"]) .container::before,
