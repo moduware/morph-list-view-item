@@ -140,5 +140,5 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean elementum id neq
 
 Custom property                    | Description                                                                      | Default    |
 -----------------------------------|----------------------------------------------------------------------------------|------------|
-`--display-top-line`               | Display property for item top line use to configure when on a list view          | 48px       |
-`--display-inner-item-bottom-line` | Display property for item inner bottom line use to configure when on a list view | #0076FF    |
+`--display-top-line`               | Display property for item top line use to configure when on a list view          | block       |
+`--display-inner-item-bottom-line` | Display property for item inner bottom line use to configure when on a list view | none    |
