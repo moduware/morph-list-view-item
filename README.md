@@ -6,7 +6,7 @@ List view item component
 
 `morph-list-view-item` changes its look based on when it is either IOS device or Android device.
 
-## Getting Started:
+## Getting Started
 
 For the information about how to clone the desired repository, running the local server and testing, please refer to Polymorph elements getting started docs at the end of this repository.
 
