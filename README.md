@@ -1,11 +1,80 @@
 # morph-list-view-item
+
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/PolymerElements/paper-progress)
+
 List view item component
+
+List view item (`morph-list-view-item`) changes its look based on when it is either IOS device or Android device.
 
 ## Getting Started:
 
 For the information about how to clone the desired repository, running the local server and testing, please refer to Polymorph elements getting started docs at the end of this repository.
 
 ## Demo
+
+<!---
+
+```
+<custom-element-demo>
+  <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../iron-icons/maps-icons.html">
+    <link rel="import" href="morph-list-view-item.html">
+    <next-code-block></next-code-block>
+  </template>
+</custom-element-demo>
+```
+-->
+
+```html
+
+<h3>Android</h3>
+
+<morph-list-view-item platform="android">
+  <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
+  Android List Item
+  <span slot="secondary-content">Android Version</span> 
+</morph-list-view-item>
+
+<morph-list-view-item platform="android" href="#moduware">
+  <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
+  Android list item with href becomes a link with ripple effect by default
+  <span slot="secondary-content">Android Version</span> 
+</morph-list-view-item>
+
+<morph-list-view-item platform="android" href="#moduware" expandable expanded>
+  <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
+  Expandable Link - Click to close or expand
+  <span slot="secondary-content">Android Version</span>
+  <span slot="expandable-content">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean elementum id neque nec commodo. Sed vel justo at turpis laoreet pellentesque quis sed lorem. Integer semper arcu nibh, non mollis arcu tempor vel. Sed pharetra tortor vitae est rhoncus, vel congue dui sollicitudin. Donec eu arcu dignissim felis viverra blandit suscipit eget ipsum.
+  </span>
+</morph-list-view-item>
+
+<h3>IOS</h3>
+
+<morph-list-view-item platform="ios">
+  <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
+  IOS List Item
+  <span slot="secondary-content">IOS Version</span> 
+</morph-list-view-item>
+
+<morph-list-view-item platform="ios" href="#moduware" no-chevron>
+  <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
+  IOS list item with no-chevron attribute
+  <span slot="secondary-content">IOS Version</span> 
+</morph-list-view-item>
+
+<morph-list-view-item platform="ios" href="#moduware" expandable expanded>
+  <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
+  Expandable Link - Click to close or expand
+  <span slot="secondary-content">IOS Version</span>
+  <span slot="expandable-content">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean elementum id neque nec commodo. Sed vel justo at turpis laoreet pellentesque quis sed lorem. Integer semper arcu nibh, non mollis arcu tempor vel. Sed pharetra tortor vitae est rhoncus, vel congue dui sollicitudin. Donec eu arcu dignissim felis viverra blandit suscipit eget ipsum.
+  </span>
+</morph-list-view-item>
+
+```
 
 - Here is a quick demo of the morph-list-view-item element for IOS platform.
 
