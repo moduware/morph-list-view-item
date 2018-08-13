@@ -65,7 +65,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean elementum id neq
   <span slot="secondary-content">IOS Version</span> 
 </morph-list-view-item>
 
-<morph-list-view-item platform="ios" href="#moduware" expandable expanded>
+<morph-list-view-item platform="ios" href="#moduware" expandable>
   <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
   Expandable Link - Click to close or expand
   <span slot="secondary-content">IOS Version</span>
