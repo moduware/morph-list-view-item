@@ -2,7 +2,8 @@
 List view item component
 
 ## Getting Started:
-For the information about how to clone the desired repository, running the local server and testing, please refer to this [link](https://github.com/moduware/polymorph-components/blob/master/INFO.md).
+
+For the information about how to clone the desired repository, running the local server and testing, please refer to Polymorph elements getting started docs at the end of this repository.
 
 ## Demo
 
@@ -140,5 +141,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean elementum id neq
 
 Custom property                    | Description                                                                      | Default    |
 -----------------------------------|----------------------------------------------------------------------------------|------------|
-`--display-top-line`               | Display property for item top line use to configure when on a list view          | block       |
-`--display-inner-item-bottom-line` | Display property for item inner bottom line use to configure when on a list view | none    |
+`--display-top-line`               | Display property for item top line use to configure when on a list view          | block      |
+`--display-inner-item-bottom-line` | Display property for item inner bottom line use to configure when on a list view | none       |
+
+## Further help
+
+For more information on how to install and run test please go here - [Polymorph elements getting started]
+
+[Polymorph elements getting started]: https://github.com/moduware/polymorph-components/blob/master/INFO.md
