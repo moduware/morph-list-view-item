@@ -23,7 +23,9 @@ For the information about how to clone the desired repository, running the local
     <next-code-block></next-code-block>
   </template>
 </custom-element-demo>
+
 ```
+
 -->
 
 ```html
@@ -33,13 +35,13 @@ For the information about how to clone the desired repository, running the local
 <morph-list-view-item platform="android">
   <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
   Android List Item
-  <span slot="secondary-content">Android Version</span> 
+  <span slot="secondary-content">Android Version</span>
 </morph-list-view-item>
 
 <morph-list-view-item platform="android" href="#moduware">
   <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
   Android list item with href becomes a link with ripple effect by default
-  <span slot="secondary-content">Android Version</span> 
+  <span slot="secondary-content">Android Version</span>
 </morph-list-view-item>
 
 <morph-list-view-item platform="android" href="#moduware" expandable expanded>
@@ -56,7 +58,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean elementum id neq
 <morph-list-view-item platform="ios">
   <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
   IOS List Item
-  <span slot="secondary-content">IOS Version</span> 
+  <span slot="secondary-content">IOS Version</span>
 </morph-list-view-item>
 
 <morph-list-view-item platform="ios" href="#moduware" no-chevron>
