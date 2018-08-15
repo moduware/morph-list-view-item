@@ -1,6 +1,6 @@
 {
   "name": "morph-list-view-item",
-  "description": "Item component for list view",
+  "description": "Item component for list view that looks native when on either IOS or Android platform or devices",
   "main": "morph-list-view-item.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
