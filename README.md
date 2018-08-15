@@ -4,7 +4,7 @@
 
 List view item component
 
-`morph-list-view-item` changes its look based on when it is either IOS device or Android device.
+`morph-list-view-item` changes its look automatically and will native native based on when it is either IOS device or Android device.
 
 ## Getting Started
 
