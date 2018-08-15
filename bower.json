@@ -6,7 +6,8 @@
     "polymer": "Polymer/polymer#^2.0.0",
     "iron-icons": "PolymerElements/iron-icons#^2.1.0",
     "morph-element": "https://github.com/moduware/morph-element.git#master",
-    "morph-ripple": "https://github.com/moduware/morph-ripple.git#master"
+    "morph-ripple": "https://github.com/moduware/morph-ripple.git#master",
+    "morph-shared-styles": "https://github.com/moduware/morph-shared-styles.git#^0.0.1"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
