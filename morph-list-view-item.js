@@ -1,11 +1,21 @@
-<link rel="import" href="../polymer/polymer-element.html">
-<link rel="import" href="../morph-element/morph-element.html">
-<link rel="import" href="../morph-ripple/morph-ripple.html">
-<link rel="import" href="../morph-shared-styles/morph-shared-styles.html">
-<link rel="import" href="../iron-icons/iron-icons.html">
+import { PolymerElement } from '@polymer/polymer/polymer-element.js';
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+import { MorphElement } from '@polymer/morph-element/morph-element.js';
+import '@polymer/morph-ripple/morph-ripple.js';
+import '@polymer/morph-shared-styles/morph-shared-styles.js';
+import '@polymer/iron-icons/iron-icons.js';
 
-<dom-module id="morph-list-view-item">
-  <template>
+/**
+ * `morph-list-view-item`
+ * Item component for list view
+ *
+ * @customElement
+ * @polymer
+ * @demo demo/index.html
+ */
+class MorphListViewItem extends MorphElement(PolymerElement) {
+  static get template() {
+    return html`
     <style include="morph-shared-styles">
       :host {
         display: block;
@@ -272,8 +282,8 @@
           <slot name="secondary-content"></slot>
           <template is="dom-if" if="[[href]]">
             <template is="dom-if" if="[[!noChevron]]">
-              <svg id="chevron-svg" width='8px' height='13px' viewBox='0 0 8 13' xmlns='http://www.w3.org/2000/svg'>
-                <polygon fill='#c7c7cc' transform='translate(1.500000, 6.500000) rotate(-45.000000) translate(-1.500000, -6.500000) ' points='6 11 6 2 4 2 4 9 -3 9 -3 11 5 11'></polygon>
+              <svg id="chevron-svg" width="8px" height="13px" viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg">
+                <polygon fill="#c7c7cc" transform="translate(1.500000, 6.500000) rotate(-45.000000) translate(-1.500000, -6.500000) " points="6 11 6 2 4 2 4 9 -3 9 -3 11 5 11"></polygon>
               </svg>
             </template>
           </template>
@@ -288,83 +298,72 @@
     <div class="expandable-content-container" id="expandableContentContainer">
       <div><slot name="expandable-content"></slot></div>
     </div>
-  </template>
+`;
+  }
 
-  <script>
-    /**
-     * `morph-list-view-item`
-     * Item component for list view
-     *
-     * @customElement
-     * @polymer
-     * @demo demo/index.html
-     */
-    class MorphListViewItem extends MorphElement(Polymer.Element) {
-      static get is() { return 'morph-list-view-item'; }
-      static get properties() {
-        return {
-          href: {
-            type: String,
-            reflectToAttribute: true
-          },
-          containsMedia: {
-            type: Boolean,
-            value: false,
-            reflectToAttribute: true
-          },
+  static get is() { return 'morph-list-view-item'; }
+  static get properties() {
+    return {
+      href: {
+        type: String,
+        reflectToAttribute: true
+      },
+      containsMedia: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true
+      },
 
-          /** remove ripple effect */
-          noRipple: {
-            type: Boolean,
-            value: false
-          },
-          
-          /** remove chevron svg on links */
-          noChevron: {
-            type: Boolean,
-            value: false
-          },
-
-          expandable: {
-            type: Boolean,
-            value: false
-          },
-
-          expanded: {
-            type: Boolean,
-            value: false,
-            reflectToAttribute: true
-          }
-
-        };
-      }
+      /** remove ripple effect */
+      noRipple: {
+        type: Boolean,
+        value: false
+      },
       
-      ready() {
-        super.ready();
+      /** remove chevron svg on links */
+      noChevron: {
+        type: Boolean,
+        value: false
+      },
 
-        this._setMaxHeightForExpandableContentContainer();
-      }
-      
-      clickHandler(event) {
-        if(this.expandable) {
-          this._setMaxHeightForExpandableContentContainer();
-          this.set('expanded', !this.expanded);
-        }
+      expandable: {
+        type: Boolean,
+        value: false
+      },
+
+      expanded: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true
       }
 
-      _setMaxHeightForExpandableContentContainer() {
-        const height = this.$.expandableContentContainer.children[0].offsetHeight;
-        this.$.expandableContentContainer.style.maxHeight = height + 'px';
-      }
+    };
+  }
 
-      Equal(item1, item2) {
-        return item1 == item2;
-      }
-      NoEqual(item1, item2) {
-        return !this.Equal(item1, item2);
-      }
+  ready() {
+    super.ready();
+
+    this._setMaxHeightForExpandableContentContainer();
+  }
+
+  clickHandler(event) {
+    if(this.expandable) {
+      this._setMaxHeightForExpandableContentContainer();
+      this.set('expanded', !this.expanded);
     }
+  }
 
-    window.customElements.define(MorphListViewItem.is, MorphListViewItem);
-  </script>
-</dom-module>
+  _setMaxHeightForExpandableContentContainer() {
+    const height = this.$.expandableContentContainer.children[0].offsetHeight;
+    this.$.expandableContentContainer.style.maxHeight = height + 'px';
+  }
+
+  Equal(item1, item2) {
+    return item1 == item2;
+  }
+  NoEqual(item1, item2) {
+    return !this.Equal(item1, item2);
+  }
+}
+
+window.customElements.define(MorphListViewItem.is, MorphListViewItem);

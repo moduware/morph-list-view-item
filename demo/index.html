@@ -6,66 +6,92 @@
 
     <title>morph-list-view-item demo</title>
 
-    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+    <!-- <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script> -->
+    <script src="https://cdn.rawgit.com/webcomponents/webcomponentsjs/v0.7.24/webcomponents-lite.js"></script>
 
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <link rel="import" href="../../iron-icons/maps-icons.html">
-    <link rel="import" href="../morph-list-view-item.html">
+    <script type="module" src="../node_modules/@polymer/morph-element/morph-element.js"></script>
+    <script type="module" src="../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js"></script>
+    <script type="module" src="../node_modules/@polymer/iron-demo-helpers/demo-snippet.js"></script>
+    <script type="module" src="../node_modules/@polymer/iron-icons/maps-icons.js"></script>
+    <script type="module" src="../morph-list-view-item.js"></script>
 
-    <custom-style>
-      <style is="custom-style" include="demo-pages-shared-styles">
-        demo-snippet {
-          --demo-snippet-demo: {
-            background-color: #eff0f4;
+    <!-- FIXME(polymer-modulizer):
+        These imperative modules that innerHTML your HTML are
+        a hacky way to be sure that any mixins in included style
+        modules are ready before any elements that reference them are
+        instantiated, otherwise the CSS @apply mixin polyfill won't be
+        able to expand the underlying CSS custom properties.
+        See: https://github.com/Polymer/polymer-modulizer/issues/154
+        -->
+    <script type="module">
+      var $_documentContainer = document.createElement('template');
+
+      $_documentContainer.innerHTML = `<custom-style>
+        <style is="custom-style" include="demo-pages-shared-styles">
+          demo-snippet {
+            --demo-snippet-demo: {
+              background-color: #eff0f4;
+            }
           }
-        }
 
-        morph-list-view-item[platform="ios"] span[slot="icon"] iron-icon {
-          width: 29px;
-          height: 29px;
-          border-radius: 6px;
-          box-sizing: border-box;
-        }
-      </style>
-    </custom-style>
+          morph-list-view-item[platform="ios"] span[slot="icon"] iron-icon {
+            width: 29px;
+            height: 29px;
+            border-radius: 6px;
+            box-sizing: border-box;
+          }
+        </style>
+      </custom-style>`;
+
+      document.body.appendChild($_documentContainer.content);
+    </script>
+
   </head>
+
   <body>
-    <div class="vertical-section-container centered">
-      <h3>Basic morph-list-view-item demo</h3>
-      <demo-snippet>
-        <template>
-          <morph-list-view-item>List Item</morph-list-view-item>
-          <morph-list-view-item>
-            <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
-            Item with Icon
-            <span slot="secondary-content">Version</span> 
-          </morph-list-view-item>
+    <script type="module">
+      var $_documentContainer = document.createElement('template');
 
-          <morph-list-view-item href="#moduware" no-ripple expandable expanded>
-            <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
-            Expandable
-            <span slot="secondary-content">Version</span> 
-            <span slot="expandable-content">
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean elementum id neque nec commodo. Sed vel justo at turpis laoreet pellentesque quis sed lorem. Integer semper arcu nibh, non mollis arcu tempor vel. Sed pharetra tortor vitae est rhoncus, vel congue dui sollicitudin. Donec eu arcu dignissim felis viverra blandit suscipit eget ipsum.
-            </span>
-          </morph-list-view-item>
+      $_documentContainer.innerHTML = `<div class="vertical-section-container centered">
+        <h3>Basic morph-list-view-item demo</h3>
+        <demo-snippet>
+          <template>
+            <morph-list-view-item platform="android">List Item</morph-list-view-item>
 
-          <morph-list-view-item href="#moduware" no-chevron>
-            <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
-            no-chevron
-            <span slot="secondary-content">Version</span> 
-          </morph-list-view-item>
-          <morph-list-view-item href="#moduware" contains-media>
-            <span slot="icon">
-              <img src="https://picsum.photos/160/160?image=1027" width="80">
-            </span>
-            <span slot="header">Header</span>
-            Item with Image
-            <span slot="footer">Footer</span>
-          </morph-list-view-item>
-        </template>
-      </demo-snippet>
-    </div>
+            <morph-list-view-item platform="android">
+              <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
+              Item with Icon
+              <span slot="secondary-content">Version</span> 
+            </morph-list-view-item>
+
+            <morph-list-view-item href="#moduware" no-ripple expandable expanded platform="android">
+              <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
+              Expandable
+              <span slot="secondary-content">Version</span> 
+              <span slot="expandable-content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean elementum id neque nec commodo. Sed vel justo at turpis laoreet pellentesque quis sed lorem. Integer semper arcu nibh, non mollis arcu tempor vel. Sed pharetra tortor vitae est rhoncus, vel congue dui sollicitudin. Donec eu arcu dignissim felis viverra blandit suscipit eget ipsum.
+              </span>
+            </morph-list-view-item>
+
+            <morph-list-view-item href="#moduware" no-chevron platform="android">
+              <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
+              no-chevron
+              <span slot="secondary-content">Version</span> 
+            </morph-list-view-item>
+
+            <morph-list-view-item href="#moduware" contains-media platform="android">
+              <span slot="icon">
+                <img src="https://picsum.photos/160/160?image=1027" width="80">
+              </span>
+              <span slot="header">Header</span>
+              Contains Media
+              <span slot="footer">Footer</span>
+            </morph-list-view-item>
+          </template>
+        </demo-snippet>
+      </div>`;
+
+      document.body.appendChild($_documentContainer.content);
+    </script>
   </body>
 </html>

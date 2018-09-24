@@ -6,13 +6,13 @@
 
     <title>morph-list-view-item test</title>
 
-    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
-    <script src="../../chai-dom/chai-dom.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+    <script src="../node_modules/chai-dom/chai-dom.js"></script>
 
-    <link rel="import" href="/bower_components/polymer/lib/utils/flattened-nodes-observer.html">
+    <script type="module" src="../node_modules/@polymer/polymer/lib/utils/flattened-nodes-observer.js"></script>
 
-    <link rel="import" href="../morph-list-view-item.html">
+    <script type="module" src="../morph-list-view-item.js"></script>
   </head>
   <body>
 
@@ -125,333 +125,334 @@
       </template>
     </test-fixture>
 
-    <script>
-      describe('morph-list-view-item', () => {
+    <script type="module">
 
-        context('Basic test for iOS', () => {
+    describe('morph-list-view-item', () => {
 
-          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
-          let element, items, observer1;
+      context('Basic test for iOS', () => {
 
-          beforeEach(function () {
-            element = fixture('IosBasicTestFixture');
-            observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
-              items = info;
-            });
-            observer1.flush();
+        // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
+        let element, items, observer1;
+
+        beforeEach(function () {
+          element = fixture('IosBasicTestFixture');
+          observer1 = new FlattenedNodesObserver(element, function (info) {
+            items = info;
           });
-
-          afterEach(function () {
-            observer1.disconnect();
-          });
-
-          it('shows slot="header" with text "Header"', () => {
-            let nodes = items.addedNodes;
-            for (var i = 0; i < nodes.length; i++) {
-              if (nodes[i].nodeName != "#text") {
-                var listViewItemChild = nodes[i];
-                // check which item matches header slot name
-                if (listViewItemChild.getAttribute('slot') == 'header') {
-                  let elementHeader = listViewItemChild;
-                  expect(elementHeader.innerHTML).to.equal('Header');
-                }
-              }
-            }
-          });
-
-          it('shows slot="footer" with text "Footer"', () => {
-            let nodes = items.addedNodes;
-            for (var i = 0; i < nodes.length; i++) {
-              if (nodes[i].nodeName != "#text") {
-                var listViewItemChild = nodes[i];
-                // check which item matches footer slot name
-                if (listViewItemChild.getAttribute('slot') == 'footer') {
-                  let elementFooter = listViewItemChild;
-                  expect(elementFooter.innerHTML).to.equal('Footer');
-                }
-              }
-            }
-          });
+          observer1.flush();
         });
 
+        afterEach(function () {
+          observer1.disconnect();
+        });
 
-        context('Test for IOS styles', () => {
-
-          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
-          let element, items, observer1;
-
-          beforeEach(function() {
-            element = fixture('IosBasicTestFixture');
-            
-            observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
-              items = info;
-            });
-            observer1.flush();
-          });
-
-          it('Should have correct main-text font-size for IOS platform', () => {
-            const itemMainText = element.shadowRoot.querySelector('div.main-text');
-            const mainTextStyles = window.getComputedStyle(itemMainText);
-            
-            expect(mainTextStyles.fontSize).to.equal('17px');
-          });
-
-          it('Should have correct font-size for IOS header', () => {
-            let nodes = items.addedNodes;
-            for (var i = 0; i < nodes.length; i++) {
-              if (nodes[i].nodeName != "#text") {
-                var listViewItemChild = nodes[i];
-                // check which item matches header slot name 'header'
-                if (listViewItemChild.getAttribute('slot') == 'header') {
-                  let elementHeader = listViewItemChild;
-                  let IosHeaderFontSize = window.getComputedStyle(elementHeader).getPropertyValue('font-size');
-                  
-                  expect(IosHeaderFontSize).to.equal('12px');
-                }
+        it('shows slot="header" with text "Header"', () => {
+          let nodes = items.addedNodes;
+          for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].nodeName != "#text") {
+              var listViewItemChild = nodes[i];
+              // check which item matches header slot name
+              if (listViewItemChild.getAttribute('slot') == 'header') {
+                let elementHeader = listViewItemChild;
+                expect(elementHeader.innerHTML).to.equal('Header');
               }
             }
-          });
+          }
+        });
 
-          it('Should have correct font-size and color for IOS footer', () => {
-            let nodes = items.addedNodes;
-
-            for (var i = 0; i < nodes.length; i++) {
-              if (nodes[i].nodeName != "#text") {
-                var listViewItemChild = nodes[i];
-                // check which item matches header slot name 'footer'
-                if (listViewItemChild.getAttribute('slot') == 'footer') {
-                  let elementFooter = listViewItemChild;
-                  let IosFooterFontSize = window.getComputedStyle(elementFooter).getPropertyValue('font-size');
-                  let IosFootererColor = window.getComputedStyle(elementFooter).getPropertyValue('color');
-                  
-                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
-                  expect(IosFooterFontSize).to.equal('12px');
-                  expect(IosFootererColor).to.equal('rgb(142, 142, 147)');
-                }
+        it('shows slot="footer" with text "Footer"', () => {
+          let nodes = items.addedNodes;
+          for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].nodeName != "#text") {
+              var listViewItemChild = nodes[i];
+              // check which item matches footer slot name
+              if (listViewItemChild.getAttribute('slot') == 'footer') {
+                let elementFooter = listViewItemChild;
+                expect(elementFooter.innerHTML).to.equal('Footer');
               }
             }
-          });
+          }
+        });
+      });
 
-          it('Should have correct secondary-content color and font-size for IOS platform', () => {
-            let nodes = items.addedNodes;
-            
-            for (var i = 0; i < nodes.length; i++) {
+
+      context('Test for IOS styles', () => {
+
+        // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
+        let element, items, observer1;
+
+        beforeEach(function() {
+          element = fixture('IosBasicTestFixture');
+          
+          observer1 = new FlattenedNodesObserver(element, function (info) {
+            items = info;
+          });
+          observer1.flush();
+        });
+
+        it('Should have correct main-text font-size for IOS platform', () => {
+          const itemMainText = element.shadowRoot.querySelector('div.main-text');
+          const mainTextStyles = window.getComputedStyle(itemMainText);
+          
+          expect(mainTextStyles.fontSize).to.equal('17px');
+        });
+
+        it('Should have correct font-size for IOS header', () => {
+          let nodes = items.addedNodes;
+          for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].nodeName != "#text") {
+              var listViewItemChild = nodes[i];
+              // check which item matches header slot name 'header'
+              if (listViewItemChild.getAttribute('slot') == 'header') {
+                let elementHeader = listViewItemChild;
+                let IosHeaderFontSize = window.getComputedStyle(elementHeader).getPropertyValue('font-size');
+                
+                expect(IosHeaderFontSize).to.equal('12px');
+              }
+            }
+          }
+        });
+
+        it('Should have correct font-size and color for IOS footer', () => {
+          let nodes = items.addedNodes;
+
+          for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].nodeName != "#text") {
+              var listViewItemChild = nodes[i];
+              // check which item matches header slot name 'footer'
+              if (listViewItemChild.getAttribute('slot') == 'footer') {
+                let elementFooter = listViewItemChild;
+                let IosFooterFontSize = window.getComputedStyle(elementFooter).getPropertyValue('font-size');
+                let IosFootererColor = window.getComputedStyle(elementFooter).getPropertyValue('color');
+                
+                // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
+                expect(IosFooterFontSize).to.equal('12px');
+                expect(IosFootererColor).to.equal('rgb(142, 142, 147)');
+              }
+            }
+          }
+        });
+
+        it('Should have correct secondary-content color and font-size for IOS platform', () => {
+          let nodes = items.addedNodes;
+          
+          for (var i = 0; i < nodes.length; i++) {
+            // check which item matches header slot name 'secondary-content'
+            if (nodes[i].nodeName != "#text") {
+              var listViewItemChild = nodes[i];
+              if (listViewItemChild.getAttribute('slot') == 'secondary-content') {
+                let elementSecondaryContent = listViewItemChild;
+                let IosSecondaryContentColor = window.getComputedStyle(elementSecondaryContent).getPropertyValue('color');
+                let IosSecondaryContentFontSize = window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size');
+
+                // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
+                expect(IosSecondaryContentColor).to.equal('rgb(142, 142, 147)');
+                expect(IosSecondaryContentFontSize).to.equal('17px');
+              }
+            }
+          }
+        });
+
+        it('should have div.container::after height of 1px', () => {
+          const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
+          const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
+          const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
+          
+          expect(listViewItemContainerHeight).to.equal('1px');
+        });
+
+        it('should have div.sub-container::after height of 1px', () => {
+          const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
+          const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
+          const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
+
+          expect(listViewItemSubContainerHeight).to.equal('1px');
+        });
+
+        it('should have div.expandable-content-container display of none', () => {
+          const listViewItemExpandableContentContainer = element.shadowRoot.querySelector('div.expandable-content-container');
+          
+          const lineAfterStyle = window.getComputedStyle(listViewItemExpandableContentContainer);
+          const listViewItemExpandableContentContainerDisplay = lineAfterStyle.getPropertyValue('display');
+
+          expect(listViewItemExpandableContentContainerDisplay).to.equal('none');
+        });
+
+      });
+
+      context('Test for Android styles', () => {
+
+        // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
+        let element, items, observer1;
+
+        beforeEach(function () {
+          element = fixture('AndroidBasicTestFixture');
+          
+          observer1 = new FlattenedNodesObserver(element, function (info) {
+            items = info;
+          });
+          observer1.flush();
+        });
+
+        it('Should have correct main-text font-size for Android platform', () => {
+          const itemMainText = element.shadowRoot.querySelector('div.main-text');
+          const mainTextStyles = window.getComputedStyle(itemMainText);
+
+          expect(mainTextStyles.fontSize).to.equal('16px');
+        });
+
+        it('Should have correct font-size and font-weight for Android header', () => {
+          let nodes = items.addedNodes;
+
+          for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].nodeName != "#text") {
+              var listViewItemChild = nodes[i];
+              // check which item matches header slot name 'header'
+              if (listViewItemChild.getAttribute('slot') == 'header') {
+                let elementHeader = listViewItemChild;
+                let AndroidHeaderFontSize = window.getComputedStyle(elementHeader).getPropertyValue('font-size');
+
+                expect(AndroidHeaderFontSize).to.equal('12px');
+              }
+            }
+          }
+        });
+
+        it('Should have correct font-size and color for Android footer', () => {
+          let nodes = items.addedNodes;
+
+          for (var i = 0; i < nodes.length; i++) {
+            // check which item matches header slot name 'secondary-content'
+            if (nodes[i].nodeName != "#text") {
+              var listViewItemChild = nodes[i];
+              if (listViewItemChild.getAttribute('slot') == 'footer') {
+                let elementFooter = listViewItemChild;
+                let AndroidSecondaryContentColor = window.getComputedStyle(elementFooter).getPropertyValue('color');
+                let AndroidSecondaryContentFontSize = window.getComputedStyle(elementFooter).getPropertyValue('font-size');
+
+                // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
+                expect(AndroidSecondaryContentColor).to.equal('rgb(142, 142, 147)');
+                expect(AndroidSecondaryContentFontSize).to.equal('12px');
+              }
+            }
+          }
+        });
+
+        it('Should have correct secondary-content font-size and color Android platform', () => {
+          let nodes = items.addedNodes;
+          for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].nodeName != "#text") {
+              var listViewItemChild = nodes[i];
               // check which item matches header slot name 'secondary-content'
-              if (nodes[i].nodeName != "#text") {
-                var listViewItemChild = nodes[i];
-                if (listViewItemChild.getAttribute('slot') == 'secondary-content') {
-                  let elementSecondaryContent = listViewItemChild;
-                  let IosSecondaryContentColor = window.getComputedStyle(elementSecondaryContent).getPropertyValue('color');
-                  let IosSecondaryContentFontSize = window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size');
+              if (listViewItemChild.getAttribute('slot') == 'secondary-content') {
+                let elementSecondaryContent = listViewItemChild;
+                let AndroidSecondaryContentFontSize = window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size');
+                let AndroidSecondaryContentColor = window.getComputedStyle(elementSecondaryContent).getPropertyValue('color');
 
-                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
-                  expect(IosSecondaryContentColor).to.equal('rgb(142, 142, 147)');
-                  expect(IosSecondaryContentFontSize).to.equal('17px');
-                }
+                // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
+                expect(AndroidSecondaryContentFontSize).to.equal('14px');
+                expect(AndroidSecondaryContentColor).to.equal('rgb(117, 117, 117)');
               }
             }
+          }
+        });
+
+        it('should have div.container::after height of 1px', () => {
+          const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
+          const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
+          const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
+
+          expect(listViewItemContainerHeight).to.equal('1px');
+        });
+
+        it('should have div.sub-container::after height of 1px', () => {
+          const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
+          const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
+          const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
+
+          expect(listViewItemSubContainerHeight).to.equal('1px');
+        });
+
+        it('Should have no ripple', (done) => {
+          shadowRoot = element.shadowRoot;
+          container = shadowRoot.querySelector('.container');
+          morphRipple = container.getElementsByTagName('morph-ripple');
+
+          // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
+          flush(function () {
+            expect(morphRipple.length).to.equal(0);
+            done();
           });
+        });
 
-          it('should have div.container::after height of 1px', () => {
-            const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
-            const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
-            const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
-            
-            expect(listViewItemContainerHeight).to.equal('1px');
-          });
+      });
 
-          it('should have div.sub-container::after height of 1px', () => {
-            const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
-            const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
-            const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
+    }); // end of describe 'morph-list-view-item'
 
-            expect(listViewItemSubContainerHeight).to.equal('1px');
-          });
+    describe('Test for Chevron child element', () => {
 
-          it('should have div.expandable-content-container display of none', () => {
-            const listViewItemExpandableContentContainer = element.shadowRoot.querySelector('div.expandable-content-container');
-            
-            const lineAfterStyle = window.getComputedStyle(listViewItemExpandableContentContainer);
-            const listViewItemExpandableContentContainerDisplay = lineAfterStyle.getPropertyValue('display');
+      context('Chevron when it is a link item (href present)', () => {
+        // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
+        let element;
 
-            expect(listViewItemExpandableContentContainerDisplay).to.equal('none');
+        beforeEach(function () {
+          element = fixture('ChevronTestFixture');
+        });
+
+        it('Should have noChevron property equal to false', () => {
+          expect(element.noChevron).to.be.false;
+        });
+
+        it('Should have chevron svg css display property equal to block', (done) => {
+          const shadowRoot = element.shadowRoot;
+          const subContainer = shadowRoot.querySelector('.sub-container');
+          const chevronSvg = subContainer.getElementsByTagName('svg');
+
+          // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
+          flush(function () {
+            const chevronDisplay = window.getComputedStyle(chevronSvg[0]).getPropertyValue('display');
+
+            expect(chevronSvg.length).to.equal(1);
+            expect(chevronDisplay).to.equal('block');
+            done();
           });
 
         });
 
-        context('Test for Android styles', () => {
+      });
 
-          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
-          let element, items, observer1;
+      context('Chevron when no-chevron attribute is present', () => {
+        // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
+        let element;
 
-          beforeEach(function () {
-            element = fixture('AndroidBasicTestFixture');
-            
-            observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
-              items = info;
-            });
-            observer1.flush();
-          });
+        beforeEach(function () {
+          element = fixture('NoChevronTestFixture');
+        });
 
-          it('Should have correct main-text font-size for Android platform', () => {
-            const itemMainText = element.shadowRoot.querySelector('div.main-text');
-            const mainTextStyles = window.getComputedStyle(itemMainText);
 
-            expect(mainTextStyles.fontSize).to.equal('16px');
-          });
+        it('Should have noChevron property equal to true', () => {
+          expect(element.noChevron).to.be.true;
+        });
 
-          it('Should have correct font-size and font-weight for Android header', () => {
-            let nodes = items.addedNodes;
+        it('Should have chevron svg css display property equal to block', (done) => {
+          const shadowRoot = element.shadowRoot;
+          const subContainer = shadowRoot.querySelector('.sub-container');
+          const chevronSvg = subContainer.getElementsByTagName('svg');
 
-            for (var i = 0; i < nodes.length; i++) {
-              if (nodes[i].nodeName != "#text") {
-                var listViewItemChild = nodes[i];
-                // check which item matches header slot name 'header'
-                if (listViewItemChild.getAttribute('slot') == 'header') {
-                  let elementHeader = listViewItemChild;
-                  let AndroidHeaderFontSize = window.getComputedStyle(elementHeader).getPropertyValue('font-size');
-
-                  expect(AndroidHeaderFontSize).to.equal('12px');
-                }
-              }
-            }
-          });
-
-          it('Should have correct font-size and color for Android footer', () => {
-            let nodes = items.addedNodes;
-
-            for (var i = 0; i < nodes.length; i++) {
-              // check which item matches header slot name 'secondary-content'
-              if (nodes[i].nodeName != "#text") {
-                var listViewItemChild = nodes[i];
-                if (listViewItemChild.getAttribute('slot') == 'footer') {
-                  let elementFooter = listViewItemChild;
-                  let AndroidSecondaryContentColor = window.getComputedStyle(elementFooter).getPropertyValue('color');
-                  let AndroidSecondaryContentFontSize = window.getComputedStyle(elementFooter).getPropertyValue('font-size');
-
-                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
-                  expect(AndroidSecondaryContentColor).to.equal('rgb(142, 142, 147)');
-                  expect(AndroidSecondaryContentFontSize).to.equal('12px');
-                }
-              }
-            }
-          });
-
-          it('Should have correct secondary-content font-size and color Android platform', () => {
-            let nodes = items.addedNodes;
-            for (var i = 0; i < nodes.length; i++) {
-              if (nodes[i].nodeName != "#text") {
-                var listViewItemChild = nodes[i];
-                // check which item matches header slot name 'secondary-content'
-                if (listViewItemChild.getAttribute('slot') == 'secondary-content') {
-                  let elementSecondaryContent = listViewItemChild;
-                  let AndroidSecondaryContentFontSize = window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size');
-                  let AndroidSecondaryContentColor = window.getComputedStyle(elementSecondaryContent).getPropertyValue('color');
-
-                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
-                  expect(AndroidSecondaryContentFontSize).to.equal('14px');
-                  expect(AndroidSecondaryContentColor).to.equal('rgb(117, 117, 117)');
-                }
-              }
-            }
-          });
-
-          it('should have div.container::after height of 1px', () => {
-            const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
-            const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
-            const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
-
-            expect(listViewItemContainerHeight).to.equal('1px');
-          });
-
-          it('should have div.sub-container::after height of 1px', () => {
-            const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
-            const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
-            const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
-
-            expect(listViewItemSubContainerHeight).to.equal('1px');
-          });
-
-          it('Should have no ripple', (done) => {
-            shadowRoot = element.shadowRoot;
-            container = shadowRoot.querySelector('.container');
-            morphRipple = container.getElementsByTagName('morph-ripple');
-
-            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
-            flush(function () {
-              expect(morphRipple.length).to.equal(0);
-              done();
-            });
+          // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
+          flush(function () {
+            expect(chevronSvg.length).to.equal(0);
+            done();
           });
 
         });
 
-      }); // end of describe 'morph-list-view-item'
-      
-      describe('Test for Chevron child element', () => {
-
-        context('Chevron when it is a link item (href present)', () => {
-          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
-          let element;
-
-          beforeEach(function () {
-            element = fixture('ChevronTestFixture');
-          });
-
-          it('Should have noChevron property equal to false', () => {
-            expect(element.noChevron).to.be.false;
-          });
-
-          it('Should have chevron svg css display property equal to block', (done) => {
-            const shadowRoot = element.shadowRoot;
-            const subContainer = shadowRoot.querySelector('.sub-container');
-            const chevronSvg = subContainer.getElementsByTagName('svg');
-
-            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
-            flush(function () {
-              const chevronDisplay = window.getComputedStyle(chevronSvg[0]).getPropertyValue('display');
-
-              expect(chevronSvg.length).to.equal(1);
-              expect(chevronDisplay).to.equal('block');
-              done();
-            });
-
-          });
-
-        });
-
-        context('Chevron when no-chevron attribute is present', () => {
-          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
-          let element;
-
-          beforeEach(function () {
-            element = fixture('NoChevronTestFixture');
-          });
+      });
 
 
-          it('Should have noChevron property equal to true', () => {
-            expect(element.noChevron).to.be.true;
-          });
+    }); // end of describe 'Test for Chevron child element'
 
-          it('Should have chevron svg css display property equal to block', (done) => {
-            const shadowRoot = element.shadowRoot;
-            const subContainer = shadowRoot.querySelector('.sub-container');
-            const chevronSvg = subContainer.getElementsByTagName('svg');
-
-            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
-            flush(function () {
-              expect(chevronSvg.length).to.equal(0);
-              done();
-            });
-
-          });
-
-        });
-
-
-      }); // end of describe 'Test for Chevron child element'
-     
-     describe('morph-ripple child element', () => {
+    describe('morph-ripple child element', () => {
 
       context('when on android', () => {
         let element, shadowRoot, container, morphRipple;
@@ -532,7 +533,7 @@
         beforeEach(() => {
           element = fixture('IosExpandaleItemsCloseTestFixture');
 
-          observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
+          observer1 = new FlattenedNodesObserver(element, function (info) {
             items = info;
           });
           observer1.flush();
@@ -603,7 +604,7 @@
           beforeEach(() => {
             element = fixture('IosExpandaleItemsExpandedTestFixture');
 
-            observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
+            observer1 = new FlattenedNodesObserver(element, function (info) {
               items = info;
             });
             observer1.flush();
@@ -638,7 +639,7 @@
         beforeEach(() => {
           element = fixture('AndroidExpandaleItemsCloseTestFixture');
 
-          observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
+          observer1 = new FlattenedNodesObserver(element, function (info) {
             items = info;
           });
           observer1.flush();
@@ -725,7 +726,7 @@
           beforeEach(() => {
             element = fixture('AndroidExpandaleItemsExpandedTestFixture');
 
-            observer1 = new Polymer.FlattenedNodesObserver(element, function (info) {
+            observer1 = new FlattenedNodesObserver(element, function (info) {
               items = info;
             });
             observer1.flush();
@@ -753,7 +754,7 @@
           });
 
           it('should not have attribute expanded or expanded should be equal to false', () => {
-           const elementShadowRoot = element.shadowRoot;
+          const elementShadowRoot = element.shadowRoot;
             const listViewItem = elementShadowRoot.querySelector('a');
             // initial setup will have no expanded attribute
             expect(element.hasAttribute('expanded')).to.be.equal(true);
@@ -770,6 +771,5 @@
     });
 
     </script>
-
   </body>
 </html>
