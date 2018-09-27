@@ -1,9 +1,8 @@
-import { PolymerElement } from '@polymer/polymer/polymer-element.js';
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
-import { MorphElement } from '@polymer/morph-element/morph-element.js';
-import '@polymer/morph-ripple/morph-ripple.js';
-import '@polymer/morph-shared-styles/morph-shared-styles.js';
-import '@polymer/iron-icons/iron-icons.js';
+import { PolymerElement, html } from './node_modules/@polymer/polymer';
+import { MorphElement } from './node_modules/@polymer/morph-element/morph-element.js';
+import './node_modules/@polymer/morph-ripple/morph-ripple.js';
+import './node_modules/@polymer/morph-shared-styles/morph-shared-styles.js';
+import './node_modules/@polymer/iron-icons/iron-icons.js';
 
 /**
  * `morph-list-view-item`
