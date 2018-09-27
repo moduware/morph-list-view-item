@@ -2,6 +2,10 @@
   "description": "Item component for list view that looks native when on either IOS or Android platform or devices",
   "name": "@polymer/morph-list-view-item",
   "version": "1.0.0",
+  "scripts": {
+    "start": "polymer serve --npm --module-resolution=node",
+    "test": "polymer test --npm --module-resolution=node"
+  },
   "resolutions": {
     "inherits": "2.0.3",
     "samsam": "1.1.3",
