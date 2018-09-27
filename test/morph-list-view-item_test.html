@@ -8,14 +8,13 @@
 
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../node_modules/wct-browser-legacy/browser.js"></script>
-    <script src="../node_modules/chai-dom/chai-dom.js"></script>
 
     <script type="module" src="../node_modules/@polymer/polymer/lib/utils/flattened-nodes-observer.js"></script>
 
     <script type="module" src="../morph-list-view-item.js"></script>
   </head>
   <body>
-
+   
     <test-fixture id="IosBasicTestFixture">
       <template>
         <morph-list-view-item platform="ios">
@@ -126,483 +125,413 @@
     </test-fixture>
 
     <script type="module">
+      import { FlattenedNodesObserver } from "../node_modules/@polymer/polymer/lib/utils/flattened-nodes-observer.js";
 
-    describe('morph-list-view-item', () => {
+      describe('morph-list-view-item', () => {
 
-      context('Basic test for iOS', () => {
+        context('Basic test for iOS', () => {
 
-        // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
-        let element, items, observer1;
+          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
+          let element, items, observer1;
 
-        beforeEach(function () {
-          element = fixture('IosBasicTestFixture');
-          observer1 = new FlattenedNodesObserver(element, function (info) {
-            items = info;
+          beforeEach(function () {
+            element = fixture('IosBasicTestFixture');
+            observer1 = new FlattenedNodesObserver(element, function (info) {
+              items = info;
+            });
+            observer1.flush();
           });
-          observer1.flush();
-        });
 
-        afterEach(function () {
-          observer1.disconnect();
-        });
-
-        it('shows slot="header" with text "Header"', () => {
-          let nodes = items.addedNodes;
-          for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].nodeName != "#text") {
-              var listViewItemChild = nodes[i];
-              // check which item matches header slot name
-              if (listViewItemChild.getAttribute('slot') == 'header') {
-                let elementHeader = listViewItemChild;
-                expect(elementHeader.innerHTML).to.equal('Header');
-              }
-            }
-          }
-        });
-
-        it('shows slot="footer" with text "Footer"', () => {
-          let nodes = items.addedNodes;
-          for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].nodeName != "#text") {
-              var listViewItemChild = nodes[i];
-              // check which item matches footer slot name
-              if (listViewItemChild.getAttribute('slot') == 'footer') {
-                let elementFooter = listViewItemChild;
-                expect(elementFooter.innerHTML).to.equal('Footer');
-              }
-            }
-          }
-        });
-      });
-
-
-      context('Test for IOS styles', () => {
-
-        // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
-        let element, items, observer1;
-
-        beforeEach(function() {
-          element = fixture('IosBasicTestFixture');
-          
-          observer1 = new FlattenedNodesObserver(element, function (info) {
-            items = info;
+          afterEach(function () {
+            observer1.disconnect();
           });
-          observer1.flush();
-        });
 
-        it('Should have correct main-text font-size for IOS platform', () => {
-          const itemMainText = element.shadowRoot.querySelector('div.main-text');
-          const mainTextStyles = window.getComputedStyle(itemMainText);
-          
-          expect(mainTextStyles.fontSize).to.equal('17px');
-        });
-
-        it('Should have correct font-size for IOS header', () => {
-          let nodes = items.addedNodes;
-          for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].nodeName != "#text") {
-              var listViewItemChild = nodes[i];
-              // check which item matches header slot name 'header'
-              if (listViewItemChild.getAttribute('slot') == 'header') {
-                let elementHeader = listViewItemChild;
-                let IosHeaderFontSize = window.getComputedStyle(elementHeader).getPropertyValue('font-size');
-                
-                expect(IosHeaderFontSize).to.equal('12px');
+          it('shows slot="header" with text "Header"', () => {
+            let nodes = items.addedNodes;
+            for (var i = 0; i < nodes.length; i++) {
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
+                // check which item matches header slot name
+                if (listViewItemChild.getAttribute('slot') == 'header') {
+                  let elementHeader = listViewItemChild;
+                  expect(elementHeader.innerHTML).to.equal('Header');
+                }
               }
             }
-          }
-        });
-
-        it('Should have correct font-size and color for IOS footer', () => {
-          let nodes = items.addedNodes;
-
-          for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].nodeName != "#text") {
-              var listViewItemChild = nodes[i];
-              // check which item matches header slot name 'footer'
-              if (listViewItemChild.getAttribute('slot') == 'footer') {
-                let elementFooter = listViewItemChild;
-                let IosFooterFontSize = window.getComputedStyle(elementFooter).getPropertyValue('font-size');
-                let IosFootererColor = window.getComputedStyle(elementFooter).getPropertyValue('color');
-                
-                // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
-                expect(IosFooterFontSize).to.equal('12px');
-                expect(IosFootererColor).to.equal('rgb(142, 142, 147)');
-              }
-            }
-          }
-        });
-
-        it('Should have correct secondary-content color and font-size for IOS platform', () => {
-          let nodes = items.addedNodes;
-          
-          for (var i = 0; i < nodes.length; i++) {
-            // check which item matches header slot name 'secondary-content'
-            if (nodes[i].nodeName != "#text") {
-              var listViewItemChild = nodes[i];
-              if (listViewItemChild.getAttribute('slot') == 'secondary-content') {
-                let elementSecondaryContent = listViewItemChild;
-                let IosSecondaryContentColor = window.getComputedStyle(elementSecondaryContent).getPropertyValue('color');
-                let IosSecondaryContentFontSize = window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size');
-
-                // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
-                expect(IosSecondaryContentColor).to.equal('rgb(142, 142, 147)');
-                expect(IosSecondaryContentFontSize).to.equal('17px');
-              }
-            }
-          }
-        });
-
-        it('should have div.container::after height of 1px', () => {
-          const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
-          const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
-          const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
-          
-          expect(listViewItemContainerHeight).to.equal('1px');
-        });
-
-        it('should have div.sub-container::after height of 1px', () => {
-          const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
-          const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
-          const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
-
-          expect(listViewItemSubContainerHeight).to.equal('1px');
-        });
-
-        it('should have div.expandable-content-container display of none', () => {
-          const listViewItemExpandableContentContainer = element.shadowRoot.querySelector('div.expandable-content-container');
-          
-          const lineAfterStyle = window.getComputedStyle(listViewItemExpandableContentContainer);
-          const listViewItemExpandableContentContainerDisplay = lineAfterStyle.getPropertyValue('display');
-
-          expect(listViewItemExpandableContentContainerDisplay).to.equal('none');
-        });
-
-      });
-
-      context('Test for Android styles', () => {
-
-        // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
-        let element, items, observer1;
-
-        beforeEach(function () {
-          element = fixture('AndroidBasicTestFixture');
-          
-          observer1 = new FlattenedNodesObserver(element, function (info) {
-            items = info;
           });
-          observer1.flush();
-        });
 
-        it('Should have correct main-text font-size for Android platform', () => {
-          const itemMainText = element.shadowRoot.querySelector('div.main-text');
-          const mainTextStyles = window.getComputedStyle(itemMainText);
-
-          expect(mainTextStyles.fontSize).to.equal('16px');
-        });
-
-        it('Should have correct font-size and font-weight for Android header', () => {
-          let nodes = items.addedNodes;
-
-          for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].nodeName != "#text") {
-              var listViewItemChild = nodes[i];
-              // check which item matches header slot name 'header'
-              if (listViewItemChild.getAttribute('slot') == 'header') {
-                let elementHeader = listViewItemChild;
-                let AndroidHeaderFontSize = window.getComputedStyle(elementHeader).getPropertyValue('font-size');
-
-                expect(AndroidHeaderFontSize).to.equal('12px');
+          it('shows slot="footer" with text "Footer"', () => {
+            let nodes = items.addedNodes;
+            for (var i = 0; i < nodes.length; i++) {
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
+                // check which item matches footer slot name
+                if (listViewItemChild.getAttribute('slot') == 'footer') {
+                  let elementFooter = listViewItemChild;
+                  expect(elementFooter.innerHTML).to.equal('Footer');
+                }
               }
             }
-          }
+          });
         });
 
-        it('Should have correct font-size and color for Android footer', () => {
-          let nodes = items.addedNodes;
 
-          for (var i = 0; i < nodes.length; i++) {
-            // check which item matches header slot name 'secondary-content'
-            if (nodes[i].nodeName != "#text") {
-              var listViewItemChild = nodes[i];
-              if (listViewItemChild.getAttribute('slot') == 'footer') {
-                let elementFooter = listViewItemChild;
-                let AndroidSecondaryContentColor = window.getComputedStyle(elementFooter).getPropertyValue('color');
-                let AndroidSecondaryContentFontSize = window.getComputedStyle(elementFooter).getPropertyValue('font-size');
+        context('Test for IOS styles', () => {
 
-                // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
-                expect(AndroidSecondaryContentColor).to.equal('rgb(142, 142, 147)');
-                expect(AndroidSecondaryContentFontSize).to.equal('12px');
+          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
+          let element, items, observer1;
+
+          beforeEach(function() {
+            element = fixture('IosBasicTestFixture');
+            
+            observer1 = new FlattenedNodesObserver(element, function (info) {
+              items = info;
+            });
+            observer1.flush();
+          });
+
+          it('Should have correct main-text font-size for IOS platform', () => {
+            const itemMainText = element.shadowRoot.querySelector('div.main-text');
+            const mainTextStyles = window.getComputedStyle(itemMainText);
+            
+            expect(mainTextStyles.fontSize).to.equal('17px');
+          });
+
+          it('Should have correct font-size for IOS header', () => {
+            let nodes = items.addedNodes;
+            for (var i = 0; i < nodes.length; i++) {
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
+                // check which item matches header slot name 'header'
+                if (listViewItemChild.getAttribute('slot') == 'header') {
+                  let elementHeader = listViewItemChild;
+                  let IosHeaderFontSize = window.getComputedStyle(elementHeader).getPropertyValue('font-size');
+                  
+                  expect(IosHeaderFontSize).to.equal('12px');
+                }
               }
             }
-          }
-        });
+          });
 
-        it('Should have correct secondary-content font-size and color Android platform', () => {
-          let nodes = items.addedNodes;
-          for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].nodeName != "#text") {
-              var listViewItemChild = nodes[i];
+          it('Should have correct font-size and color for IOS footer', () => {
+            let nodes = items.addedNodes;
+
+            for (var i = 0; i < nodes.length; i++) {
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
+                // check which item matches header slot name 'footer'
+                if (listViewItemChild.getAttribute('slot') == 'footer') {
+                  let elementFooter = listViewItemChild;
+                  let IosFooterFontSize = window.getComputedStyle(elementFooter).getPropertyValue('font-size');
+                  let IosFootererColor = window.getComputedStyle(elementFooter).getPropertyValue('color');
+                  
+                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
+                  expect(IosFooterFontSize).to.equal('12px');
+                  expect(IosFootererColor).to.equal('rgb(142, 142, 147)');
+                }
+              }
+            }
+          });
+
+          it('Should have correct secondary-content color and font-size for IOS platform', () => {
+            let nodes = items.addedNodes;
+            
+            for (var i = 0; i < nodes.length; i++) {
               // check which item matches header slot name 'secondary-content'
-              if (listViewItemChild.getAttribute('slot') == 'secondary-content') {
-                let elementSecondaryContent = listViewItemChild;
-                let AndroidSecondaryContentFontSize = window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size');
-                let AndroidSecondaryContentColor = window.getComputedStyle(elementSecondaryContent).getPropertyValue('color');
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
+                if (listViewItemChild.getAttribute('slot') == 'secondary-content') {
+                  let elementSecondaryContent = listViewItemChild;
+                  let IosSecondaryContentColor = window.getComputedStyle(elementSecondaryContent).getPropertyValue('color');
+                  let IosSecondaryContentFontSize = window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size');
 
-                // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
-                expect(AndroidSecondaryContentFontSize).to.equal('14px');
-                expect(AndroidSecondaryContentColor).to.equal('rgb(117, 117, 117)');
+                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
+                  expect(IosSecondaryContentColor).to.equal('rgb(142, 142, 147)');
+                  expect(IosSecondaryContentFontSize).to.equal('17px');
+                }
               }
             }
-          }
-        });
-
-        it('should have div.container::after height of 1px', () => {
-          const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
-          const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
-          const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
-
-          expect(listViewItemContainerHeight).to.equal('1px');
-        });
-
-        it('should have div.sub-container::after height of 1px', () => {
-          const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
-          const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
-          const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
-
-          expect(listViewItemSubContainerHeight).to.equal('1px');
-        });
-
-        it('Should have no ripple', (done) => {
-          shadowRoot = element.shadowRoot;
-          container = shadowRoot.querySelector('.container');
-          morphRipple = container.getElementsByTagName('morph-ripple');
-
-          // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
-          flush(function () {
-            expect(morphRipple.length).to.equal(0);
-            done();
-          });
-        });
-
-      });
-
-    }); // end of describe 'morph-list-view-item'
-
-    describe('Test for Chevron child element', () => {
-
-      context('Chevron when it is a link item (href present)', () => {
-        // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
-        let element;
-
-        beforeEach(function () {
-          element = fixture('ChevronTestFixture');
-        });
-
-        it('Should have noChevron property equal to false', () => {
-          expect(element.noChevron).to.be.false;
-        });
-
-        it('Should have chevron svg css display property equal to block', (done) => {
-          const shadowRoot = element.shadowRoot;
-          const subContainer = shadowRoot.querySelector('.sub-container');
-          const chevronSvg = subContainer.getElementsByTagName('svg');
-
-          // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
-          flush(function () {
-            const chevronDisplay = window.getComputedStyle(chevronSvg[0]).getPropertyValue('display');
-
-            expect(chevronSvg.length).to.equal(1);
-            expect(chevronDisplay).to.equal('block');
-            done();
           });
 
-        });
-
-      });
-
-      context('Chevron when no-chevron attribute is present', () => {
-        // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
-        let element;
-
-        beforeEach(function () {
-          element = fixture('NoChevronTestFixture');
-        });
-
-
-        it('Should have noChevron property equal to true', () => {
-          expect(element.noChevron).to.be.true;
-        });
-
-        it('Should have chevron svg css display property equal to block', (done) => {
-          const shadowRoot = element.shadowRoot;
-          const subContainer = shadowRoot.querySelector('.sub-container');
-          const chevronSvg = subContainer.getElementsByTagName('svg');
-
-          // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
-          flush(function () {
-            expect(chevronSvg.length).to.equal(0);
-            done();
-          });
-
-        });
-
-      });
-
-
-    }); // end of describe 'Test for Chevron child element'
-
-    describe('morph-ripple child element', () => {
-
-      context('when on android', () => {
-        let element, shadowRoot, container, morphRipple;
-
-        before(function() {
-          element = fixture('AndroidRippleTestFixture');
-          shadowRoot = element.shadowRoot;
-          container = shadowRoot.querySelector('.container');
-          morphRipple = container.getElementsByTagName('morph-ripple');
-        });
-
-        it('Should have display block', (done) => {
-          
-          // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
-          flush(function () {
-            const morphRippleDisplay = window.getComputedStyle(morphRipple[0]).getPropertyValue('display');
+          it('should have div.container::after height of 1px', () => {
+            const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
+            const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
+            const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
             
-            expect(morphRipple.length).to.equal(1);
-            expect(morphRippleDisplay).to.equal('block');
-            done();
+            expect(listViewItemContainerHeight).to.equal('1px');
           });
-        });
 
-      });
+          it('should have div.sub-container::after height of 1px', () => {
+            const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
+            const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
+            const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
 
-      context('when on ios', () => {
-        let element, shadowRoot, container, morphRipple;
-
-        beforeEach(function () {
-          element = fixture('IosRippleTestFixture');
-          shadowRoot = element.shadowRoot;
-          container = shadowRoot.querySelector('.container');
-          morphRipple = container.getElementsByTagName('morph-ripple');
-        });
-
-        it('Should have display none', (done) => {
-
-          // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
-          flush(function () {
-            const morphRippleDisplay = window.getComputedStyle(morphRipple[0]).getPropertyValue('display');
-
-            expect(morphRippleDisplay).to.equal('none');
-            done();
+            expect(listViewItemSubContainerHeight).to.equal('1px');
           });
-        });
 
-      });
+          it('should have div.expandable-content-container display of none', () => {
+            const listViewItemExpandableContentContainer = element.shadowRoot.querySelector('div.expandable-content-container');
+            
+            const lineAfterStyle = window.getComputedStyle(listViewItemExpandableContentContainer);
+            const listViewItemExpandableContentContainerDisplay = lineAfterStyle.getPropertyValue('display');
 
-      context('when no-ripple attribute is present', () => {
-        let element, shadowRoot, container, morphRipple;
-
-        beforeEach(function () {
-          element = fixture('AndroidWithNoRippleTestFixture');
-          shadowRoot = element.shadowRoot;
-          container = shadowRoot.querySelector('.container');
-          morphRipple = container.getElementsByTagName('morph-ripple');
-        });
-
-        it('Should not exist in DOM', (done) => {
-
-          // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
-          flush(function () {
-            expect(morphRipple.length).to.equal(0);
-            done();
+            expect(listViewItemExpandableContentContainerDisplay).to.equal('none');
           });
+
         });
 
-      });
+        context('Test for Android styles', () => {
 
-    }); // end of describe 'morph-ripple child element'
+          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
+          let element, items, observer1;
 
-    describe('expandable items', () => {
-
-      context('when on IOS', () => {
-
-        let element, observer1, items, nodes, elementExpandableContent;
-
-        beforeEach(() => {
-          element = fixture('IosExpandaleItemsCloseTestFixture');
-
-          observer1 = new FlattenedNodesObserver(element, function (info) {
-            items = info;
+          beforeEach(function () {
+            element = fixture('AndroidBasicTestFixture');
+            
+            observer1 = new FlattenedNodesObserver(element, function (info) {
+              items = info;
+            });
+            observer1.flush();
           });
-          observer1.flush();
-          nodes = items.addedNodes;
 
-          for (var i = 0; i < nodes.length; i++) {
-            // check which item matches header slot name 'secondary-content'
-            if (nodes[i].nodeName != "#text") {
-              var listViewItemChild = nodes[i];
+          it('Should have correct main-text font-size for Android platform', () => {
+            const itemMainText = element.shadowRoot.querySelector('div.main-text');
+            const mainTextStyles = window.getComputedStyle(itemMainText);
 
-              if (listViewItemChild.getAttribute('slot') == 'expandable-content') {
-                elementExpandableContent = listViewItemChild;
+            expect(mainTextStyles.fontSize).to.equal('16px');
+          });
+
+          it('Should have correct font-size and font-weight for Android header', () => {
+            let nodes = items.addedNodes;
+
+            for (var i = 0; i < nodes.length; i++) {
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
+                // check which item matches header slot name 'header'
+                if (listViewItemChild.getAttribute('slot') == 'header') {
+                  let elementHeader = listViewItemChild;
+                  let AndroidHeaderFontSize = window.getComputedStyle(elementHeader).getPropertyValue('font-size');
+
+                  expect(AndroidHeaderFontSize).to.equal('12px');
+                }
               }
             }
-          }
-        });
-
-        it('should have items with color of rgb(109, 109, 114) for ios', () => {
-          let elementExpandableContentColor = window.getComputedStyle(elementExpandableContent).getPropertyValue('color');
-
-          expect(elementExpandableContentColor).to.equal('rgb(109, 109, 114)');
-        });
-
-        it('should have items with padding-top of 10px and padding-right of 15px for ios', () => {
-          let elementExpandableContentPaddingTop = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-top');
-          let elementExpandableContentPaddingRight = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-right');
-
-          expect(elementExpandableContentPaddingTop).to.equal('10px');
-          expect(elementExpandableContentPaddingRight).to.equal('15px');
-        });
-
-        it('should have div.expandable-content-container display of block', () => {
-          const listViewItemExpandableContentContainer = element.shadowRoot.querySelector('div.expandable-content-container');
-
-          const lineAfterStyle = window.getComputedStyle(listViewItemExpandableContentContainer);
-          const listViewItemExpandableContentContainerDisplay = lineAfterStyle.getPropertyValue('display');
-
-          expect(listViewItemExpandableContentContainerDisplay).to.equal('block');
-        });
-
-        it('should have container::after should not be visible', () => {
-          const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
-          const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
-          const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
-          
-          expect(listViewItemContainerHeight).not.to.equal('1px');
-        });
-
-        it('should have div.sub-container::after height of 1px', () => {
-          const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
-          const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
-          const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
-
-          expect(listViewItemSubContainerHeight).to.equal('1px');
-        });
-
-        context('when not expanded', () => {
-          it('should have items container div (expandable-content-container) with max-height of 1px when item is not expanded', () => {
-            let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
-            let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
-            
-            expect(elementExpandableContentContainerDivMaxHeight).to.equal('1px');
           });
+
+          it('Should have correct font-size and color for Android footer', () => {
+            let nodes = items.addedNodes;
+
+            for (var i = 0; i < nodes.length; i++) {
+              // check which item matches header slot name 'secondary-content'
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
+                if (listViewItemChild.getAttribute('slot') == 'footer') {
+                  let elementFooter = listViewItemChild;
+                  let AndroidSecondaryContentColor = window.getComputedStyle(elementFooter).getPropertyValue('color');
+                  let AndroidSecondaryContentFontSize = window.getComputedStyle(elementFooter).getPropertyValue('font-size');
+
+                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
+                  expect(AndroidSecondaryContentColor).to.equal('rgb(142, 142, 147)');
+                  expect(AndroidSecondaryContentFontSize).to.equal('12px');
+                }
+              }
+            }
+          });
+
+          it('Should have correct secondary-content font-size and color Android platform', () => {
+            let nodes = items.addedNodes;
+            for (var i = 0; i < nodes.length; i++) {
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
+                // check which item matches header slot name 'secondary-content'
+                if (listViewItemChild.getAttribute('slot') == 'secondary-content') {
+                  let elementSecondaryContent = listViewItemChild;
+                  let AndroidSecondaryContentFontSize = window.getComputedStyle(elementSecondaryContent).getPropertyValue('font-size');
+                  let AndroidSecondaryContentColor = window.getComputedStyle(elementSecondaryContent).getPropertyValue('color');
+
+                  // 2 expectations for closely related checks is allowed. Otherwise one expect per 'it' block
+                  expect(AndroidSecondaryContentFontSize).to.equal('14px');
+                  expect(AndroidSecondaryContentColor).to.equal('rgb(117, 117, 117)');
+                }
+              }
+            }
+          });
+
+          it('should have div.container::after height of 1px', () => {
+            const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
+            const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
+            const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
+
+            expect(listViewItemContainerHeight).to.equal('1px');
+          });
+
+          it('should have div.sub-container::after height of 1px', () => {
+            const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
+            const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
+            const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
+
+            expect(listViewItemSubContainerHeight).to.equal('1px');
+          });
+
+          it('Should have no ripple', (done) => {
+            shadowRoot = element.shadowRoot;
+            container = shadowRoot.querySelector('.container');
+            morphRipple = container.getElementsByTagName('morph-ripple');
+
+            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
+            flush(function () {
+              expect(morphRipple.length).to.equal(0);
+              done();
+            });
+          });
+
         });
 
-        context('when expanded', () => {
-          // this is using a different fixture for expanded IOS list item
+      }); // end of describe 'morph-list-view-item'
+
+      describe('Test for Chevron child element', () => {
+
+        context('Chevron when it is a link item (href present)', () => {
+          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
+          let element;
+
+          beforeEach(function () {
+            element = fixture('ChevronTestFixture');
+          });
+
+          it('Should have noChevron property equal to false', () => {
+            expect(element.noChevron).to.be.false;
+          });
+
+          it('Should have chevron svg css display property equal to block', (done) => {
+            const shadowRoot = element.shadowRoot;
+            const subContainer = shadowRoot.querySelector('.sub-container');
+            const chevronSvg = subContainer.getElementsByTagName('svg');
+
+            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
+            flush(function () {
+              const chevronDisplay = window.getComputedStyle(chevronSvg[0]).getPropertyValue('display');
+
+              expect(chevronSvg.length).to.equal(1);
+              expect(chevronDisplay).to.equal('block');
+              done();
+            });
+
+          });
+
+        });
+
+        context('Chevron when no-chevron attribute is present', () => {
+          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
+          let element;
+
+          beforeEach(function () {
+            element = fixture('NoChevronTestFixture');
+          });
+
+
+          it('Should have noChevron property equal to true', () => {
+            expect(element.noChevron).to.be.true;
+          });
+
+          it('Should have chevron svg css display property equal to block', (done) => {
+            const shadowRoot = element.shadowRoot;
+            const subContainer = shadowRoot.querySelector('.sub-container');
+            const chevronSvg = subContainer.getElementsByTagName('svg');
+
+            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
+            flush(function () {
+              expect(chevronSvg.length).to.equal(0);
+              done();
+            });
+
+          });
+
+        });
+
+
+      }); // end of describe 'Test for Chevron child element'
+
+      describe('morph-ripple child element', () => {
+
+        context('when on android', () => {
+          let element, shadowRoot, container, morphRipple;
+
+          before(function() {
+            element = fixture('AndroidRippleTestFixture');
+            shadowRoot = element.shadowRoot;
+            container = shadowRoot.querySelector('.container');
+            morphRipple = container.getElementsByTagName('morph-ripple');
+          });
+
+          it('Should have display block', (done) => {
+            
+            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
+            flush(function () {
+              const morphRippleDisplay = window.getComputedStyle(morphRipple[0]).getPropertyValue('display');
+              
+              expect(morphRipple.length).to.equal(1);
+              expect(morphRippleDisplay).to.equal('block');
+              done();
+            });
+          });
+
+        });
+
+        context('when on ios', () => {
+          let element, shadowRoot, container, morphRipple;
+
+          beforeEach(function () {
+            element = fixture('IosRippleTestFixture');
+            shadowRoot = element.shadowRoot;
+            container = shadowRoot.querySelector('.container');
+            morphRipple = container.getElementsByTagName('morph-ripple');
+          });
+
+          it('Should have display none', (done) => {
+
+            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
+            flush(function () {
+              const morphRippleDisplay = window.getComputedStyle(morphRipple[0]).getPropertyValue('display');
+
+              expect(morphRippleDisplay).to.equal('none');
+              done();
+            });
+          });
+
+        });
+
+        context('when no-ripple attribute is present', () => {
+          let element, shadowRoot, container, morphRipple;
+
+          beforeEach(function () {
+            element = fixture('AndroidWithNoRippleTestFixture');
+            shadowRoot = element.shadowRoot;
+            container = shadowRoot.querySelector('.container');
+            morphRipple = container.getElementsByTagName('morph-ripple');
+          });
+
+          it('Should not exist in DOM', (done) => {
+
+            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
+            flush(function () {
+              expect(morphRipple.length).to.equal(0);
+              done();
+            });
+          });
+
+        });
+
+      }); // end of describe 'morph-ripple child element'
+
+      describe('expandable items', () => {
+
+        context('when on IOS', () => {
+
+          let element, observer1, items, nodes, elementExpandableContent;
+
           beforeEach(() => {
-            element = fixture('IosExpandaleItemsExpandedTestFixture');
+            element = fixture('IosExpandaleItemsCloseTestFixture');
 
             observer1 = new FlattenedNodesObserver(element, function (info) {
               items = info;
@@ -622,153 +551,224 @@
             }
           });
 
-          // max-height is dynamic here depending on the text content. For this test fixture the computed max-height is 38px.
-          it('should have items container div (expandable-content-container) with max-height of 38px when item is expanded', () => {
-            let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
-            let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
+          it('should have items with color of rgb(109, 109, 114) for ios', () => {
+            let elementExpandableContentColor = window.getComputedStyle(elementExpandableContent).getPropertyValue('color');
+
+            expect(elementExpandableContentColor).to.equal('rgb(109, 109, 114)');
+          });
+
+          it('should have items with padding-top of 10px and padding-right of 15px for ios', () => {
+            let elementExpandableContentPaddingTop = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-top');
+            let elementExpandableContentPaddingRight = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-right');
+
+            expect(elementExpandableContentPaddingTop).to.equal('10px');
+            expect(elementExpandableContentPaddingRight).to.equal('15px');
+          });
+
+          it('should have div.expandable-content-container display of block', () => {
+            const listViewItemExpandableContentContainer = element.shadowRoot.querySelector('div.expandable-content-container');
+
+            const lineAfterStyle = window.getComputedStyle(listViewItemExpandableContentContainer);
+            const listViewItemExpandableContentContainerDisplay = lineAfterStyle.getPropertyValue('display');
+
+            expect(listViewItemExpandableContentContainerDisplay).to.equal('block');
+          });
+
+          it('should have container::after should not be visible', () => {
+            const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
+            const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
+            const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
             
-            expect(elementExpandableContentContainerDivMaxHeight).to.equal('38px');
+            expect(listViewItemContainerHeight).not.to.equal('1px');
+          });
+
+          it('should have div.sub-container::after height of 1px', () => {
+            const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
+            const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
+            const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
+
+            expect(listViewItemSubContainerHeight).to.equal('1px');
+          });
+
+          context('when not expanded', () => {
+            it('should have items container div (expandable-content-container) with max-height of 1px when item is not expanded', () => {
+              let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
+              let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
+              
+              expect(elementExpandableContentContainerDivMaxHeight).to.equal('1px');
+            });
+          });
+
+          context('when expanded', () => {
+            // this is using a different fixture for expanded IOS list item
+            beforeEach(() => {
+              element = fixture('IosExpandaleItemsExpandedTestFixture');
+
+              observer1 = new FlattenedNodesObserver(element, function (info) {
+                items = info;
+              });
+              observer1.flush();
+              nodes = items.addedNodes;
+
+              for (var i = 0; i < nodes.length; i++) {
+                // check which item matches header slot name 'secondary-content'
+                if (nodes[i].nodeName != "#text") {
+                  var listViewItemChild = nodes[i];
+
+                  if (listViewItemChild.getAttribute('slot') == 'expandable-content') {
+                    elementExpandableContent = listViewItemChild;
+                  }
+                }
+              }
+            });
+
+            // max-height is dynamic here depending on the text content. For this test fixture the computed max-height is 38px.
+            it('should have items container div (expandable-content-container) with max-height of 38px when item is expanded', () => {
+              let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
+              let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
+              
+              expect(elementExpandableContentContainerDivMaxHeight).to.equal('38px');
+            });
+
           });
 
         });
 
-      });
+        context('when on Android', () => {
 
-      context('when on Android', () => {
+          beforeEach(() => {
+            element = fixture('AndroidExpandaleItemsCloseTestFixture');
 
-        beforeEach(() => {
-          element = fixture('AndroidExpandaleItemsCloseTestFixture');
+            observer1 = new FlattenedNodesObserver(element, function (info) {
+              items = info;
+            });
+            observer1.flush();
+            nodes = items.addedNodes;
 
-          observer1 = new FlattenedNodesObserver(element, function (info) {
-            items = info;
-          });
-          observer1.flush();
-          nodes = items.addedNodes;
+            for (var i = 0; i < nodes.length; i++) {
+              // check which item matches header slot name 'secondary-content'
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
 
-          for (var i = 0; i < nodes.length; i++) {
-            // check which item matches header slot name 'secondary-content'
-            if (nodes[i].nodeName != "#text") {
-              var listViewItemChild = nodes[i];
-
-              if (listViewItemChild.getAttribute('slot') == 'expandable-content') {
-                elementExpandableContent = listViewItemChild;
+                if (listViewItemChild.getAttribute('slot') == 'expandable-content') {
+                  elementExpandableContent = listViewItemChild;
+                }
               }
             }
-          }
-        });
-
-        it('should have items with color of rgb(33, 33, 33) for android', () => {
-          let elementExpandableContentColor = window.getComputedStyle(elementExpandableContent).getPropertyValue('color');
-
-          expect(elementExpandableContentColor).to.equal('rgb(33, 33, 33)');
-        });
-
-        it('should have items with padding-top of 10px and padding-right of 15px for android', () => {
-          let elementExpandableContentPaddingTop = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-top');
-          let elementExpandableContentPaddingRight = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-right');
-
-          expect(elementExpandableContentPaddingTop).to.equal('10px');
-          expect(elementExpandableContentPaddingRight).to.equal('16px');
-        });
-
-        // line - height: 1.5;
-        it('should have items with line-height of 1.5 for android', () => {
-          let elementExpandableContentLineHeight = window.getComputedStyle(elementExpandableContent).getPropertyValue('line-height');
-
-          expect(elementExpandableContentLineHeight).to.equal('24px');
-        });
-
-        it('should have container::after should not be visible', () => {
-          const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
-          const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
-          const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
-
-          expect(listViewItemContainerHeight).not.to.equal('1px');
-        });
-
-        it('should have div.sub-container::after height of 1px', () => {
-          const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
-          const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
-          const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
-
-          expect(listViewItemSubContainerHeight).to.equal('1px');
-        });
-
-        context('when not expanded', () => {
-          it('should have items container div (expandable-content-container) with max-height of 1px when item is not expanded', () => {
-            let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
-            let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
-
-            expect(elementExpandableContentContainerDivMaxHeight).to.equal('1px');
-          });
-          
-          it('should have attribute expanded equal to false', () => {
-            const listItemHasAttributeExpanded = element.hasAttribute('expanded');
-
-            expect(listItemHasAttributeExpanded).to.be.false;
           });
 
-          it('should have attribute expanded equal to true when click from close', () => {
+          it('should have items with color of rgb(33, 33, 33) for android', () => {
+            let elementExpandableContentColor = window.getComputedStyle(elementExpandableContent).getPropertyValue('color');
+
+            expect(elementExpandableContentColor).to.equal('rgb(33, 33, 33)');
+          });
+
+          it('should have items with padding-top of 10px and padding-right of 15px for android', () => {
+            let elementExpandableContentPaddingTop = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-top');
+            let elementExpandableContentPaddingRight = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-right');
+
+            expect(elementExpandableContentPaddingTop).to.equal('10px');
+            expect(elementExpandableContentPaddingRight).to.equal('16px');
+          });
+
+          // line - height: 1.5;
+          it('should have items with line-height of 1.5 for android', () => {
+            let elementExpandableContentLineHeight = window.getComputedStyle(elementExpandableContent).getPropertyValue('line-height');
+
+            expect(elementExpandableContentLineHeight).to.equal('24px');
+          });
+
+          it('should have container::after should not be visible', () => {
+            const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
+            const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
+            const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
+
+            expect(listViewItemContainerHeight).not.to.equal('1px');
+          });
+
+          it('should have div.sub-container::after height of 1px', () => {
+            const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
+            const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
+            const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
+
+            expect(listViewItemSubContainerHeight).to.equal('1px');
+          });
+
+          context('when not expanded', () => {
+            it('should have items container div (expandable-content-container) with max-height of 1px when item is not expanded', () => {
+              let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
+              let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
+
+              expect(elementExpandableContentContainerDivMaxHeight).to.equal('1px');
+            });
+            
+            it('should have attribute expanded equal to false', () => {
+              const listItemHasAttributeExpanded = element.hasAttribute('expanded');
+
+              expect(listItemHasAttributeExpanded).to.be.false;
+            });
+
+            it('should have attribute expanded equal to true when click from close', () => {
+              const elementShadowRoot = element.shadowRoot;
+              const listViewItem = elementShadowRoot.querySelector('a');
+              // initial setup will have no expanded attribute
+              expect(element.hasAttribute('expanded')).to.be.equal(false);
+
+              listViewItem.click();
+              // after clicking, the expanded attribute should be added
+              expect(element.hasAttribute('expanded')).to.be.equal(true);
+            });
+
+          });
+
+          context('when expanded', () => {
+            // this is using a different fixture for expanded android list item
+            beforeEach(() => {
+              element = fixture('AndroidExpandaleItemsExpandedTestFixture');
+
+              observer1 = new FlattenedNodesObserver(element, function (info) {
+                items = info;
+              });
+              observer1.flush();
+              nodes = items.addedNodes;
+
+              for (var i = 0; i < nodes.length; i++) {
+                // check which item matches header slot name 'secondary-content'
+                if (nodes[i].nodeName != "#text") {
+                  var listViewItemChild = nodes[i];
+
+                  if (listViewItemChild.getAttribute('slot') == 'expandable-content') {
+                    elementExpandableContent = listViewItemChild;
+                  }
+                }
+              }
+            });
+            
+            // max-height is dynamic here depending on the text content. For this test fixture the computed max-height is 44px.
+            // This is different values from ios for they differ in line-height.
+            it('should have items container div (expandable-content-container) with max-height of 38px when item is expanded', () => {
+              let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
+              let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
+
+              expect(elementExpandableContentContainerDivMaxHeight).to.equal('44px');
+            });
+
+            it('should not have attribute expanded or expanded should be equal to false', () => {
             const elementShadowRoot = element.shadowRoot;
-            const listViewItem = elementShadowRoot.querySelector('a');
-            // initial setup will have no expanded attribute
-            expect(element.hasAttribute('expanded')).to.be.equal(false);
+              const listViewItem = elementShadowRoot.querySelector('a');
+              // initial setup will have no expanded attribute
+              expect(element.hasAttribute('expanded')).to.be.equal(true);
 
-            listViewItem.click();
-            // after clicking, the expanded attribute should be added
-            expect(element.hasAttribute('expanded')).to.be.equal(true);
-          });
-
-        });
-
-        context('when expanded', () => {
-          // this is using a different fixture for expanded android list item
-          beforeEach(() => {
-            element = fixture('AndroidExpandaleItemsExpandedTestFixture');
-
-            observer1 = new FlattenedNodesObserver(element, function (info) {
-              items = info;
+              listViewItem.click();
+              // after clicking, the expanded attribute should be added
+              expect(element.hasAttribute('expanded')).to.be.equal(false);
             });
-            observer1.flush();
-            nodes = items.addedNodes;
 
-            for (var i = 0; i < nodes.length; i++) {
-              // check which item matches header slot name 'secondary-content'
-              if (nodes[i].nodeName != "#text") {
-                var listViewItemChild = nodes[i];
-
-                if (listViewItemChild.getAttribute('slot') == 'expandable-content') {
-                  elementExpandableContent = listViewItemChild;
-                }
-              }
-            }
-          });
-          
-          // max-height is dynamic here depending on the text content. For this test fixture the computed max-height is 44px.
-          // This is different values from ios for they differ in line-height.
-          it('should have items container div (expandable-content-container) with max-height of 38px when item is expanded', () => {
-            let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
-            let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
-
-            expect(elementExpandableContentContainerDivMaxHeight).to.equal('44px');
-          });
-
-          it('should not have attribute expanded or expanded should be equal to false', () => {
-          const elementShadowRoot = element.shadowRoot;
-            const listViewItem = elementShadowRoot.querySelector('a');
-            // initial setup will have no expanded attribute
-            expect(element.hasAttribute('expanded')).to.be.equal(true);
-
-            listViewItem.click();
-            // after clicking, the expanded attribute should be added
-            expect(element.hasAttribute('expanded')).to.be.equal(false);
           });
 
         });
 
       });
-
-    });
 
     </script>
   </body>
