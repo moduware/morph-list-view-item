@@ -6,10 +6,9 @@
 
     <title>morph-list-view-item demo</title>
 
-    <!-- <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script> -->
-    <script src="https://cdn.rawgit.com/webcomponents/webcomponentsjs/v0.7.24/webcomponents-lite.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 
-    <script type="module" src="../node_modules/@polymer/morph-element/morph-element.js"></script>
+    <!-- <script type="module" src="../node_modules/morph-element/morph-element.js"></script> -->
     <script type="module" src="../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js"></script>
     <script type="module" src="../node_modules/@polymer/iron-demo-helpers/demo-snippet.js"></script>
     <script type="module" src="../node_modules/@polymer/iron-icons/maps-icons.js"></script>
@@ -26,7 +25,8 @@
     <script type="module">
       var $_documentContainer = document.createElement('template');
 
-      $_documentContainer.innerHTML = `<custom-style>
+      $_documentContainer.innerHTML = /*html*/`
+      <custom-style>
         <style is="custom-style" include="demo-pages-shared-styles">
           demo-snippet {
             --demo-snippet-demo: {
@@ -41,7 +41,8 @@
             box-sizing: border-box;
           }
         </style>
-      </custom-style>`;
+      </custom-style>
+      `;
 
       document.body.appendChild($_documentContainer.content);
     </script>
@@ -52,7 +53,8 @@
     <script type="module">
       var $_documentContainer = document.createElement('template');
 
-      $_documentContainer.innerHTML = `<div class="vertical-section-container centered">
+      $_documentContainer.innerHTML = /*html*/`
+      <div class="vertical-section-container centered">
         <h3>Basic morph-list-view-item demo</h3>
         <demo-snippet>
           <template>
@@ -89,7 +91,8 @@
             </morph-list-view-item>
           </template>
         </demo-snippet>
-      </div>`;
+      </div>
+      `;
 
       document.body.appendChild($_documentContainer.content);
     </script>

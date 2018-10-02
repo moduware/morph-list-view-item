@@ -1,7 +1,7 @@
+import { MorphElement } from 'morph-element/morph-element.js';
+import 'morph-ripple/morph-ripple.js';
+import 'morph-shared-styles/morph-shared-styles.js';
 import { PolymerElement, html } from '@polymer/polymer';
-import { MorphElement } from '@polymer/morph-element/morph-element.js';
-import '@polymer/morph-ripple/morph-ripple.js';
-import '@polymer/morph-shared-styles/morph-shared-styles.js';
 import '@polymer/iron-icons/iron-icons.js';
 
 /**
