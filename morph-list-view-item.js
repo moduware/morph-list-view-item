@@ -1,6 +1,6 @@
-import { MorphElement } from 'morph-element/morph-element.js';
-import 'morph-ripple/morph-ripple.js';
-import 'morph-shared-styles/morph-shared-styles.js';
+import { MorphElement } from '@moduware/morph-element/morph-element.js';
+import '@moduware/morph-ripple/morph-ripple.js';
+import '@moduware/morph-shared-styles/morph-shared-styles.js';
 import { PolymerElement, html } from '@polymer/polymer';
 import '@polymer/iron-icons/iron-icons.js';
 
@@ -10,9 +10,11 @@ import '@polymer/iron-icons/iron-icons.js';
  *
  * @customElement
  * @polymer
+ * @extends HTMLElement
+ * 
  * @demo demo/index.html
  */
-class MorphListViewItem extends MorphElement(PolymerElement) {
+export class MorphListViewItem extends MorphElement(PolymerElement) {
   static get template() {
     return html`
     <style include="morph-shared-styles">
