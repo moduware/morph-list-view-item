@@ -359,12 +359,12 @@ export class MorphListViewItem extends MorphElement(PolymerElement) {
     this.$.expandableContentContainer.style.maxHeight = height + 'px';
   }
 
-  Equal(item1, item2) {
-    return item1 == item2;
-  }
-  NoEqual(item1, item2) {
-    return !this.Equal(item1, item2);
-  }
+  // Equal(item1, item2) {
+  //   return item1 == item2;
+  // }
+  // NoEqual(item1, item2) {
+  //   return !this.Equal(item1, item2);
+  // }
 }
 
 window.customElements.define(MorphListViewItem.is, MorphListViewItem);

@@ -620,14 +620,6 @@
               }
             });
 
-            // max-height is dynamic here depending on the text content. For this test fixture the computed max-height is 39px.
-            it('should have items container div (expandable-content-container) with max-height of 39px when item is expanded', () => {
-              let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
-              let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
-              
-              expect(elementExpandableContentContainerDivMaxHeight).to.equal('39px');
-            });
-
           });
 
         });
