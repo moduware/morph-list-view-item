@@ -1,7 +1,8 @@
-import { MorphElement } from '@moduware/morph-element/morph-element.js';
+// import { MorphElement } from '@moduware/morph-element/morph-element.js';
+import { LitElement, html } from '@polymer/lit-element';
+import { ifDefined } from 'lit-html/directives/if-defined';
 import '@moduware/morph-ripple/morph-ripple.js';
 import '@moduware/morph-shared-styles/morph-shared-styles.js';
-import { PolymerElement, html } from '@polymer/polymer';
 import '@polymer/iron-icons/iron-icons.js';
 
 /**
@@ -14,8 +15,8 @@ import '@polymer/iron-icons/iron-icons.js';
  * 
  * @demo demo/index.html
  */
-export class MorphListViewItem extends MorphElement(PolymerElement) {
-  static get template() {
+export class MorphListViewItem extends LitElement {
+  render() {
     return html`
     <style include="morph-shared-styles">
       :host {
@@ -266,11 +267,11 @@ export class MorphListViewItem extends MorphElement(PolymerElement) {
       }
       
     </style>
-
-    <a href="[[href]]" on-click="clickHandler">
+    
+    <a @click="${event => this.clickHandler(event)}">
       <div class="container">
         <slot name="icon"></slot>
-        
+
         <div class="sub-container">
           <div class="main-text">
             <slot name="header"></slot>
@@ -279,92 +280,157 @@ export class MorphListViewItem extends MorphElement(PolymerElement) {
             </span>
             <slot name="footer"></slot>
           </div>
-          
+
           <slot name="secondary-content"></slot>
-          <template is="dom-if" if="[[href]]">
-            <template is="dom-if" if="[[!noChevron]]">
-              <svg id="chevron-svg" width="8px" height="13px" viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg">
-                <polygon fill="#c7c7cc" transform="translate(1.500000, 6.500000) rotate(-45.000000) translate(-1.500000, -6.500000) " points="6 11 6 2 4 2 4 9 -3 9 -3 11 5 11"></polygon>
-              </svg>
-            </template>
-          </template>
+          
+          ${this.getRenderChevron()}
         </div>
-        <template is="dom-if" if="[[href]]">
-          <template is="dom-if" if="[[!noRipple]]">
-            <morph-ripple></morph-ripple> 
-          </template>
-        </template>
+
+        ${this.getRenderRipple()}
+        
+      </div>
+
+      <div class="expandable-content-container" id="expandableContentContainer">
+        <div><slot name="expandable-content"></slot></div>
       </div>
     </a>
-    <div class="expandable-content-container" id="expandableContentContainer">
-      <div><slot name="expandable-content"></slot></div>
-    </div>
+    
+    <!-- 
+    
+-    <a href="[[href]]" on-click="clickHandler">
+       <div class="container">
+-        <slot name="icon"></slot>
+         
+-        <div class="sub-container">
+-          <div class="main-text">
+-            <slot name="header"></slot>
+-            <span>
+-              <slot></slot>
+-            </span>
+-            <slot name="footer"></slot>
+-          </div>
+-          
+-          <slot name="secondary-content"></slot>
+
+-          <template is="dom-if" if="[[href]]">
+-            <template is="dom-if" if="[[!noChevron]]">
+-              <svg id="chevron-svg" width="8px" height="13px" viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg">
+-                <polygon fill="#c7c7cc" transform="translate(1.500000, 6.500000) rotate(-45.000000) translate(-1.500000, -6.500000) " points="6 11 6 2 4 2 4 9 -3 9 -3 11 5 11"></polygon>
+-              </svg>
+-            </template>
+-          </template>
+-        </div>
+-        <template is="dom-if" if="[[href]]">
+-          <template is="dom-if" if="[[!noRipple]]">
+-            <morph-ripple></morph-ripple> 
+-          </template>
+-        </template>
+       </div>
+     </a>
+-    <div class="expandable-content-container" id="expandableContentContainer">
+-      <div><slot name="expandable-content"></slot></div>
+-    </div>
+
+    -->
 `;
   }
 
   static get is() { return 'morph-list-view-item'; }
   static get properties() {
     return {
+      platform: {
+        type: String,
+        reflect: true
+      },
       href: {
         type: String,
-        reflectToAttribute: true
+        reflect: true
       },
       containsMedia: {
         type: Boolean,
-        value: false,
-        reflectToAttribute: true
+        reflect: true
       },
 
       /** remove ripple effect */
       noRipple: {
         type: Boolean,
-        value: false
+        reflect: true
       },
       
       /** remove chevron svg on links */
       noChevron: {
-        type: Boolean,
-        value: false
+        type: Boolean
       },
 
       expandable: {
-        type: Boolean,
-        value: false
+        type: Boolean
       },
 
       expanded: {
         type: Boolean,
-        value: false,
-        reflectToAttribute: true
+        reflect: true
       }
 
     };
   }
 
-  ready() {
-    super.ready();
+  firstUpdated() {
+    super.firstUpdated();
 
-    this._setMaxHeightForExpandableContentContainer();
+    if (!this.hasAttribute('platform')) {
+      this.platform = getPlatform();
+    }
   }
 
   clickHandler(event) {
-    if(this.expandable) {
-      this._setMaxHeightForExpandableContentContainer();
-      this.set('expanded', !this.expanded);
+    console.log('event', event.target);
+    
+    // if(this.expandable) {
+    //   this._setMaxHeightForExpandableContentContainer();
+    //   this.set('expanded', !this.expanded);
+    // }
+  }
+
+  getRenderChevron() {
+    const chevronSvg = html`
+      <svg id="chevron-svg" width="8px" height="13px" viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg">
+        <polygon fill="#c7c7cc" transform="translate(1.500000, 6.500000) rotate(-45.000000) translate(-1.500000, -6.500000) " points="6 11 6 2 4 2 4 9 -3 9 -3 11 5 11"></polygon>
+      </svg>
+    `;
+    if (this.hasAttribute('href') && !this.noChevron) {
+      return chevronSvg;
+    } else {
+      return html``;
+    }
+  }
+
+  getRenderRipple() {
+    const ripple = html`<morph-ripple></morph-ripple>`;
+
+    if (this.platform == 'android' && this.hasAttribute('href') && !this.noRipple) {
+      return ripple;
+    } else {
+      return html``;
     }
   }
 
   _setMaxHeightForExpandableContentContainer() {
-    const height = this.$.expandableContentContainer.children[0].offsetHeight;
-    this.$.expandableContentContainer.style.maxHeight = height + 'px';
+    // let shadow = this.shadowRoot;
+    // let expandableContent = shadow.querySelector('#expandableContentContainer');
+    
+    // const height = expandableContent.children[0].offsetHeight;
+    // expandableContent.style.maxHeight = height + 'px';
   }
 
-  // Equal(item1, item2) {
-  //   return item1 == item2;
-  // }
-  // NoEqual(item1, item2) {
-  //   return !this.Equal(item1, item2);
-  // }
+  increment() {
+    this.value++;
+    this._valueChanged();
+  }
+
+  _valueChanged() {
+    // Fire a custom event for others to listen to
+    this.dispatchEvent(new CustomEvent('valueChange', { detail: this.value }));
+  }
 }
 
 window.customElements.define(MorphListViewItem.is, MorphListViewItem);

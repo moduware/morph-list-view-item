@@ -13,6 +13,8 @@
     <script type="module" src="../morph-list-view-item.js"></script>
 
     <script type="module">
+      
+      
       var $_documentContainer = document.createElement('template');
 
       $_documentContainer.innerHTML = /*html*/`
@@ -41,14 +43,15 @@
 
   <body>
     <script type="module">
+      console.log('helloooooo');
       var $_documentContainer = document.createElement('template');
 
       $_documentContainer.innerHTML = /*html*/`
       <div class="vertical-section-container centered">
-        <h3>Basic morph-list-view-item demo</h3>
+        <h3>Android morph-list-view-item demo</h3>
         <demo-snippet>
           <template>
-            <morph-list-view-item platform="android">List Item</morph-list-view-item>
+            <morph-list-view-item platform="android">Android List Item</morph-list-view-item>
 
             <morph-list-view-item platform="android">
               <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
@@ -56,7 +59,7 @@
               <span slot="secondary-content">Version</span> 
             </morph-list-view-item>
 
-            <morph-list-view-item href="#moduware" no-ripple expandable expanded platform="android">
+            <morph-list-view-item href="#moduware" expandable expanded platform="android">
               <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
               Expandable
               <span slot="secondary-content">Version</span> 
@@ -65,13 +68,50 @@
               </span>
             </morph-list-view-item>
 
-            <morph-list-view-item href="#moduware" no-chevron platform="android">
+            <morph-list-view-item href="#moduware" noChevron platform="android">
               <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
-              no-chevron
+              noChevron
               <span slot="secondary-content">Version</span> 
             </morph-list-view-item>
 
             <morph-list-view-item href="#moduware" contains-media platform="android">
+              <span slot="icon">
+                <img src="https://picsum.photos/160/160?image=1027" width="80">
+              </span>
+              <span slot="header">Header</span>
+              Contains Media
+              <span slot="footer">Footer</span>
+            </morph-list-view-item>
+          </template>
+        </demo-snippet>
+
+        <h3>IOS morph-list-view-item demo</h3>
+        <demo-snippet>
+          <template>
+            <morph-list-view-item platform="ios">List Item</morph-list-view-item>
+
+            <morph-list-view-item platform="ios">
+              <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
+              Item with Icon
+              <span slot="secondary-content">Version</span> 
+            </morph-list-view-item>
+
+            <morph-list-view-item href="#moduware" expandable expanded platform="ios">
+              <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
+              Expandable
+              <span slot="secondary-content">Version</span> 
+              <span slot="expandable-content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean elementum id neque nec commodo. Sed vel justo at turpis laoreet pellentesque quis sed lorem. Integer semper arcu nibh, non mollis arcu tempor vel. Sed pharetra tortor vitae est rhoncus, vel congue dui sollicitudin. Donec eu arcu dignissim felis viverra blandit suscipit eget ipsum.
+              </span>
+            </morph-list-view-item>
+
+            <morph-list-view-item href="#moduware" noChevron platform="ios">
+              <span slot="icon"><iron-icon icon="maps:directions-bus"></iron-icon></span>
+              noChevron
+              <span slot="secondary-content">Version</span> 
+            </morph-list-view-item>
+
+            <morph-list-view-item href="#moduware" contains-media platform="ios">
               <span slot="icon">
                 <img src="https://picsum.photos/160/160?image=1027" width="80">
               </span>
