@@ -52,11 +52,11 @@ export class MorphListViewItem extends LitElement {
         min-height: 48px;
       }
 
-      :host([platform="ios"][href]:not([no-chevron])) .sub-container {
+      :host([platform="ios"][href]:not([nochevron])) .sub-container {
         padding-right: 15px;
       }
       
-      :host([platform="android"][href]:not([no-chevron])) .sub-container {
+      :host([platform="android"][href]:not([nochevron])) .sub-container {
         padding-right: 16px;
       }
 
@@ -304,20 +304,21 @@ export class MorphListViewItem extends LitElement {
         type: String,
         reflect: true
       },
-      containsMedia: {
+      containsmedia: {
         type: Boolean,
         reflect: true
       },
 
       /** remove ripple effect */
-      noRipple: {
+      noripple: {
         type: Boolean,
         reflect: true
       },
       
       /** remove chevron svg on links */
-      noChevron: {
-        type: Boolean
+      nochevron: {
+        type: Boolean,
+        reflect: true
       },
 
       expandable: {
@@ -356,26 +357,43 @@ export class MorphListViewItem extends LitElement {
     expandableContent.style.maxHeight = height + 'px';
   }
 
-  getRenderChevron() {
-    const chevronSvg = html`
+  chevronSvgTemplate() {
+    return html`
       <svg id="chevron-svg" width="8px" height="13px" viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg">
         <polygon fill="#c7c7cc" transform="translate(1.500000, 6.500000) rotate(-45.000000) translate(-1.500000, -6.500000) " points="6 11 6 2 4 2 4 9 -3 9 -3 11 5 11"></polygon>
       </svg>
     `;
-    if (this.hasAttribute('href') && !this.noChevron) {
-      return chevronSvg;
+  }
+
+  getRenderChevron() {
+    if (this.hasAttribute('href') && !this.nochevron) {
+      return html`
+        <svg id="chevron-svg" width="8px" height="13px" viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg">
+          <polygon fill="#c7c7cc" transform="translate(1.500000, 6.500000) rotate(-45.000000) translate(-1.500000, -6.500000) "
+            points="6 11 6 2 4 2 4 9 -3 9 -3 11 5 11"></polygon>
+        </svg>
+      `;
     } else {
-      return html``;
+      return null;
     }
   }
 
-  getRenderRipple() {
-    const ripple = html`<morph-ripple style="z-index: 1;"></morph-ripple>`;
+  truthCheckOnArgs() {
+    for(let i = 0; i < arguments.length; i++) {
+      console.log(arguments[i]);
+      
+      if (arguments[i] == false) { return false; }
+    }
+    return true;
+  }
 
-    if (this.platform == 'android' && this.hasAttribute('href') && !this.noRipple) {
+  getRenderRipple() {
+    const ripple = html`<morph-ripple></morph-ripple>`;
+
+    if (this.platform == 'android' && this.hasAttribute('href') && !this.noripple) {
       return ripple;
     } else {
-      return html``;
+      return null;
     }
   }
 

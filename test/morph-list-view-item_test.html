@@ -35,7 +35,7 @@
       </template>
     </test-fixture>
 
-    <test-fixture id="ChevronTestFixture">
+    <test-fixture id="LinkTestFixtureIos">
       <template>
         <morph-list-view-item platform="ios" href="#moduware">
           <span id="title" slot="header">Header</span>
@@ -46,9 +46,28 @@
       </template>
     </test-fixture>
 
-    <test-fixture id="NoChevronTestFixture">
+    <test-fixture id="LinkTestFixtureAndroid">
       <template>
-        <morph-list-view-item platform="ios" href="#moduware" no-chevron>
+        <morph-list-view-item platform="android" href="#moduware">
+          <span id="title" slot="header">Header</span>
+          Link Item
+          <span slot="footer">Footer</span>
+          <span slot="secondary-content">Secondary Content</span>
+        </morph-list-view-item>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="LinkTestFixtureWithNochevronPresentIos">
+      <template>
+        <morph-list-view-item platform="ios" href="#moduware" nochevron>
+          No Chevron Link Item
+        </morph-list-view-item>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="LinkTestFixtureWithNochevronPresentAndroid">
+      <template>
+        <morph-list-view-item platform="android" href="#moduware" nochevron>
           No Chevron Link Item
         </morph-list-view-item>
       </template>
@@ -72,7 +91,7 @@
 
     <test-fixture id="AndroidWithNoRippleTestFixture">
       <template>
-        <morph-list-view-item platform="android" href="#moduware" no-ripple>
+        <morph-list-view-item platform="android" href="#moduware" noripple>
           Android Link Item with No Ripple
         </morph-list-view-item>
       </template>
@@ -188,14 +207,18 @@
             observer1.flush();
           });
 
-          it('Should have correct main-text font-size for IOS platform', () => {
-            const itemMainText = element.shadowRoot.querySelector('div.main-text');
-            const mainTextStyles = window.getComputedStyle(itemMainText);
+          it('Should have correct main-text font-size for IOS platform', async () => {
+            await element.updateComplete;
+            const shadow = element.shadowRoot;
+            const itemMainText = shadow.querySelector('div.main-text');
+            
+            const mainTextStyles = getComputedStyle(itemMainText);
             
             expect(mainTextStyles.fontSize).to.equal('17px');
           });
 
-          it('Should have correct font-size for IOS header', () => {
+          it('Should have correct font-size for IOS header', async () => {
+            await element.updateComplete;
             let nodes = items.addedNodes;
             for (var i = 0; i < nodes.length; i++) {
               if (nodes[i].nodeName != "#text") {
@@ -211,7 +234,9 @@
             }
           });
 
-          it('Should have correct font-size and color for IOS footer', () => {
+          it('Should have correct font-size and color for IOS footer', async () => {
+            await element.updateComplete;
+
             let nodes = items.addedNodes;
 
             for (var i = 0; i < nodes.length; i++) {
@@ -231,7 +256,9 @@
             }
           });
 
-          it('Should have correct secondary-content color and font-size for IOS platform', () => {
+          it('Should have correct secondary-content color and font-size for IOS platform', async () => {
+            await element.updateComplete;
+
             let nodes = items.addedNodes;
             
             for (var i = 0; i < nodes.length; i++) {
@@ -251,7 +278,9 @@
             }
           });
 
-          it('should have div.container::after height of 1px', () => {
+          it('should have div.container::after height of 1px', async () => {
+            await element.updateComplete;
+
             const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
             const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
             const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
@@ -259,7 +288,9 @@
             expect(listViewItemContainerHeight).to.equal('1px');
           });
 
-          it('should have div.sub-container::after height of 1px', () => {
+          it('should have div.sub-container::after height of 1px', async () => {
+            await element.updateComplete;
+
             const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
             const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
             const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
@@ -267,7 +298,9 @@
             expect(listViewItemSubContainerHeight).to.equal('1px');
           });
 
-          it('should have div.expandable-content-container display of none', () => {
+          it('should have div.expandable-content-container display of none', async () => {
+            await element.updateComplete;
+
             const listViewItemExpandableContentContainer = element.shadowRoot.querySelector('div.expandable-content-container');
             
             const lineAfterStyle = window.getComputedStyle(listViewItemExpandableContentContainer);
@@ -292,14 +325,18 @@
             observer1.flush();
           });
 
-          it('Should have correct main-text font-size for Android platform', () => {
+          it('Should have correct main-text font-size for Android platform', async () => {
+            await element.updateComplete;
+
             const itemMainText = element.shadowRoot.querySelector('div.main-text');
             const mainTextStyles = window.getComputedStyle(itemMainText);
 
             expect(mainTextStyles.fontSize).to.equal('16px');
           });
 
-          it('Should have correct font-size and font-weight for Android header', () => {
+          it('Should have correct font-size and font-weight for Android header', async () => {
+            await element.updateComplete;
+
             let nodes = items.addedNodes;
 
             for (var i = 0; i < nodes.length; i++) {
@@ -316,7 +353,9 @@
             }
           });
 
-          it('Should have correct font-size and color for Android footer', () => {
+          it('Should have correct font-size and color for Android footer', async () => {
+            await element.updateComplete;
+
             let nodes = items.addedNodes;
 
             for (var i = 0; i < nodes.length; i++) {
@@ -336,7 +375,9 @@
             }
           });
 
-          it('Should have correct secondary-content font-size and color Android platform', () => {
+          it('Should have correct secondary-content font-size and color Android platform', async () => {
+            await element.updateComplete;
+
             let nodes = items.addedNodes;
             for (var i = 0; i < nodes.length; i++) {
               if (nodes[i].nodeName != "#text") {
@@ -355,7 +396,9 @@
             }
           });
 
-          it('should have div.container::after height of 1px', () => {
+          it('should have div.container::after height of 1px', async () => {
+            await element.updateComplete;
+
             const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
             const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
             const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
@@ -363,7 +406,9 @@
             expect(listViewItemContainerHeight).to.equal('1px');
           });
 
-          it('should have div.sub-container::after height of 1px', () => {
+          it('should have div.sub-container::after height of 1px', async () => {
+            await element.updateComplete;
+
             const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
             const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
             const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
@@ -371,151 +416,208 @@
             expect(listViewItemSubContainerHeight).to.equal('1px');
           });
 
-          it('Should have no ripple', (done) => {
+          it('Should have no ripple', async () => {
+            await element.updateComplete;
+
             let shadowRoot = element.shadowRoot;
             let container = shadowRoot.querySelector('.container');
             let morphRipple = container.getElementsByTagName('morph-ripple');
 
-            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
-            flush(function () {
-              expect(morphRipple.length).to.equal(0);
-              done();
-            });
+            expect(morphRipple.length).to.equal(0);
           });
 
         });
 
       }); // end of describe 'morph-list-view-item'
 
-      describe('Test for Chevron child element', () => {
+      describe('href attribute present', () => {
+        context('WITHOUT nochevron attribute', () => {
+          context('on IOS', () => {
+            let element;
 
-        context('Chevron when it is a link item (href present)', () => {
-          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
-          let element;
-
-          beforeEach(function () {
-            element = fixture('ChevronTestFixture');
-          });
-
-          it('Should have noChevron property equal to false', () => {
-            expect(element.noChevron).to.be.false;
-          });
-
-          it('Should have chevron svg css display property equal to block', (done) => {
-            const shadowRoot = element.shadowRoot;
-            const subContainer = shadowRoot.querySelector('.sub-container');
-            const chevronSvg = subContainer.getElementsByTagName('svg');
-
-            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
-            flush(function () {
-              const chevronDisplay = window.getComputedStyle(chevronSvg[0]).getPropertyValue('display');
-
-              expect(chevronSvg.length).to.equal(1);
-              expect(chevronDisplay).to.equal('block');
-              done();
+            beforeEach(function () {
+              element = fixture('LinkTestFixtureIos');
             });
 
+            it('Should have the chevron svg element and with width 8px', async () => {
+              await element.updateComplete;
+
+              const shadowRoot = element.shadowRoot;
+              const subContainer = shadowRoot.querySelector('.sub-container');
+              const chevron = subContainer.querySelector('#chevron-svg');
+              const actualChevronWidth = chevron.getAttribute('width');
+              const expectedChevronWidth = '8px';
+
+              expect(actualChevronWidth).to.be.equal(expectedChevronWidth);
+            });
+
+            it('Should have sub-container css padding-right equal to 15px', async () => {
+              await element.updateComplete;
+
+              const shadowRoot = element.shadowRoot;
+              const subContainer = shadowRoot.querySelector('.sub-container');
+              const subContainerStyle = getComputedStyle(subContainer);
+              const actualPaddingRight = subContainerStyle.paddingRight;
+              const expectedPaddingRightOnIos = '15px';
+
+              expect(actualPaddingRight).to.be.equal(expectedPaddingRightOnIos);
+            });
+          });
+
+          context('on Android', () => {
+            let element;
+
+            beforeEach(function () {
+              element = fixture('LinkTestFixtureAndroid');
+            });
+
+            it('Should have the chevron svg element and with width 8px', async () => {
+              await element.updateComplete;
+
+              const shadowRoot = element.shadowRoot;
+              const subContainer = shadowRoot.querySelector('.sub-container');
+              const chevron = subContainer.querySelector('#chevron-svg');
+              const actualChevronWidth = chevron.getAttribute('width');
+              const expectedChevronWidth = '8px';
+
+              expect(actualChevronWidth).to.be.equal(expectedChevronWidth);
+            });
+
+            it('Should have sub-container css padding-right equal to 16px', async () => {
+              await element.updateComplete;
+
+              const shadowRoot = element.shadowRoot;
+              const subContainer = shadowRoot.querySelector('.sub-container');
+              const subContainerStyle = getComputedStyle(subContainer);
+              const actualPaddingRight = subContainerStyle.paddingRight;
+              const expectedPaddingRightOnAndroid = '16px';
+
+              expect(actualPaddingRight).to.be.equal(expectedPaddingRightOnAndroid);
+            }); 
           });
 
         });
 
-        context('Chevron when no-chevron attribute is present', () => {
-          // declare variable to be used between 'beforeAll' block and 'context' block or 'it' block
-          let element;
+        context('WITH nochevron attribute PRESENT', () => {
+          context('on IOS', () => {
+            let element;
 
-          beforeEach(function () {
-            element = fixture('NoChevronTestFixture');
-          });
+            beforeEach(function() {
+              element = fixture('LinkTestFixtureWithNochevronPresentIos');
+            });
 
+            it('Should NOT have the chevron svg element', async () => {
+              await element.updateComplete;
 
-          it('Should have noChevron property equal to true', () => {
-            expect(element.noChevron).to.be.true;
-          });
+              const shadowRoot = element.shadowRoot;
+              const subContainer = shadowRoot.querySelector('.sub-container');
+              const chevron = subContainer.querySelector('#chevron-svg');
 
-          it('Should have chevron svg css display property equal to block', (done) => {
-            const shadowRoot = element.shadowRoot;
-            const subContainer = shadowRoot.querySelector('.sub-container');
-            const chevronSvg = subContainer.getElementsByTagName('svg');
+              expect(chevron).to.be.null;
+            });
 
-            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
-            flush(function () {
-              expect(chevronSvg.length).to.equal(0);
-              done();
+            it('Should have sub-container css padding-right equal to 0px', async () => {
+              await element.updateComplete;
+
+              const shadowRoot = element.shadowRoot;
+              const subContainer = shadowRoot.querySelector('.sub-container');
+              const subContainerStyle = getComputedStyle(subContainer);
+              const actualPaddingRight = subContainerStyle.paddingRight;
+              const expectedPaddingRightOnIos = '0px';
+
+              expect(actualPaddingRight).to.be.equal(expectedPaddingRightOnIos);
             });
 
           });
+          context('on Android', () => {
+            let element;
 
+            beforeEach(function () {
+              element = fixture('LinkTestFixtureWithNochevronPresentAndroid')
+            });
+
+            it('Should NOT have the chevron svg element', async () => {
+              await element.updateComplete;
+
+              const shadowRoot = element.shadowRoot;
+              const subContainer = shadowRoot.querySelector('.sub-container');
+              const chevron = subContainer.querySelector('#chevron-svg');
+
+              expect(chevron).to.be.null;
+            });
+
+            it('Should have sub-container css padding-right equal to 0px', async () => {
+              await element.updateComplete;
+
+              const shadowRoot = element.shadowRoot;
+              const subContainer = shadowRoot.querySelector('.sub-container');
+              const subContainerStyle = getComputedStyle(subContainer);
+              const actualPaddingRight = subContainerStyle.paddingRight;
+              const expectedPaddingRightOnAndroid = '0px';
+
+              expect(actualPaddingRight).to.be.equal(expectedPaddingRightOnAndroid);
+            });
+          });
         });
-
-
       }); // end of describe 'Test for Chevron child element'
 
       describe('morph-ripple child element', () => {
 
-        context('when on android', () => {
-          let element, shadowRoot, container, morphRipple;
+        context('When on android', () => {
+          let element;
 
           before(function() {
             element = fixture('AndroidRippleTestFixture');
-            shadowRoot = element.shadowRoot;
-            container = shadowRoot.querySelector('.container');
-            morphRipple = container.getElementsByTagName('morph-ripple');
           });
-
-          it('Should have display block', (done) => {
+          
+          it('Should have display block', async () => {
+            await element.updateComplete;
             
-            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
-            flush(function () {
-              const morphRippleDisplay = window.getComputedStyle(morphRipple[0]).getPropertyValue('display');
-              
-              expect(morphRipple.length).to.equal(1);
-              expect(morphRippleDisplay).to.equal('block');
-              done();
-            });
+            const shadowRoot = element.shadowRoot;
+            const container = shadowRoot.querySelector('.container');
+            const morphRipple = container.querySelector('morph-ripple');
+            const morphRippleDisplay = window.getComputedStyle(morphRipple).getPropertyValue('display');
+
+            expect(morphRippleDisplay).to.equal('block');
           });
 
         });
 
-        context('when on ios', () => {
-          let element, shadowRoot, container, morphRipple;
+        context('When on ios', () => {
+          let element;
 
           beforeEach(function () {
             element = fixture('IosRippleTestFixture');
-            shadowRoot = element.shadowRoot;
-            container = shadowRoot.querySelector('.container');
-            morphRipple = container.getElementsByTagName('morph-ripple');
           });
+          
+          it('Should not be present', async () => {
+            await element.updateComplete;
 
-          it('Should have display none', (done) => {
+            const shadowRoot = element.shadowRoot;
+            const container = shadowRoot.querySelector('.container');
+            const morphRipple = container.querySelector('morph-ripple');
+            // const morphRippleDisplay = window.getComputedStyle(morphRipple[0]).getPropertyValue('display');
 
-            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
-            flush(function () {
-              const morphRippleDisplay = window.getComputedStyle(morphRipple[0]).getPropertyValue('display');
-
-              expect(morphRippleDisplay).to.equal('none');
-              done();
-            });
+            expect(morphRipple).to.be.null;
           });
 
         });
 
-        context('when no-ripple attribute is present', () => {
-          let element, shadowRoot, container, morphRipple;
+        context('when noRipple attribute is present', () => {
+          let element;
 
           beforeEach(function () {
             element = fixture('AndroidWithNoRippleTestFixture');
-            shadowRoot = element.shadowRoot;
-            container = shadowRoot.querySelector('.container');
-            morphRipple = container.getElementsByTagName('morph-ripple');
           });
+          
+          it('Should not exist in DOM', async () => {
+            await element.updateComplete;
 
-          it('Should not exist in DOM', (done) => {
+            const shadowRoot = element.shadowRoot;
+            const container = shadowRoot.querySelector('.container');
+            const morphRipple = container.querySelector('morph-ripple');
 
-            // flush function needed to make sure dynamically-rendered elements in polymer like 'dom-if' are rendered and ready
-            flush(function () {
-              expect(morphRipple.length).to.equal(0);
-              done();
-            });
+            expect(morphRipple).to.be.null;
           });
 
         });
