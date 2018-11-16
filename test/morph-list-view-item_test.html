@@ -13,6 +13,17 @@
   </head>
   <body>
    
+    <test-fixture id="BasicTestFixture">
+      <template>
+        <morph-list-view-item>
+          <span id="title" slot="header">Header</span>
+          Item 1
+          <span slot="footer">Footer</span>
+          <span slot="secondary-content">Secondary Content</span>
+        </morph-list-view-item>
+      </template>
+    </test-fixture>
+
     <test-fixture id="IosBasicTestFixture">
       <template>
         <morph-list-view-item platform="ios">
@@ -145,6 +156,58 @@
       import { FlattenedNodesObserver } from "../node_modules/@polymer/polymer/lib/utils/flattened-nodes-observer.js";
 
       describe('morph-list-view-item', () => {
+        context('Test auto detect platform', () => {
+          let element;
+
+          beforeEach(() => {
+            element = fixture('BasicTestFixture');
+          });
+
+          it('Should auto detect platform and assign value', (done) => {
+            // flush lets us check the actual attributes values on the markup itself and not just the property value
+            flush(function() {
+              const hasPlatform = element.hasAttribute('platform');
+              
+              expect(hasPlatform).to.be.true;
+              done();
+            });
+          });
+        });
+
+        context('Test for non expandable', () => {
+          let element, clickHandlerSpy, _expandedChangedSpy;
+
+          beforeEach(() => {
+            element = fixture('BasicTestFixture');
+
+            clickHandlerSpy = sinon.spy(element, 'clickHandler');
+            _expandedChangedSpy = sinon.spy(element, '_expandedChanged');
+          });
+
+          afterEach(() => {
+            clickHandlerSpy.restore();
+            _expandedChangedSpy.restore();
+          });
+
+          it('Should not call _expandedChanged() when clicked', (done) => {
+            // flush lets us check the actual attributes values on the markup itself and not just the property value
+            flush(function () {
+              const shadow = element.shadowRoot;
+              const listViewItem = shadow.querySelector('a');
+              let hasExpandable = element.hasAttribute('expandable');
+              let hasExpanded = element.hasAttribute('expanded');
+
+              expect(hasExpandable).to.be.false;
+              expect(hasExpanded).to.be.false;
+              
+              listViewItem.click();
+
+              expect(clickHandlerSpy).to.have.been.called;
+              expect(_expandedChangedSpy).to.not.have.been.called;
+              done();
+            });
+          });
+        });
 
         context('Basic test for iOS', () => {
 
@@ -626,7 +689,7 @@
 
       describe('expandable items', () => {
 
-        context('when on IOS', () => {
+        context('when on IOS not expanded', () => {
 
           let element, observer1, items, nodes, elementExpandableContent;
 
@@ -651,13 +714,17 @@
             }
           });
 
-          it('should have items with color of rgb(109, 109, 114) for ios', () => {
+          it('should have items with color of rgb(109, 109, 114) for ios', async () => {
+            await element.updateComplete;
+
             let elementExpandableContentColor = window.getComputedStyle(elementExpandableContent).getPropertyValue('color');
 
             expect(elementExpandableContentColor).to.equal('rgb(109, 109, 114)');
           });
 
-          it('should have items with padding-top of 10px and padding-right of 15px for ios', () => {
+          it('should have items with padding-top of 10px and padding-right of 15px for ios', async () => {
+            await element.updateComplete;
+
             let elementExpandableContentPaddingTop = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-top');
             let elementExpandableContentPaddingRight = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-right');
 
@@ -665,7 +732,9 @@
             expect(elementExpandableContentPaddingRight).to.equal('15px');
           });
 
-          it('should have div.expandable-content-container display of block', () => {
+          it('should have div.expandable-content-container display of block', async () => {
+            await element.updateComplete;
+
             const listViewItemExpandableContentContainer = element.shadowRoot.querySelector('div.expandable-content-container');
 
             const lineAfterStyle = window.getComputedStyle(listViewItemExpandableContentContainer);
@@ -674,7 +743,9 @@
             expect(listViewItemExpandableContentContainerDisplay).to.equal('block');
           });
 
-          it('should have container::after should not be visible', () => {
+          it('should have container::after should not be visible', async () => {
+            await element.updateComplete;
+
             const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
             const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
             const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
@@ -682,7 +753,9 @@
             expect(listViewItemContainerHeight).not.to.equal('1px');
           });
 
-          it('should have div.sub-container::after height of 1px', () => {
+          it('should have div.sub-container::after height of 1px', async () => {
+            await element.updateComplete;
+
             const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
             const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
             const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
@@ -690,16 +763,19 @@
             expect(listViewItemSubContainerHeight).to.equal('1px');
           });
 
-          context('when not expanded', () => {
-            it('should have items container div (expandable-content-container) with max-height of 1px when item is not expanded', () => {
-              let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
-              let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
-              
-              expect(elementExpandableContentContainerDivMaxHeight).to.equal('1px');
-            });
+          it('should have items container div (expandable-content-container) with max-height of 1px when item is not expanded', async () => {
+            await element.updateComplete;
+
+            let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
+            let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
+            
+            expect(elementExpandableContentContainerDivMaxHeight).to.equal('1px');
           });
 
-          context('when expanded', () => {
+        });
+          
+        context('On IOS when expanded', () => {
+            let element, observer1, items, nodes, elementExpandableContent;
             // this is using a different fixture for expanded IOS list item
             beforeEach(() => {
               element = fixture('IosExpandaleItemsExpandedTestFixture');
@@ -722,11 +798,39 @@
               }
             });
 
+            // max-height is dynamic here depending on the text content. For this test fixture the computed max-height is 38px.
+            // This is different values from android for they differ in line-height.
+            it('should have items container div (expandable-content-container) with height of 38px when item is expanded', async () => {
+              await element.updateComplete;
+            
+              const shadow = element.shadowRoot;
+              const elementExpandableContentContainerDiv = shadow.querySelector('div.expandable-content-container');
+              const elementExpandableContentContainerDivStyle = window.getComputedStyle(elementExpandableContentContainerDiv);
+              const expectedHeight = elementExpandableContentContainerDivStyle.getPropertyValue('max-height');
+              
+              expect(expectedHeight).to.equal('38px');
+            });
+
+            it('should not have attribute expanded when click', async () => {
+              await element.updateComplete;
+
+              const elementShadowRoot = element.shadowRoot;
+              const listViewItem = elementShadowRoot.querySelector('a');
+              // initial setup will have no expanded attribute
+              expect(element.hasAttribute('expanded')).to.be.true;
+
+              listViewItem.click();
+
+              await element.updateComplete;
+              // after clicking, the expanded attribute should be added
+              expect(element.hasAttribute('expanded')).to.be.false;
+            });
+
           });
 
-        });
+        
 
-        context('when on Android', () => {
+        context('when on Android not expanded', () => {
           let element, observer1, nodes, elementExpandableContent, items;
 
           beforeEach(() => {
@@ -750,13 +854,17 @@
             }
           });
 
-          it('should have items with color of rgb(33, 33, 33) for android', () => {
+          it('should have items with color of rgb(33, 33, 33) for android', async () => {
+            await element.updateComplete;
+
             let elementExpandableContentColor = window.getComputedStyle(elementExpandableContent).getPropertyValue('color');
 
             expect(elementExpandableContentColor).to.equal('rgb(33, 33, 33)');
           });
 
-          it('should have items with padding-top of 10px and padding-right of 15px for android', () => {
+          it('should have items with padding-top of 10px and padding-right of 15px for android', async () => {
+            await element.updateComplete;
+
             let elementExpandableContentPaddingTop = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-top');
             let elementExpandableContentPaddingRight = window.getComputedStyle(elementExpandableContent).getPropertyValue('padding-right');
 
@@ -765,13 +873,17 @@
           });
 
           // line - height: 1.5;
-          it('should have items with line-height of 1.5 for android', () => {
+          it('should have items with line-height of 1.5 for android', async () => {
+            await element.updateComplete;
+
             let elementExpandableContentLineHeight = window.getComputedStyle(elementExpandableContent).getPropertyValue('line-height');
 
             expect(elementExpandableContentLineHeight).to.equal('24px');
           });
 
-          it('should have container::after should not be visible', () => {
+          it('should have container::after should not be visible', async () => {
+            await element.updateComplete;
+
             const listViewItemContentContainer = element.shadowRoot.querySelector('div.container');
             const lineAfterStyle = window.getComputedStyle(listViewItemContentContainer, '::after');
             const listViewItemContainerHeight = lineAfterStyle.getPropertyValue('height');
@@ -779,7 +891,9 @@
             expect(listViewItemContainerHeight).not.to.equal('1px');
           });
 
-          it('should have div.sub-container::after height of 1px', () => {
+          it('should have div.sub-container::after height of 1px', async () => {
+            await element.updateComplete;
+
             const listViewItemContentSubContainer = element.shadowRoot.querySelector('div.sub-container');
             const innerLineAfterStyle = window.getComputedStyle(listViewItemContentSubContainer, '::after');
             const listViewItemSubContainerHeight = innerLineAfterStyle.getPropertyValue('height');
@@ -787,76 +901,88 @@
             expect(listViewItemSubContainerHeight).to.equal('1px');
           });
 
-          context('when not expanded', () => {
-            it('should have items container div (expandable-content-container) with max-height of 1px when item is not expanded', () => {
-              let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
-              let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
+          it('should have items container div (expandable-content-container) with max-height of 1px when item is not expanded', async () => {
+            await element.updateComplete;
 
-              expect(elementExpandableContentContainerDivMaxHeight).to.equal('1px');
-            });
-            
-            it('should have attribute expanded equal to false', () => {
-              const listItemHasAttributeExpanded = element.hasAttribute('expanded');
+            let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
+            let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
 
-              expect(listItemHasAttributeExpanded).to.be.false;
-            });
+            expect(elementExpandableContentContainerDivMaxHeight).to.equal('1px');
+          });
+          
+          it('should have attribute expanded equal to false', async () => {
+            await element.updateComplete;
 
-            it('should have attribute expanded equal to true when click from close', () => {
-              const elementShadowRoot = element.shadowRoot;
-              const listViewItem = elementShadowRoot.querySelector('a');
-              // initial setup will have no expanded attribute
-              expect(element.hasAttribute('expanded')).to.be.equal(false);
+            const listItemHasAttributeExpanded = element.hasAttribute('expanded');
 
-              listViewItem.click();
-              // after clicking, the expanded attribute should be added
-              expect(element.hasAttribute('expanded')).to.be.equal(true);
-            });
-
+            expect(listItemHasAttributeExpanded).to.be.false;
           });
 
-          context('when expanded', () => {
-            // this is using a different fixture for expanded android list item
-            beforeEach(() => {
-              element = fixture('AndroidExpandaleItemsExpandedTestFixture');
+          it('should have attribute expanded equal to true when click from close', async () => {
+            await element.updateComplete;
 
-              observer1 = new FlattenedNodesObserver(element, function (info) {
-                items = info;
-              });
-              observer1.flush();
-              nodes = items.addedNodes;
+            const elementShadowRoot = element.shadowRoot;
+            const listViewItem = elementShadowRoot.querySelector('a');
+            // initial setup will have no expanded attribute
+            expect(element.hasAttribute('expanded')).to.be.equal(false);
 
-              for (var i = 0; i < nodes.length; i++) {
-                // check which item matches header slot name 'secondary-content'
-                if (nodes[i].nodeName != "#text") {
-                  var listViewItemChild = nodes[i];
+            listViewItem.click();
 
-                  if (listViewItemChild.getAttribute('slot') == 'expandable-content') {
-                    elementExpandableContent = listViewItemChild;
-                  }
+            await element.updateComplete;
+            // after clicking, the expanded attribute should be added
+            expect(element.hasAttribute('expanded')).to.be.equal(true);
+          });
+
+        });
+
+        context('On Android expanded', () => {
+          let element, observer1, items, nodes, elementExpandableContent;
+          // this is using a different fixture for expanded android list item
+          beforeEach(() => {
+            element = fixture('AndroidExpandaleItemsExpandedTestFixture');
+
+            observer1 = new FlattenedNodesObserver(element, function (info) {
+              items = info;
+            });
+            observer1.flush();
+            nodes = items.addedNodes;
+
+            for (var i = 0; i < nodes.length; i++) {
+              // check which item matches header slot name 'secondary-content'
+              if (nodes[i].nodeName != "#text") {
+                var listViewItemChild = nodes[i];
+
+                if (listViewItemChild.getAttribute('slot') == 'expandable-content') {
+                  elementExpandableContent = listViewItemChild;
                 }
               }
-            });
+            }
+          });
             
-            // max-height is dynamic here depending on the text content. For this test fixture the computed max-height is 44px.
-            // This is different values from ios for they differ in line-height.
-            it('should have items container div (expandable-content-container) with max-height of 44px when item is expanded', () => {
-              let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
-              let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
+          // max-height is dynamic here depending on the text content. For this test fixture the computed max-height is 44px.
+          // This is different values from ios for they differ in line-height.
+          it('should have items container div (expandable-content-container) with max-height of 44px when item is expanded', async () => {
+            await element.updateComplete;
 
-              expect(elementExpandableContentContainerDivMaxHeight).to.equal('44px');
-            });
+            let elementExpandableContentContainerDiv = element.shadowRoot.querySelector('div.expandable-content-container');
+            let elementExpandableContentContainerDivMaxHeight = window.getComputedStyle(elementExpandableContentContainerDiv).getPropertyValue('max-height');
 
-            it('should not have attribute expanded or expanded should be equal to false', () => {
+            expect(elementExpandableContentContainerDivMaxHeight).to.equal('44px');
+          });
+
+          it('should not have attribute expanded or expanded should be equal to false', async () => {
+            await element.updateComplete;
+            
             const elementShadowRoot = element.shadowRoot;
-              const listViewItem = elementShadowRoot.querySelector('a');
-              // initial setup will have no expanded attribute
-              expect(element.hasAttribute('expanded')).to.be.equal(true);
+            const listViewItem = elementShadowRoot.querySelector('a');
+            // initial setup will have no expanded attribute
+            expect(element.hasAttribute('expanded')).to.be.equal(true);
+            
+            listViewItem.click();
 
-              listViewItem.click();
-              // after clicking, the expanded attribute should be added
-              expect(element.hasAttribute('expanded')).to.be.equal(false);
-            });
-
+            await element.updateComplete;
+            // after clicking, the expanded attribute should be added
+            expect(element.hasAttribute('expanded')).to.be.equal(false);
           });
 
         });

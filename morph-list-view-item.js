@@ -1,5 +1,7 @@
 import { LitElement, html } from '@polymer/lit-element';
 import { ifDefined } from 'lit-html/directives/if-defined';
+import { getPlatform } from '/src/morph-element.js';
+
 import '@moduware/morph-ripple/morph-ripple.js';
 import '@moduware/morph-shared-styles/morph-shared-styles.js';
 import '@polymer/iron-icons/iron-icons.js';
@@ -339,6 +341,8 @@ export class MorphListViewItem extends LitElement {
     if (!this.hasAttribute('platform')) {
       this.platform = getPlatform();
     }
+
+    this._setMaxHeightForExpandableContentContainer();
   }
 
   clickHandler(event) {
@@ -357,14 +361,6 @@ export class MorphListViewItem extends LitElement {
     expandableContent.style.maxHeight = height + 'px';
   }
 
-  chevronSvgTemplate() {
-    return html`
-      <svg id="chevron-svg" width="8px" height="13px" viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg">
-        <polygon fill="#c7c7cc" transform="translate(1.500000, 6.500000) rotate(-45.000000) translate(-1.500000, -6.500000) " points="6 11 6 2 4 2 4 9 -3 9 -3 11 5 11"></polygon>
-      </svg>
-    `;
-  }
-
   getRenderChevron() {
     if (this.hasAttribute('href') && !this.nochevron) {
       return html`
@@ -376,15 +372,6 @@ export class MorphListViewItem extends LitElement {
     } else {
       return null;
     }
-  }
-
-  truthCheckOnArgs() {
-    for(let i = 0; i < arguments.length; i++) {
-      console.log(arguments[i]);
-      
-      if (arguments[i] == false) { return false; }
-    }
-    return true;
   }
 
   getRenderRipple() {
