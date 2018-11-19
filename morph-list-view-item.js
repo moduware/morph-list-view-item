@@ -97,6 +97,7 @@ export class MorphListViewItem extends LitElement {
         left: 0;
         width: 100%;
         height: 1px;
+        transform: scaleY(.5);
         transition: opacity 300ms;
       }
 
