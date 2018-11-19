@@ -341,8 +341,9 @@ export class MorphListViewItem extends LitElement {
     if (!this.hasAttribute('platform')) {
       this.platform = getPlatform();
     }
-
-    this._setMaxHeightForExpandableContentContainer();
+    if (this.expandable) {
+      this._setMaxHeightForExpandableContentContainer();
+    }
   }
 
   clickHandler(event) {
