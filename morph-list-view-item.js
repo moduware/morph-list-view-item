@@ -336,9 +336,12 @@ export class MorphListViewItem extends LitElement {
     };
   }
 
+  /**
+   * LitElement lifecycle called once just before first updated() is called
+   */
   firstUpdated() {
     super.firstUpdated();
-
+    // check first if platform is already assigned in the html attribute before auto detecting platform using getPlatform()
     if (!this.hasAttribute('platform')) {
       this.platform = getPlatform();
     }
@@ -347,6 +350,10 @@ export class MorphListViewItem extends LitElement {
     }
   }
 
+  /**
+   * Handles click events
+   * @param {Object} event 
+   */
   clickHandler(event) {
     if(this.expandable) {
       this._setMaxHeightForExpandableContentContainer();
@@ -355,6 +362,9 @@ export class MorphListViewItem extends LitElement {
     }
   }
 
+  /**
+   * Gets height of expandable content and assigns it to max-height to make it transition form open to close smoothly
+   */
   _setMaxHeightForExpandableContentContainer() {
     let shadow = this.shadowRoot;
     let expandableContent = shadow.querySelector('#expandableContentContainer');
@@ -363,6 +373,9 @@ export class MorphListViewItem extends LitElement {
     expandableContent.style.maxHeight = height + 'px';
   }
 
+  /**
+   * returns html template of svg if all conditions are met and returns null if not
+   */
   getRenderChevron() {
     if (this.hasAttribute('href') && !this.nochevron) {
       return html`
@@ -376,6 +389,9 @@ export class MorphListViewItem extends LitElement {
     }
   }
 
+  /**
+   * returns morph-ripple template if all conditions are met and returns null if not
+   */
   getRenderRipple() {
     const ripple = html`<morph-ripple></morph-ripple>`;
 
@@ -386,9 +402,12 @@ export class MorphListViewItem extends LitElement {
     }
   }
 
+  /**
+   * dispatch custom event expandedChange. This is use together with this.expandable and when this.expanded is toggled
+   */
   _expandedChanged() {
     // Fire a custom event for others to listen to when expanded change
-    this.dispatchEvent(new CustomEvent('valueChange', { detail: this.expanded }));
+    this.dispatchEvent(new CustomEvent('expandedChange', { detail: this.expanded }));
   }
 }
 
