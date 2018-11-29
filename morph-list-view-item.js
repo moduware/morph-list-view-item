@@ -1,6 +1,6 @@
 import { LitElement, html } from '@polymer/lit-element';
 import { ifDefined } from 'lit-html/directives/if-defined';
-import { getPlatform } from '/src/morph-element.js';
+import { getPlatform } from './src/morph-element.js';
 
 import '@moduware/morph-ripple/morph-ripple.js';
 import '@moduware/morph-shared-styles/morph-shared-styles.js';
