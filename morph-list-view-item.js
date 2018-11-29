@@ -393,10 +393,8 @@ export class MorphListViewItem extends LitElement {
    * returns morph-ripple template if all conditions are met and returns null if not
    */
   getRenderRipple() {
-    const ripple = html`<morph-ripple></morph-ripple>`;
-
     if (this.platform == 'android' && this.hasAttribute('href') && !this.noripple) {
-      return ripple;
+      return html`<morph-ripple></morph-ripple>`;
     } else {
       return null;
     }
