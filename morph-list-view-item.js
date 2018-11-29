@@ -4,7 +4,7 @@ import { getPlatform } from './src/morph-element.js';
 
 import '@moduware/morph-ripple/morph-ripple.js';
 import '@moduware/morph-shared-styles/morph-shared-styles.js';
-import '@polymer/iron-icons/iron-icons.js';
+// import '@polymer/iron-icons/iron-icons.js';
 
 /**
  * `morph-list-view-item`
