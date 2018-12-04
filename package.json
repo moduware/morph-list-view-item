@@ -14,13 +14,15 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@polymer/lit-element": "^0.6.2",
-    "@moduware/morph-ripple": "^1.0.0",
-    "@moduware/morph-shared-styles": "^1.0.0"
+    "@moduware/morph-ripple": "^1.1.0",
+    "@moduware/morph-shared-styles": "^1.0.0",
+    "@moduware/lit-utils": "^1.0.0"
   },
   "devDependencies": {
     "@polymer/iron-demo-helpers": "^3.0.0-pre.18",
     "wct-browser-legacy": "^1.0.1",
     "@webcomponents/webcomponentsjs": "^2.0.0",
+    "@polymer/iron-icons": "^3.0.0-pre.18",
     "wct-istanbub": "^0.2.7"
   }
 }
