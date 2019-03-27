@@ -13,9 +13,8 @@
   "main": "morph-list-view-item.js",
   "license": "Apache-2.0",
   "dependencies": {
-    "@polymer/lit-element": "^0.6.2",
-    "@moduware/morph-ripple": "^1.1.0",
-    "@moduware/morph-shared-styles": "^1.0.0",
+    "lit-element": "^2.0.1",
+    "@moduware/morph-ripple": "^2.0.0",
     "@moduware/lit-utils": "^1.0.0"
   },
   "devDependencies": {

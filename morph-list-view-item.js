@@ -1,9 +1,9 @@
-import { LitElement, html } from '@polymer/lit-element';
+import { LitElement, html, css } from 'lit-element';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { getPlatform } from '@moduware/lit-utils';
 
 import '@moduware/morph-ripple/morph-ripple.js';
-import '@moduware/morph-shared-styles/morph-shared-styles.js';
+// import '@moduware/morph-shared-styles/morph-shared-styles.js';
 
 /**
  * `morph-list-view-item`
@@ -15,283 +15,296 @@ import '@moduware/morph-shared-styles/morph-shared-styles.js';
  * @demo demo/index.html
  */
 export class MorphListViewItem extends LitElement {
+  static get styles() {
+    return [
+      css`
+        :host {
+          display: block;
+          margin-bottom: 10px;
+        }
+      
+        :host([platform="ios"]) {
+          font-family: -apple-system, 'SF UI Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+      
+        :host([platform="android"]) {
+          font-family: Roboto, Noto, Helvetica, Arial, sans-serif;
+        }
+      
+      
+        :host .container {
+          display: flex;
+          justify-content: space-between;
+          align-items: var(--container-align-items, center);
+          position: relative;
+          white-space: nowrap;
+          box-sizing: border-box;
+          background-color: white;
+          z-index: 9999;
+        }
+      
+        :host .sub-container {
+          width: 100%;
+          display: flex;
+          align-self: stretch;
+          align-items: center;
+          position: relative;
+          min-width: 0;
+        }
+      
+        :host([platform="ios"]) .container {
+          padding-left: 15px;
+          min-height: 44px;
+        }
+      
+        :host([platform="android"]) .container {
+          padding-left: 16px;
+          min-height: 48px;
+        }
+      
+        :host([platform="ios"][href]:not([nochevron])) .sub-container {
+          padding-right: 15px;
+        }
+        
+        :host([platform="android"][href]:not([nochevron])) .sub-container {
+          padding-right: 16px;
+        }
+      
+        :host([platform="ios"][contains-media]) ::slotted([slot="icon"]) {
+          padding-top: 14px;
+          padding-bottom: 14px;
+        }
+      
+        :host([platform="ios"]) .container::before,
+        :host([platform="ios"]) .expandable-content-container::after,
+        :host([platform="ios"]:not([expandable])) .container::after,
+        :host([platform="ios"]) .sub-container::after {
+          content: '';
+          position: absolute;
+          background-color: #c8c7cc;
+          left: 0;
+          width: 100%;
+          height: 1px;
+          transform: scaleY(.5);
+          transition: opacity 300ms;
+        }
+        
+        :host([platform="ios"]) .sub-container::after,
+        :host([platform="android"]) .sub-container::after {
+          height: var(--sub-container-after-height, 1px);
+          opacity: var(--sub-container-after-opacity, 1);
+        }
+      
+        :host([platform="android"]) .container::before,
+        :host([platform="android"]) .expandable-content-container::after,
+        :host([platform="android"]:not([expandable])) .container::after,
+        :host([platform="android"]) .sub-container::after {
+          content: '';
+          position: absolute;
+          background-color: rgba(0,0,0,.12);
+          left: 0;
+          width: 100%;
+          height: 1px;
+          transform: scaleY(.5);
+          transition: opacity 300ms;
+        }
+      
+        :host([platform="ios"]) .sub-container::after {
+          display: var(--display-inner-item-bottom-line, none);
+          transform-origin: 50% 100%;
+          bottom: 0;
+        }
+      
+        :host([platform="android"]) .sub-container::after {
+          display: var(--display-inner-item-bottom-line, none);
+          transform-origin: 50% 100%;
+          bottom: 0;
+        }
+      
+        :host([platform="ios"]) .container::before {
+          display: var(--display-top-line, block);
+          transform-origin: 50% 0;
+          top: 0;
+        }
+      
+        :host([platform="android"]) .container::before {
+          display: var(--display-top-line, block);
+          transform-origin: 50% 0;
+          top: 0;
+        }
+      
+        :host([platform="ios"]) .container::after,
+        :host([platform="ios"][expandable]) .expandable-content-container::after {
+          display: var(--display-bottom-line, block);
+          transform-origin: 50% 100%;
+          bottom: 0;
+        }
+      
+        :host([platform="android"]) .container::after,
+        :host([platform="android"][expandable]) .expandable-content-container::after {
+          display: var(--display-bottom-line, block);
+          transform-origin: 50% 100%;
+          bottom: 0;
+        }
+      
+        :host .main-text {
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          line-height: normal;
+          width: 100%;
+          padding-top: 8px;
+          padding-bottom: 8px;
+          min-width: 0;
+        }
+      
+        :host([platform="ios"]) .main-text {
+          font-size: 17px;
+        }
+      
+        :host([platform="android"]) .main-text {
+          font-size: 16px;
+        }
+      
+        :host .main-text span {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      
+        :host([platform="android"]) .main-text ::slotted([slot="header"]),
+        :host([platform="android"]) .main-text ::slotted([slot="footer"]), 
+        :host([platform="ios"]) .main-text ::slotted([slot="header"]),
+        :host([platform="ios"]) .main-text ::slotted([slot="footer"]) {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 1.2;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      
+        .main-text ::slotted([slot="footer"]) {
+          color: #8e8e93;
+        }
+      
+        :host([platform="ios"]) ::slotted([slot="secondary-content"]) {
+          color: #8e8e93;
+          font-size: 17px;
+          padding-left: 5px;
+          padding-right: 11px;
+        }
+      
+        :host([platform="android"]) ::slotted([slot="secondary-content"]) {
+          color: #757575;
+          font-size: 14px;
+          padding-left: 8px;
+          padding-right: 18px;
+        }
+      
+        :host ::slotted([slot="icon"]) {
+          flex-grow: 0;
+          flex-shrink: 0;
+          margin-right: 15px;
+        }
+      
+        :host([platform="android"]) ::slotted([slot="icon"]) {
+          min-width: 40px;
+        }
+      
+        :host([platform="ios"]) .expandable-content-container {
+          position: relative;
+          background-color: white;
+          display: block;
+          box-sizing: border-box;
+          width: 100%;
+          color: #6d6d72;
+          overflow: hidden;
+          transition: max-height 300ms;
+        }
+      
+        :host([platform="android"]) .expandable-content-container {
+          position: relative;
+          background-color: white;
+          display: block;
+          box-sizing: border-box;
+          width: 100%;
+          color: #212121;
+          overflow: hidden;
+          line-height: 1.5;
+          transition: max-height 300ms;
+        }
+      
+        :host([platform="ios"]:not([expandable])) .expandable-content-container,
+        :host([platform="android"]:not([expandable])) .expandable-content-container {
+          display: none;
+        }
+      
+        :host([platform="ios"]) ::slotted([slot="expandable-content"]) {
+          display: block;
+          padding: 10px 15px;
+        }
+      
+        :host([platform="android"]) ::slotted([slot="expandable-content"]) {
+          display: block;
+          padding: 10px 16px;
+        }
+      
+        :host([platform="ios"]:not([expanded])) .expandable-content-container,
+        :host([platform="android"]:not([expanded])) .expandable-content-container {
+          max-height: 1px !important;
+        }
+      
+        a {
+          color: inherit;
+          cursor: default;
+          text-decoration: none;
+        }
+      
+        svg {
+          flex-grow: 0;
+          flex-shrink: 0;
+        }
+      
+        :host(:not([platform="android"])) morph-ripple {
+          display: none;
+        }
+        :host([platform="android"]) morph-ripple {
+          --ripple-color:  var(--ripple-color-android-light, rgba(0,0,0,0.1));
+        }
+      `
+    ];
+  }
+
+
   render() {
     return html`
-    <style include="morph-shared-styles">
-      :host {
-        display: block;
-        margin-bottom: 10px;
-      }
+      <a href="${ ifDefined(this.href)}" @click="${event => this.clickHandler(event)}">
+        <div class="container">
+          <slot name="icon"></slot>
 
-      :host .container {
-        display: flex;
-        justify-content: space-between;
-        align-items: var(--container-align-items, center);
-        position: relative;
-        white-space: nowrap;
-        box-sizing: border-box;
-        background-color: white;
-        z-index: 9999;
-      }
+          <div class="sub-container">
+            <div class="main-text">
+              <slot name="header"></slot>
+              <span>
+                <slot></slot>
+              </span>
+              <slot name="footer"></slot>
+            </div>
 
-      :host .sub-container {
-        width: 100%;
-        display: flex;
-        align-self: stretch;
-        align-items: center;
-        position: relative;
-        min-width: 0;
-      }
-
-      :host([platform="ios"]) .container {
-        padding-left: 15px;
-        min-height: 44px;
-      }
-
-      :host([platform="android"]) .container {
-        padding-left: 16px;
-        min-height: 48px;
-      }
-
-      :host([platform="ios"][href]:not([nochevron])) .sub-container {
-        padding-right: 15px;
-      }
-      
-      :host([platform="android"][href]:not([nochevron])) .sub-container {
-        padding-right: 16px;
-      }
-
-      :host([platform="ios"][contains-media]) ::slotted([slot="icon"]) {
-        padding-top: 14px;
-        padding-bottom: 14px;
-      }
-
-      :host([platform="ios"]) .container::before,
-      :host([platform="ios"]) .expandable-content-container::after,
-      :host([platform="ios"]:not([expandable])) .container::after,
-      :host([platform="ios"]) .sub-container::after {
-        content: '';
-        position: absolute;
-        background-color: #c8c7cc;
-        left: 0;
-        width: 100%;
-        height: 1px;
-        transform: scaleY(.5);
-        transition: opacity 300ms;
-      }
-      
-      :host([platform="ios"]) .sub-container::after,
-      :host([platform="android"]) .sub-container::after {
-        height: var(--sub-container-after-height, 1px);
-        opacity: var(--sub-container-after-opacity, 1);
-      }
-
-      :host([platform="android"]) .container::before,
-      :host([platform="android"]) .expandable-content-container::after,
-      :host([platform="android"]:not([expandable])) .container::after,
-      :host([platform="android"]) .sub-container::after {
-        content: '';
-        position: absolute;
-        background-color: rgba(0,0,0,.12);
-        left: 0;
-        width: 100%;
-        height: 1px;
-        transform: scaleY(.5);
-        transition: opacity 300ms;
-      }
-
-      :host([platform="ios"]) .sub-container::after {
-        display: var(--display-inner-item-bottom-line, none);
-        transform-origin: 50% 100%;
-        bottom: 0;
-      }
-
-      :host([platform="android"]) .sub-container::after {
-        display: var(--display-inner-item-bottom-line, none);
-        transform-origin: 50% 100%;
-        bottom: 0;
-      }
-
-      :host([platform="ios"]) .container::before {
-        display: var(--display-top-line, block);
-        transform-origin: 50% 0;
-        top: 0;
-      }
-
-      :host([platform="android"]) .container::before {
-        display: var(--display-top-line, block);
-        transform-origin: 50% 0;
-        top: 0;
-      }
-
-      :host([platform="ios"]) .container::after,
-      :host([platform="ios"][expandable]) .expandable-content-container::after {
-        display: var(--display-bottom-line, block);
-        transform-origin: 50% 100%;
-        bottom: 0;
-      }
-
-      :host([platform="android"]) .container::after,
-      :host([platform="android"][expandable]) .expandable-content-container::after {
-        display: var(--display-bottom-line, block);
-        transform-origin: 50% 100%;
-        bottom: 0;
-      }
-
-      :host .main-text {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        line-height: normal;
-        width: 100%;
-        padding-top: 8px;
-        padding-bottom: 8px;
-        min-width: 0;
-      }
-
-      :host([platform="ios"]) .main-text {
-        font-size: 17px;
-      }
-
-      :host([platform="android"]) .main-text {
-        font-size: 16px;
-      }
-
-      :host .main-text span {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      :host([platform="android"]) .main-text ::slotted([slot="header"]),
-      :host([platform="android"]) .main-text ::slotted([slot="footer"]), 
-      :host([platform="ios"]) .main-text ::slotted([slot="header"]),
-      :host([platform="ios"]) .main-text ::slotted([slot="footer"]) {
-        font-weight: 400;
-        font-size: 12px;
-        line-height: 1.2;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .main-text ::slotted([slot="footer"]) {
-        color: #8e8e93;
-      }
-
-      :host([platform="ios"]) ::slotted([slot="secondary-content"]) {
-        color: #8e8e93;
-        font-size: 17px;
-        padding-left: 5px;
-        padding-right: 11px;
-      }
-
-      :host([platform="android"]) ::slotted([slot="secondary-content"]) {
-        color: #757575;
-        font-size: 14px;
-        padding-left: 8px;
-        padding-right: 18px;
-      }
-
-      :host ::slotted([slot="icon"]) {
-        flex-grow: 0;
-        flex-shrink: 0;
-        margin-right: 15px;
-      }
-
-      :host([platform="android"]) ::slotted([slot="icon"]) {
-        min-width: 40px;
-      }
-
-      :host([platform="ios"]) .expandable-content-container {
-        position: relative;
-        background-color: white;
-        display: block;
-        box-sizing: border-box;
-        width: 100%;
-        color: #6d6d72;
-        overflow: hidden;
-        transition: max-height 300ms;
-      }
-
-      :host([platform="android"]) .expandable-content-container {
-        position: relative;
-        background-color: white;
-        display: block;
-        box-sizing: border-box;
-        width: 100%;
-        color: #212121;
-        overflow: hidden;
-        line-height: 1.5;
-        transition: max-height 300ms;
-      }
-
-      :host([platform="ios"]:not([expandable])) .expandable-content-container,
-      :host([platform="android"]:not([expandable])) .expandable-content-container {
-        display: none;
-      }
-
-      :host([platform="ios"]) ::slotted([slot="expandable-content"]) {
-        display: block;
-        padding: 10px 15px;
-      }
-
-      :host([platform="android"]) ::slotted([slot="expandable-content"]) {
-        display: block;
-        padding: 10px 16px;
-      }
-
-      :host([platform="ios"]:not([expanded])) .expandable-content-container,
-      :host([platform="android"]:not([expanded])) .expandable-content-container {
-        max-height: 1px !important;
-      }
-
-      a {
-        color: inherit;
-        cursor: default;
-        text-decoration: none;
-      }
-
-      svg {
-        flex-grow: 0;
-        flex-shrink: 0;
-      }
-
-      :host(:not([platform="android"])) morph-ripple {
-        display: none;
-      }
-      :host([platform="android"]) morph-ripple {
-        --ripple-color:  var(--ripple-color-android-light, rgba(0,0,0,0.1));
-      }
-      
-    </style>
-    
-    <a href="${ ifDefined(this.href)}" @click="${event => this.clickHandler(event)}">
-      <div class="container">
-        <slot name="icon"></slot>
-
-        <div class="sub-container">
-          <div class="main-text">
-            <slot name="header"></slot>
-            <span>
-              <slot></slot>
-            </span>
-            <slot name="footer"></slot>
+            <slot name="secondary-content"></slot>
+            
+            ${this.getRenderChevron()}
           </div>
 
-          <slot name="secondary-content"></slot>
+          ${this.getRenderRipple()}
           
-          ${this.getRenderChevron()}
         </div>
 
-        ${this.getRenderRipple()}
-        
-      </div>
-
-      <div class="expandable-content-container" id="expandableContentContainer">
-        <div><slot name="expandable-content"></slot></div>
-      </div>
-    </a>
+        <div class="expandable-content-container" id="expandableContentContainer">
+          <div><slot name="expandable-content"></slot></div>
+        </div>
+      </a>
     `;
   }
 
