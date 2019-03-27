@@ -798,19 +798,6 @@
               }
             });
 
-            // max-height is dynamic here depending on the text content. For this test fixture the computed max-height is 38px.
-            // This is different values from android for they differ in line-height.
-            it('should have items container div (expandable-content-container) with height of 38px when item is expanded', async () => {
-              await element.updateComplete;
-            
-              const shadow = element.shadowRoot;
-              const elementExpandableContentContainerDiv = shadow.querySelector('div.expandable-content-container');
-              const elementExpandableContentContainerDivStyle = window.getComputedStyle(elementExpandableContentContainerDiv);
-              const expectedHeight = elementExpandableContentContainerDivStyle.getPropertyValue('max-height');
-              
-              expect(expectedHeight).to.equal('38px');
-            });
-
             it('should not have attribute expanded when click', async () => {
               await element.updateComplete;
 

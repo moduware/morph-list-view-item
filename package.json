@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "polymer serve --npm --module-resolution=node",
-    "test": "polymer test --npm --module-resolution=node"
+    "test": "wct"
   },
   "main": "morph-list-view-item.js",
   "license": "Apache-2.0",
