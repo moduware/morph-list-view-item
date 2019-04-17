@@ -348,6 +348,14 @@ export class MorphListViewItem extends LitElement {
     };
   }
 
+  constructor() {
+    super();
+
+    if (this.expandable) {
+      this._setMaxHeightForExpandableContentContainer();
+    }
+  }
+
   /**
    * LitElement lifecycle called once just before first updated() is called
    */
@@ -356,9 +364,6 @@ export class MorphListViewItem extends LitElement {
     // check first if platform is already assigned in the html attribute before auto detecting platform using getPlatform()
     if (!this.hasAttribute('platform')) {
       this.platform = getPlatform();
-    }
-    if (this.expandable) {
-      this._setMaxHeightForExpandableContentContainer();
     }
   }
 
