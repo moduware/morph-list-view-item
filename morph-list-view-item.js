@@ -40,7 +40,7 @@ export class MorphListViewItem extends LitElement {
           white-space: nowrap;
           box-sizing: border-box;
           background-color: white;
-          z-index: 9999;
+          z-index: var(--item-container-z-index, 1);
         }
       
         :host .sub-container {
