@@ -1,7 +1,7 @@
 {
   "description": "Item component for list view that looks native when on either IOS or Android platform or devices",
   "name": "@moduware/morph-list-view-item",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/moduware/morph-list-view-item"
