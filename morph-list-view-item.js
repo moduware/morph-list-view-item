@@ -62,11 +62,11 @@ export class MorphListViewItem extends LitElement {
           min-height: 48px;
         }
       
-        :host([platform="ios"][href]:not([nochevron])) .sub-container {
+        :host([platform="ios"][href]:not([chevron="none"])) .sub-container {
           padding-right: 15px;
         }
         
-        :host([platform="android"][href]:not([nochevron])) .sub-container {
+        :host([platform="android"][href]:not([chevron="none"])) .sub-container {
           padding-right: 16px;
         }
       
@@ -331,10 +331,12 @@ export class MorphListViewItem extends LitElement {
       },
       
       /** remove chevron svg on links */
-      nochevron: {
-        type: Boolean,
-        reflect: true
-      },
+      // nochevron: {
+      //   type: Boolean,
+      //   reflect: true
+      // },
+
+      chevron: Boolean,
 
       expandable: {
         type: Boolean
@@ -394,7 +396,7 @@ export class MorphListViewItem extends LitElement {
    * returns html template of svg if all conditions are met and returns null if not
    */
   getRenderChevron() {
-    if (this.hasAttribute('href') && !this.nochevron) {
+    if ((this.chevron || this.hasAttribute('href')) && this.chevron != 'none') {
       return html`
         <svg id="chevron-svg" width="8px" height="13px" viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg">
           <polygon fill="#c7c7cc" transform="translate(1.500000, 6.500000) rotate(-45.000000) translate(-1.500000, -6.500000) "
