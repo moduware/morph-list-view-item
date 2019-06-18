@@ -281,8 +281,8 @@ export class MorphListViewItem extends LitElement {
 
   render() {
     return html`
-      <a href="${ ifDefined(this.href)}" @click="${event => this.clickHandler(event)}">
-        <div class="container">
+      <a href="${ ifDefined(this.href)}">
+        <div class="container" @click="${event => this.clickHandler(event)}">
           <slot name="icon"></slot>
 
           <div class="sub-container">
