@@ -23,13 +23,13 @@ export class MorphListViewItem extends LitElement {
           margin-bottom: 10px;
         }
       
-        :host([platform="ios"]) {
+        /*:host([platform="ios"]) {
           font-family: -apple-system, 'SF UI Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
       
         :host([platform="android"]) {
           font-family: Roboto, Noto, Helvetica, Arial, sans-serif;
-        }
+        }*/
       
       
         :host .container {
