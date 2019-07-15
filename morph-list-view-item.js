@@ -209,11 +209,12 @@ export class MorphListViewItem extends LitElement {
           flex-grow: 0;
           flex-shrink: 0;
           margin-right: 15px;
+          display: inline-flex;
         }
       
-        :host([platform="android"]) ::slotted([slot="icon"]) {
+        /*:host([platform="android"]) ::slotted([slot="icon"]) {
           min-width: 40px;
-        }
+        }*/
       
         :host([platform="ios"]) .expandable-content-container {
           position: relative;
