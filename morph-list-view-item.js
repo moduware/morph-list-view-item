@@ -283,7 +283,7 @@ export class MorphListViewItem extends LitElement {
 
   render() {
     return html`
-      <a href="${ ifDefined(this.href)}">
+      <a href="${ ifDefined(this.href)}" target="${ifDefined(this.target)}">
         <div class="container" @click="${event => this.clickHandler(event)}">
           <slot name="icon"></slot>
 
@@ -323,6 +323,12 @@ export class MorphListViewItem extends LitElement {
         type: String,
         reflect: true
       },
+
+      target: {
+        type: String,
+        reflect: true
+      },
+
       containsmedia: {
         type: Boolean,
         reflect: true
